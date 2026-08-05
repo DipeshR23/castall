@@ -9,7 +9,7 @@ export default function DisconnectButton({ onClick }: DisconnectButtonProps) {
     <button
       type="button"
       onClick={onClick}
-      className="fixed top-4 right-4 z-50 rounded-button bg-dark/50 p-2 text-white opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity"
+      className="fixed top-4 right-4 z-50 rounded-button bg-slate-900/50 dark:bg-slate-950/50 p-2 text-white opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity"
       aria-label="Disconnect"
     >
       <X className="h-6 w-6" />

@@ -15,7 +15,7 @@ export default function RemoteDisplay({ stream }: RemoteDisplayProps) {
   }, [stream]);
 
   return (
-    <div className="flex items-center justify-center bg-dark">
+    <div className="flex items-center justify-center bg-slate-900">
       <video
         ref={videoRef}
         autoPlay
