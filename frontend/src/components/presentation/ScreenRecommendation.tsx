@@ -8,7 +8,7 @@ interface ScreenRecommendationProps {
 
 export default function ScreenRecommendation({ onContinue, isSelecting }: ScreenRecommendationProps) {
   return (
-    <div className="w-full rounded-card bg-white dark:bg-slate-800 p-8 shadow-soft border border-slate-200 dark:border-slate-700">
+    <div className="w-full rounded-card bg-white dark:bg-slate-800 p-6 sm:p-8 shadow-soft border border-slate-200 dark:border-slate-700">
       <div className="flex flex-col items-center text-center">
         <Monitor className="h-12 w-12 text-primary mb-4" />
         <h2 className="text-card-title font-semibold text-slate-900 dark:text-white mb-2">Select Your Screen</h2>

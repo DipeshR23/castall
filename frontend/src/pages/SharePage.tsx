@@ -85,8 +85,8 @@ export default function SharePage() {
 
   if (step === 'waiting') {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-8 sm:py-12">
-        <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl">
+      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-6 sm:py-8 md:py-12">
+        <div className="w-full max-w-content">
           <WaitingForApproval />
         </div>
       </div>
@@ -95,8 +95,8 @@ export default function SharePage() {
 
   if (step === 'sharing') {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-8 sm:py-12">
-        <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl">
+      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-6 sm:py-8 md:py-12">
+        <div className="w-full max-w-content">
           <StartSharing />
         </div>
       </div>

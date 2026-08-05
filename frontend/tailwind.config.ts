@@ -69,6 +69,7 @@ export default {
       },
       maxWidth: {
         '8xl': '1280px',
+        'content': '1152px',
       },
     },
   },

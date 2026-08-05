@@ -48,12 +48,16 @@ export default function ErrorPage() {
   }
 
   return (
-    <div className="flex flex-col items-center text-center">
-      <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{error.title}</h1>
-      <p className="text-slate-500 dark:text-slate-400 mb-8">{error.description}</p>
-      <Button onClick={() => navigate('/')} className="flex items-center gap-2">
-        Return Home
-      </Button>
+    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4">
+      <div className="w-full max-w-content rounded-card bg-white dark:bg-slate-800 p-6 sm:p-8 shadow-soft border border-slate-200 dark:border-slate-700">
+        <div className="flex flex-col items-center text-center">
+          <h1 className="text-card-title font-semibold text-slate-900 dark:text-white mb-2">{error.title}</h1>
+          <p className="text-small text-slate-500 dark:text-slate-400 mb-6">{error.description}</p>
+          <Button onClick={() => navigate('/')} className="flex items-center gap-2">
+            Return Home
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
