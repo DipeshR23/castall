@@ -225,15 +225,17 @@ export default function HostPage() {
   }
 
   return (
-    <div className="flex flex-col items-center w-full px-4">
-      <HostCard
-        roomCode={roomCode}
-        status={status}
-        incomingDevice={incomingDevice}
-        onAccept={handleAccept}
-        onReject={handleReject}
-        onReset={handleReset}
-      />
+    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] w-full px-4 py-8 sm:py-12">
+      <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl">
+        <HostCard
+          roomCode={roomCode}
+          status={status}
+          incomingDevice={incomingDevice}
+          onAccept={handleAccept}
+          onReject={handleReject}
+          onReset={handleReset}
+        />
+      </div>
     </div>
   );
 }
