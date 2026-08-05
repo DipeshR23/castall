@@ -1,29 +1,29 @@
 import { Outlet, Link } from 'react-router-dom';
 import { Monitor, Sun, Moon } from 'lucide-react';
-import { useState } from 'react';
+import { useTheme } from '../contexts/ThemeContext.js';
 
 export default function AppLayout() {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <header className="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col transition-colors duration-200">
+      <header className="h-[72px] bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-50 transition-colors duration-200">
         <Link to="/" className="flex items-center gap-2.5 group">
           <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
             <Monitor className="h-5 w-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-slate-900">CastAll</span>
+          <span className="text-xl font-bold text-slate-900 dark:text-white">CastAll</span>
         </Link>
 
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => setIsDark(!isDark)}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-50 transition-colors"
+            onClick={toggleTheme}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
             aria-label="Toggle theme"
           >
-            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {isDark ? 'Light' : 'Dark'}
+            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {theme === 'dark' ? 'Light' : 'Dark'}
           </button>
         </div>
       </header>

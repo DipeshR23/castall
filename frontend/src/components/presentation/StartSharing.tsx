@@ -105,11 +105,11 @@ export default function StartSharing() {
 
   if (step === 'sharing') {
     return (
-      <div className="w-full max-w-sm rounded-card bg-surface p-8 shadow-soft border border-border">
+      <div className="w-full max-w-sm rounded-card bg-white dark:bg-slate-800 p-8 shadow-soft border border-slate-200 dark:border-slate-700">
         <div className="flex flex-col items-center text-center">
           <div className="h-3 w-3 rounded-full bg-success mb-4 animate-pulse" />
-          <h2 className="text-card-title font-semibold text-heading mb-2">Sharing...</h2>
-          <p className="text-small text-text-secondary mb-6">Your screen is being shared</p>
+          <h2 className="text-card-title font-semibold text-slate-900 dark:text-white mb-2">Sharing...</h2>
+          <p className="text-small text-slate-500 dark:text-slate-400 mb-6">Your screen is being shared</p>
           <Button variant="danger" onClick={stopSharing} className="flex items-center gap-2">
             <Square className="h-5 w-5" />
             Stop Sharing
@@ -126,11 +126,11 @@ export default function StartSharing() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-card bg-surface p-8 shadow-soft border border-border">
+    <div className="w-full max-w-sm rounded-card bg-white dark:bg-slate-800 p-8 shadow-soft border border-slate-200 dark:border-slate-700">
       <div className="flex flex-col items-center text-center">
         <Monitor className="h-12 w-12 text-primary mb-4" />
-        <h2 className="text-card-title font-semibold text-heading mb-2">Ready to Share</h2>
-        <p className="text-small text-text-secondary mb-6">Click the button below to start presenting</p>
+        <h2 className="text-card-title font-semibold text-slate-900 dark:text-white mb-2">Ready to Share</h2>
+        <p className="text-small text-slate-500 dark:text-slate-400 mb-6">Click the button below to start presenting</p>
         <Button onClick={startSharing} disabled={isConnecting || !sessionToken} className="flex items-center gap-2">
           <Monitor className="h-5 w-5" />
           Start Sharing

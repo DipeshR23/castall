@@ -56,10 +56,10 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
   if (status === 'REQUESTED' && incomingDevice) {
     return (
       <div className="w-full">
-        <div className="w-full rounded-3xl sm:rounded-[32px] bg-white p-8 sm:p-10 md:p-12 shadow-sm border border-slate-100">
+        <div className="w-full rounded-3xl sm:rounded-[32px] bg-white dark:bg-slate-800 p-8 sm:p-10 md:p-12 shadow-sm border border-slate-100 dark:border-slate-700">
           <div className="flex flex-col items-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 mb-2 sm:mb-3">Incoming Presentation</h2>
-            <p className="text-base sm:text-lg text-slate-500 mb-6 sm:mb-8">{incomingDevice}</p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white mb-2 sm:mb-3">Incoming Presentation</h2>
+            <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-6 sm:mb-8">{incomingDevice}</p>
             <div className="flex gap-3 sm:gap-4 w-full">
               <button
                 type="button"
@@ -72,7 +72,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
               <button
                 type="button"
                 onClick={onReject}
-                className="flex-1 rounded-xl sm:rounded-2xl bg-white border-2 border-slate-200 px-4 py-3 sm:py-4 text-base sm:text-lg font-semibold text-slate-600 hover:text-slate-900 transition-colors duration-150 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[52px]"
+                className="flex-1 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-700 border-2 border-slate-200 dark:border-slate-600 px-4 py-3 sm:py-4 text-base sm:text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors duration-150 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[52px]"
                 aria-label="Decline presentation request"
               >
                 Decline
@@ -86,24 +86,24 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
 
   return (
     <div className="w-full">
-      <div className="w-full rounded-3xl sm:rounded-[32px] bg-white p-8 sm:p-10 md:p-12 shadow-sm border border-slate-100">
+      <div className="w-full rounded-3xl sm:rounded-[32px] bg-white dark:bg-slate-800 p-8 sm:p-10 md:p-12 shadow-sm border border-slate-100 dark:border-slate-700">
         <div className="flex flex-col items-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-2">Host Presentation</h2>
-          <p className="text-base sm:text-lg text-slate-500 mb-8 sm:mb-10">Receiver device</p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-2">Host Presentation</h2>
+          <p className="text-base sm:text-lg text-slate-500 dark:text-slate-400 mb-8 sm:mb-10">Receiver device</p>
 
           {/* QR Code Container */}
-          <div className="bg-white rounded-3xl sm:rounded-[32px] p-4 sm:p-6 shadow-[0_2px_20px_rgba(0,0,0,0.06)] border border-slate-100 mb-4 sm:mb-6">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl sm:rounded-[32px] p-4 sm:p-6 shadow-[0_2px_20px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_20px_rgba(0,0,0,0.3)] border border-slate-100 dark:border-slate-700 mb-4 sm:mb-6">
             <QRCodeCard value={qrValue} size={220} />
           </div>
 
-          <p className="text-sm sm:text-base text-slate-500 mb-6 sm:mb-8">Scan with your phone or laptop camera</p>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mb-6 sm:mb-8">Scan with your phone or laptop camera</p>
 
           {/* Divider */}
-          <div className="w-full h-px bg-slate-200 mb-6 sm:mb-8" />
+          <div className="w-full h-px bg-slate-200 dark:bg-slate-700 mb-6 sm:mb-8" />
 
           {/* Room Code Section */}
           <div className="text-center mb-6 sm:mb-8">
-            <p className="text-xs sm:text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2 sm:mb-3">Room Code</p>
+            <p className="text-xs sm:text-sm font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2 sm:mb-3">Room Code</p>
             <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary tracking-wider mb-4 sm:mb-6">{roomCode}</p>
             <button
               type="button"
@@ -111,7 +111,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
               className={`inline-flex items-center gap-2 rounded-xl border-2 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-medium transition-all duration-150 min-h-[44px] ${
                 copiedCode
                   ? 'border-success bg-success/10 text-success'
-                  : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                  : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600'
               }`}
             >
               <Copy className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -126,12 +126,12 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
               <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:150ms]" />
               <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:300ms]" />
             </div>
-            <p className="text-sm sm:text-base text-slate-600 font-medium">Waiting for Presenter...</p>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-medium">Waiting for Presenter...</p>
           </div>
 
           {/* Expiry Countdown */}
           {timeLeft !== null && timeLeft > 0 && (
-            <p className="text-xs sm:text-sm text-slate-400 mb-6 sm:mb-8">
+            <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-500 mb-6 sm:mb-8">
               Room expires in {formatTime(timeLeft)} if unused
             </p>
           )}
@@ -141,7 +141,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
             <button
               type="button"
               onClick={onReset}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl border-2 border-slate-200 bg-white px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold text-primary hover:bg-slate-50 transition-all duration-150 min-h-[52px]"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold text-primary hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
             >
               <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
               Reset Room
@@ -149,7 +149,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
             <button
               type="button"
               onClick={onBack}
-              className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl border-2 border-slate-200 bg-white px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold text-slate-700 hover:bg-slate-50 transition-all duration-150 min-h-[52px]"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
             >
               Back
             </button>

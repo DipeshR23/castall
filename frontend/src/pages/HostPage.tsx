@@ -192,7 +192,7 @@ export default function HostPage() {
     return (
       <div className="flex flex-col items-center justify-center gap-4" role="status" aria-label="Connecting to server">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-sm text-slate-500">Connecting to server...</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Connecting to server...</p>
       </div>
     );
   }
@@ -201,7 +201,7 @@ export default function HostPage() {
     return (
       <div className="flex flex-col items-center justify-center gap-4" role="status" aria-label="Creating room">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-sm text-slate-500">Creating room...</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Creating room...</p>
       </div>
     );
   }
@@ -225,7 +225,7 @@ export default function HostPage() {
     return (
       <div className="flex flex-col items-center justify-center gap-4" role="status" aria-label="Creating new room">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-sm text-slate-500">Creating a new room...</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Creating a new room...</p>
       </div>
     );
   }

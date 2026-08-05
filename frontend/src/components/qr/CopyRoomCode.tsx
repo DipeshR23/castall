@@ -24,8 +24,8 @@ export default function CopyRoomCode({ code }: CopyRoomCodeProps) {
       type="button"
       onClick={handleCopy}
       className={cn(
-        'flex items-center gap-2 rounded-button px-4 py-2 text-sm font-medium transition-colors',
-        copied ? 'bg-success text-white' : 'bg-background text-text-secondary hover:text-dark'
+         'flex items-center gap-2 rounded-button px-4 py-2 text-sm font-medium transition-colors',
+         copied ? 'bg-success text-white' : 'bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
       )}
     >
       {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}

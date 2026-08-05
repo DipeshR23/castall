@@ -24,13 +24,13 @@ export default function RoomCode({ code }: RoomCodeProps) {
 
   return (
     <div className="flex items-center justify-center gap-3">
-      <span className="text-2xl font-mono font-bold tracking-widest text-heading">{code}</span>
+      <span className="text-2xl font-mono font-bold tracking-widest text-slate-900 dark:text-white">{code}</span>
       <button
         type="button"
         onClick={handleCopy}
         className={cn(
           'rounded-button p-2 transition-colors duration-150 min-h-[44px] min-w-[44px] flex items-center justify-center',
-          copied ? 'bg-success text-white' : 'bg-surface text-text-secondary hover:text-heading border border-border'
+          copied ? 'bg-success text-white' : 'bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700'
         )}
         aria-label={copied ? 'Copied' : 'Copy room code'}
       >

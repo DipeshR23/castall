@@ -36,15 +36,15 @@ export default function JoinCard({ onConnect, deviceName, onDeviceNameChange, is
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-8 sm:py-12">
-      <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl rounded-3xl sm:rounded-[32px] bg-white p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+      <div className="w-full max-w-lg sm:max-w-xl md:max-w-2xl rounded-3xl sm:rounded-[32px] bg-white dark:bg-slate-800 p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 dark:border-slate-700">
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-2">Share your screen</h1>
-          <p className="text-sm sm:text-base text-slate-500">Join an existing room to start presenting.</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">Share your screen</h1>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">Join an existing room to start presenting.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6" noValidate>
           <div>
-            <label htmlFor="deviceName" className="block text-sm sm:text-base font-medium text-slate-700 mb-2">
+            <label htmlFor="deviceName" className="block text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 mb-2">
               Device Name (Optional)
             </label>
             <input
@@ -55,19 +55,19 @@ export default function JoinCard({ onConnect, deviceName, onDeviceNameChange, is
               placeholder="e.g., Windows Laptop"
               maxLength={50}
               aria-describedby="deviceNameHelp"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[52px] text-sm sm:text-base"
+              className="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[52px] text-sm sm:text-base"
             />
-            <p id="deviceNameHelp" className="mt-1.5 text-xs text-slate-400">This name will be visible to the host and other participants.</p>
+            <p id="deviceNameHelp" className="mt-1.5 text-xs text-slate-400 dark:text-slate-500">This name will be visible to the host and other participants.</p>
           </div>
 
           <div className="flex items-center justify-center py-2">
-            <div className="flex-1 h-px bg-slate-200" />
-            <span className="px-4 text-xs sm:text-sm text-slate-400 font-medium">OR</span>
-            <div className="flex-1 h-px bg-slate-200" />
+            <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
+            <span className="px-4 text-xs sm:text-sm text-slate-400 dark:text-slate-500 font-medium">OR</span>
+            <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
           </div>
 
           <div>
-            <label htmlFor="roomCode" className="block text-sm sm:text-base font-medium text-slate-700 mb-2">
+            <label htmlFor="roomCode" className="block text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 mb-2">
               Room Code
             </label>
             <input
@@ -80,7 +80,7 @@ export default function JoinCard({ onConnect, deviceName, onDeviceNameChange, is
               aria-invalid={!!error}
               aria-describedby={error ? 'roomCodeError' : undefined}
               aria-required="true"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-lg sm:text-xl font-mono tracking-widest uppercase placeholder:text-slate-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[52px]"
+              className="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 px-4 py-3 text-center text-lg sm:text-xl font-mono tracking-widest uppercase text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 min-h-[52px]"
             />
             {error && <p id="roomCodeError" className="mt-1.5 text-xs text-error" role="alert">{error}</p>}
           </div>
@@ -88,7 +88,7 @@ export default function JoinCard({ onConnect, deviceName, onDeviceNameChange, is
           <button
             type="button"
             onClick={() => setShowScanner(true)}
-            className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-sm sm:text-base font-medium text-slate-700 hover:bg-slate-50 transition-all duration-150 min-h-[52px]"
+            className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
           >
             <Camera className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
             Scan QR Code

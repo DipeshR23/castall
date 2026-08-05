@@ -15,7 +15,7 @@ export default function Button({ children, onClick, type = 'button', variant = '
 
   const variants = {
     primary: 'bg-primary text-white shadow-soft hover:shadow-soft-hover',
-    secondary: 'bg-surface border border-border text-heading hover:bg-background',
+    secondary: 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700',
     danger: 'bg-transparent border border-error text-error hover:bg-error/10',
   };
 

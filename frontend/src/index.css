@@ -18,9 +18,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.dark body {
+  background-color: #0F172A;
+  color: #F8FAFC;
+}
+
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid #0A4DEB;
+  outline: 2px solid #2563EB;
   outline-offset: 2px;
 }
 
@@ -40,11 +45,23 @@ a {
   background: #F8FAFC;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #0F172A;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 4px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #64748B;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }

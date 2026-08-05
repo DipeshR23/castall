@@ -49,8 +49,8 @@ export default function ErrorPage() {
 
   return (
     <div className="flex flex-col items-center text-center">
-      <h1 className="text-3xl font-bold text-dark mb-4">{error.title}</h1>
-      <p className="text-text-secondary mb-8">{error.description}</p>
+      <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{error.title}</h1>
+      <p className="text-slate-500 dark:text-slate-400 mb-8">{error.description}</p>
       <Button onClick={() => navigate('/')} className="flex items-center gap-2">
         Return Home
       </Button>
