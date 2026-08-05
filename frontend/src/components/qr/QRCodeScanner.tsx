@@ -3,7 +3,7 @@ import { Camera, Image, CameraOff, Upload, Loader2 } from 'lucide-react';
 import { Html5Qrcode } from 'html5-qrcode';
 
 interface QRCodeScannerProps {
-  onScan: (code: string) => void;
+  onScan: (code: string) => Promise<boolean>;
   onClose: () => void;
 }
 
@@ -20,11 +20,6 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const cameraScannerRef = useRef<Html5Qrcode | null>(null);
   const fileScannerRef = useRef<Html5Qrcode | null>(null);
   const mountedRef = useRef(true);
-  const onScanRef = useRef(onScan);
-
-  useEffect(() => {
-    onScanRef.current = onScan;
-  }, [onScan]);
 
   const stopCamera = useCallback(async () => {
     if (cameraScannerRef.current) {
@@ -99,11 +94,18 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
           qrbox: { width: 220, height: 220 },
           aspectRatio: 1,
         },
-        (decodedText) => {
+        async (decodedText) => {
           if (!mountedRef.current) return;
-          onScanRef.current(decodedText);
-          void stopCamera();
-          onClose();
+          try {
+            const success = await onScan(decodedText);
+            if (success && mountedRef.current) {
+              void handleClose();
+            }
+          } catch {
+            if (mountedRef.current) {
+              setError('Failed to connect. Please try again.');
+            }
+          }
         },
         () => {
           // ignore scan errors
@@ -129,7 +131,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       setError(userMessage);
       setCameraReady(false);
     }
-  }, [onClose, stopCamera]);
+  }, [onScan, handleClose]);
 
   const requestCamera = useCallback(() => {
     setError(null);
@@ -138,8 +140,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   }, []);
 
   useEffect(() => {
-    if (mode !== 'camera') return;
-    if (cameraReady) return;
+    if (mode !== 'camera' || cameraReady) return;
 
     let cancelled = false;
 
@@ -179,9 +180,17 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       }
 
       const decodedText = await fileScannerRef.current.scanFile(file, false);
-      if (mountedRef.current) {
-        onScanRef.current(decodedText);
-        handleClose();
+      if (!mountedRef.current) return;
+
+      try {
+        const success = await onScan(decodedText);
+        if (success && mountedRef.current) {
+          void handleClose();
+        }
+      } catch {
+        if (mountedRef.current) {
+          setError('This QR code is invalid or the room has expired. Please try another image.');
+        }
       }
     } catch {
       if (mountedRef.current) {
@@ -193,7 +202,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
         setIsScanningFile(false);
       }
     }
-  }, [handleClose]);
+  }, [onScan, handleClose]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-3 sm:p-4">

@@ -9,7 +9,7 @@ import { useSocket } from '../hooks/useSocket.js';
 type ShareStep = 'join' | 'waiting' | 'sharing';
 
 export default function SharePage() {
-  const { setStatus, setDeviceName, setSessionToken, joinRoom, isJoining } = useRoom();
+  const { setStatus, setSessionToken, isJoining } = useRoom();
   const { socket } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
@@ -72,17 +72,6 @@ export default function SharePage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [step]);
 
-  const handleConnect = async (roomCode: string) => {
-    try {
-      const name = localDeviceName.trim() || 'Unknown Device';
-      setDeviceName(name);
-      await joinRoom(roomCode, name);
-      setStep('waiting');
-    } catch {
-      setStep('join');
-    }
-  };
-
   if (step === 'waiting') {
     return (
       <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
@@ -107,7 +96,6 @@ export default function SharePage() {
     <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
       <div className="w-full max-w-7xl">
         <JoinCard
-          onConnect={handleConnect}
           deviceName={localDeviceName}
           onDeviceNameChange={setLocalDeviceName}
           isJoining={isJoining}

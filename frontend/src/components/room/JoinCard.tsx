@@ -2,20 +2,35 @@ import { useState } from 'react';
 import { Camera } from 'lucide-react';
 import QRCodeScanner from '../qr/QRCodeScanner.js';
 import { roomCodeSchema } from '../../utils/validators.js';
+import { useRoom } from '../../contexts/RoomContext.js';
 
 interface JoinCardProps {
-  onConnect: (roomCode: string) => void;
   deviceName: string;
   onDeviceNameChange: (name: string) => void;
   isJoining: boolean;
 }
 
-export default function JoinCard({ onConnect, deviceName, onDeviceNameChange, isJoining }: JoinCardProps) {
+export default function JoinCard({ deviceName, onDeviceNameChange, isJoining }: JoinCardProps) {
   const [code, setCode] = useState('');
   const [showScanner, setShowScanner] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { joinRoom } = useRoom();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const extractRoomCode = (scannedText: string): string | null => {
+    try {
+      const url = new URL(scannedText);
+      const roomCode = url.searchParams.get('room');
+      return roomCode;
+    } catch {
+      const trimmed = scannedText.trim();
+      if (trimmed.length === 6 && /^[A-Z0-9]+$/i.test(trimmed)) {
+        return trimmed.toUpperCase();
+      }
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     const result = roomCodeSchema.safeParse(code);
@@ -23,14 +38,42 @@ export default function JoinCard({ onConnect, deviceName, onDeviceNameChange, is
       setError(result.error.errors[0]?.message || 'Invalid room code');
       return;
     }
-    onConnect(result.data);
+    await handleConnect(result.data);
   };
 
-  const handleScan = (scannedCode: string) => {
-    const result = roomCodeSchema.safeParse(scannedCode);
-    if (result.success) {
-      setCode(result.data);
+  const handleConnect = async (roomCode: string) => {
+    try {
+      const name = deviceName.trim() || 'Unknown Device';
+      await joinRoom(roomCode, name);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to join room';
+      setError(message);
+      throw err;
+    }
+  };
+
+  const handleScan = async (scannedText: string): Promise<boolean> => {
+    setError(null);
+    const extractedCode = extractRoomCode(scannedText);
+
+    if (!extractedCode) {
+      setError('Invalid QR code. Please scan a valid CastAll room QR code.');
+      return false;
+    }
+
+    const validation = roomCodeSchema.safeParse(extractedCode);
+    if (!validation.success) {
+      setError('Invalid room code format in QR code.');
+      return false;
+    }
+
+    try {
+      await handleConnect(validation.data);
       setShowScanner(false);
+      setCode(validation.data);
+      return true;
+    } catch {
+      return false;
     }
   };
 
