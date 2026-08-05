@@ -17,7 +17,6 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraReaderRef = useRef<HTMLDivElement>(null);
-  const fileReaderRef = useRef<HTMLDivElement>(null);
   const cameraScannerRef = useRef<Html5Qrcode | null>(null);
   const fileScannerRef = useRef<Html5Qrcode | null>(null);
   const mountedRef = useRef(true);
@@ -175,11 +174,6 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
     setImagePreview(previewUrl);
 
     try {
-      if (!fileReaderRef.current) {
-        setError('Scanner container not ready. Please try again.');
-        return;
-      }
-
       if (!fileScannerRef.current) {
         fileScannerRef.current = new Html5Qrcode('qr-reader-file');
       }
