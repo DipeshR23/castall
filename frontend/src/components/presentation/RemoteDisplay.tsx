@@ -15,12 +15,12 @@ export default function RemoteDisplay({ stream }: RemoteDisplayProps) {
   }, [stream]);
 
   return (
-    <div className="flex items-center justify-center bg-slate-900">
+    <div className="absolute inset-0 bg-slate-900">
       <video
         ref={videoRef}
         autoPlay
         playsInline
-        className="w-full h-full"
+        className="absolute inset-0 h-full w-full"
         style={{ objectFit: 'contain' }}
       />
     </div>

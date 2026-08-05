@@ -19,7 +19,7 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
   }, [remoteStream]);
 
   return (
-    <div className="fixed inset-0 bg-primary flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 bg-primary overflow-hidden">
       {/* Decorative background ellipses with white stripes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         {/* Large ellipse - top left */}
@@ -51,7 +51,7 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
           ref={videoRef}
           autoPlay
           playsInline
-          className="relative z-10 w-full h-full"
+          className="absolute inset-0 z-10 h-full w-full"
           style={{ objectFit: 'contain' }}
         />
       ) : (
