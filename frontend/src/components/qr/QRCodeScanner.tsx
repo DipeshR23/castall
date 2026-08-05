@@ -8,7 +8,7 @@ interface QRCodeScannerProps {
 }
 
 type ScanMode = 'idle' | 'camera' | 'file';
-type CameraStatus = 'idle' | 'requesting' | 'active' | 'error';
+type CameraStatus = 'idle' | 'starting' | 'active' | 'error';
 
 export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const [mode, setMode] = useState<ScanMode>('idle');
@@ -20,9 +20,14 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const qrReaderRef = useRef<HTMLDivElement>(null);
   const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
   const mountedRef = useRef(true);
-  const requestCameraRef = useRef(false);
+  const onScanRef = useRef(onScan);
+  const cameraStartRequestedRef = useRef(false);
 
-  const cleanupScanner = useCallback(async () => {
+  useEffect(() => {
+    onScanRef.current = onScan;
+  }, [onScan]);
+
+  const stopScanner = useCallback(async () => {
     if (html5QrCodeRef.current) {
       try {
         const state = html5QrCodeRef.current.getState();
@@ -30,7 +35,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
           await html5QrCodeRef.current.stop();
         }
       } catch {
-        // ignore cleanup errors
+        // ignore stop errors
       }
       html5QrCodeRef.current = null;
     }
@@ -39,25 +44,26 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
     setError(null);
     setImagePreview(null);
     setScanSuccess(false);
-    requestCameraRef.current = false;
+    cameraStartRequestedRef.current = false;
   }, []);
 
   useEffect(() => {
     mountedRef.current = true;
     return () => {
       mountedRef.current = false;
-      void cleanupScanner();
+      void stopScanner();
     };
-  }, [cleanupScanner]);
+  }, [stopScanner]);
 
   const handleClose = async () => {
-    await cleanupScanner();
+    await stopScanner();
     onClose();
   };
 
   useEffect(() => {
-    if (mode !== 'camera' || cameraStatus !== 'requesting') return;
-    if (!qrReaderRef.current) return;
+    if (mode !== 'camera' || cameraStatus !== 'starting') return;
+    if (cameraStartRequestedRef.current) return;
+    cameraStartRequestedRef.current = true;
 
     let cancelled = false;
 
@@ -65,6 +71,10 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       setError(null);
       setImagePreview(null);
       setScanSuccess(false);
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      if (cancelled || !mountedRef.current) return;
 
       if (!html5QrCodeRef.current) {
         html5QrCodeRef.current = new Html5Qrcode('qr-reader');
@@ -77,7 +87,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
         if (!cameras || cameras.length === 0) {
           setError('No camera found on this device.');
           setCameraStatus('error');
-          requestCameraRef.current = false;
+          cameraStartRequestedRef.current = false;
           return;
         }
 
@@ -95,19 +105,19 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
             setScanSuccess(true);
             setTimeout(() => {
               if (mountedRef.current) {
-                onScan(decodedText);
-                void cleanupScanner();
+                onScanRef.current(decodedText);
+                void stopScanner();
               }
             }, 300);
           },
           () => {
-            // ignore continuous scan failures
+            // ignore scan errors
           }
         );
 
         if (!cancelled && mountedRef.current) {
           setCameraStatus('active');
-          requestCameraRef.current = false;
+          cameraStartRequestedRef.current = false;
         }
       } catch (err) {
         if (cancelled || !mountedRef.current) return;
@@ -124,7 +134,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
         setError(userMessage);
         setCameraStatus('error');
-        requestCameraRef.current = false;
+        cameraStartRequestedRef.current = false;
       }
     };
 
@@ -133,19 +143,19 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
     return () => {
       cancelled = true;
     };
-  }, [mode, cameraStatus, onScan, cleanupScanner]);
+  }, [mode, cameraStatus, stopScanner]);
 
   const requestCamera = useCallback(() => {
     setError(null);
     setImagePreview(null);
     setScanSuccess(false);
     setMode('camera');
-    setCameraStatus('requesting');
-    requestCameraRef.current = true;
+    setCameraStatus('starting');
+    cameraStartRequestedRef.current = false;
   }, []);
 
   const stopCamera = async () => {
-    await cleanupScanner();
+    await stopScanner();
     setMode('idle');
     setCameraStatus('idle');
   };
@@ -179,8 +189,8 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
         setScanSuccess(true);
         setTimeout(() => {
           if (mountedRef.current) {
-            onScan(decodedText);
-            void cleanupScanner();
+            onScanRef.current(decodedText);
+            void stopScanner();
           }
         }, 300);
       }
@@ -217,10 +227,10 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
               <button
                 type="button"
                 onClick={requestCamera}
-                disabled={cameraStatus === 'requesting'}
+                disabled={cameraStatus === 'starting'}
                 className="w-full flex items-center justify-center gap-2 rounded-button bg-primary px-4 py-3 text-base font-semibold text-white hover:bg-primary-hover transition-all duration-150 min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {cameraStatus === 'requesting' ? (
+                {cameraStatus === 'starting' ? (
                   <>
                     <Loader2 className="h-5 w-5 animate-spin" />
                     Requesting Camera...
@@ -253,17 +263,25 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
             </div>
           )}
 
-          {mode === 'camera' && cameraStatus === 'active' && (
+          {mode === 'camera' && (
             <div className="flex flex-col gap-3">
-              <div ref={qrReaderRef} id="qr-reader" className="w-full overflow-hidden rounded-button" />
-              <button
-                type="button"
-                onClick={stopCamera}
-                className="w-full flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
-              >
-                <CameraOff className="h-5 w-5" />
-                Stop Camera
-              </button>
+              <div id="qr-reader" ref={qrReaderRef} className="w-full overflow-hidden rounded-button" />
+              {cameraStatus === 'starting' && (
+                <div className="flex items-center justify-center py-3">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  <span className="ml-2 text-small text-slate-600 dark:text-slate-300">Starting camera...</span>
+                </div>
+              )}
+              {cameraStatus === 'active' && (
+                <button
+                  type="button"
+                  onClick={stopCamera}
+                  className="w-full flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
+                >
+                  <CameraOff className="h-5 w-5" />
+                  Stop Camera
+                </button>
+              )}
             </div>
           )}
 
@@ -324,6 +342,9 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
             </div>
           )}
         </div>
+
+        {/* Hidden reader element for file scanning */}
+        <div id="qr-reader-file" className="hidden" />
       </div>
     </div>
   );
