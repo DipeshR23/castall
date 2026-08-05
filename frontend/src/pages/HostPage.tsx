@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { Wifi, Copy } from 'lucide-react';
 import HostCard from '../components/room/HostCard';
 import { useRoom } from '../contexts/RoomContext.js';
 import { useSocket } from '../hooks/useSocket.js';
@@ -22,7 +21,6 @@ export default function HostPage() {
   const { socket, isConnected } = useSocket();
   const [incomingDevice, setIncomingDevice] = useState<string | null>(null);
   const [initError, setInitError] = useState<string | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
   const statusRef = useRef(status);
   const initAttemptedRef = useRef(false);
   const creatingTimeoutRef = useRef<number | null>(null);
@@ -54,10 +52,6 @@ export default function HostPage() {
     const init = async () => {
       try {
         await createRoom();
-        if (mounted) {
-          setShowSuccess(true);
-          setTimeout(() => setShowSuccess(false), 3000);
-        }
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Failed to create room';
         if (mounted) {
@@ -232,18 +226,6 @@ export default function HostPage() {
 
   return (
     <div className="flex flex-col items-center w-full px-4">
-      {showSuccess && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full bg-success/10 px-4 py-2 text-sm text-success">
-          <Copy className="h-4 w-4" />
-          Room created successfully
-        </div>
-      )}
-      
-      <div className="fixed top-4 left-4 z-50 flex items-center gap-2 rounded-full bg-success/10 px-3 py-1.5 text-xs text-success">
-        <Wifi className="h-3.5 w-3.5" />
-        <span>Connected</span>
-      </div>
-      
       <HostCard
         roomCode={roomCode}
         status={status}
