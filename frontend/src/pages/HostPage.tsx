@@ -17,9 +17,9 @@ export default function HostPage() {
     rejectRequest,
     setStatus,
     reset,
+    expiresIn,
   } = useRoom();
   const { socket, isConnected } = useSocket();
-  const { expiresIn } = useRoom();
   const [incomingDevice, setIncomingDevice] = useState<string | null>(null);
   const [initError, setInitError] = useState<string | null>(null);
   const statusRef = useRef(status);
@@ -170,11 +170,16 @@ export default function HostPage() {
     }
   }, [rejectRequest]);
 
-  const handleReset = useCallback(() => {
+  const handleReset = useCallback(async () => {
     roomService.disconnectSession();
     reset();
-    navigate('/');
-  }, [reset, navigate]);
+    initAttemptedRef.current = false;
+    try {
+      await createRoom();
+    } catch {
+      toast.error('Failed to create new room');
+    }
+  }, [reset, createRoom]);
 
   const handleRetry = useCallback(async () => {
     initAttemptedRef.current = false;

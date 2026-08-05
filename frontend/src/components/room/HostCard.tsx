@@ -24,6 +24,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
   const qrValue = roomCode ? `${window.location.origin}/share?room=${roomCode}` : '';
   const { copyToClipboard } = useClipboard();
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [copiedCode, setCopiedCode] = useState(false);
 
   useEffect(() => {
     if (!expiresIn || expiresIn <= 0) {
@@ -48,6 +49,8 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
 
   const handleCopy = async (text: string) => {
     await copyToClipboard(text);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
   };
 
   if (status === 'REQUESTED' && incomingDevice) {
@@ -105,10 +108,14 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
             <button
               type="button"
               onClick={() => handleCopy(roomCode || '')}
-              className="inline-flex items-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-slate-700 hover:bg-slate-50 transition-all duration-150 min-h-[44px]"
+              className={`inline-flex items-center gap-2 rounded-xl border-2 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-medium transition-all duration-150 min-h-[44px] ${
+                copiedCode
+                  ? 'border-success bg-success/10 text-success'
+                  : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+              }`}
             >
               <Copy className="h-4 w-4 sm:h-5 sm:w-5" />
-              Copy Code
+              {copiedCode ? 'Copied!' : 'Copy Code'}
             </button>
           </div>
 
