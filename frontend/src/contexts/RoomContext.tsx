@@ -20,6 +20,8 @@ export interface RoomContextValue {
   acceptRequest: () => Promise<{ sessionToken: string }>;
   rejectRequest: () => void;
   reset: () => void;
+  expiresIn: number | null;
+  setExpiresIn: (expiresIn: number | null) => void;
 }
 
 const defaultValue: RoomContextValue = {
@@ -40,6 +42,8 @@ const defaultValue: RoomContextValue = {
   acceptRequest: async () => ({ sessionToken: '' }),
   rejectRequest: () => {},
   reset: () => {},
+  expiresIn: null,
+  setExpiresIn: () => {},
 };
 
 export const RoomContext = createContext<RoomContextValue>(defaultValue);
@@ -61,12 +65,14 @@ export function RoomProvider({ children }: RoomProviderProps) {
   const [isJoining, setIsJoining] = useState(false);
   const [isAccepting, setIsAccepting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
+  const [expiresIn, setExpiresIn] = useState<number | null>(null);
 
   const createRoom = useCallback(async () => {
     setIsCreating(true);
     try {
       const result = await roomService.createRoom();
       setRoomCode(result.roomCode);
+      setExpiresIn(result.expiresIn);
       setStatus('WAITING');
       toast.success('Room created successfully');
       return result;
@@ -130,6 +136,7 @@ export function RoomProvider({ children }: RoomProviderProps) {
     setStatus(null);
     setDeviceName(null);
     setSessionToken(null);
+    setExpiresIn(null);
   }, []);
 
   const value: RoomContextValue = {
@@ -150,6 +157,8 @@ export function RoomProvider({ children }: RoomProviderProps) {
     acceptRequest,
     rejectRequest,
     reset,
+    expiresIn,
+    setExpiresIn,
   };
 
   return <RoomContext.Provider value={value}>{children}</RoomContext.Provider>;

@@ -19,6 +19,7 @@ export default function HostPage() {
     reset,
   } = useRoom();
   const { socket, isConnected } = useSocket();
+  const { expiresIn } = useRoom();
   const [incomingDevice, setIncomingDevice] = useState<string | null>(null);
   const [initError, setInitError] = useState<string | null>(null);
   const statusRef = useRef(status);
@@ -231,9 +232,11 @@ export default function HostPage() {
           roomCode={roomCode}
           status={status}
           incomingDevice={incomingDevice}
+          expiresIn={expiresIn}
           onAccept={handleAccept}
           onReject={handleReject}
           onReset={handleReset}
+          onBack={() => navigate('/')}
         />
       </div>
     </div>
