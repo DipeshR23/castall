@@ -1,9 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
-import { Monitor, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext.js';
+import { Monitor } from 'lucide-react';
 
 export default function AppLayout() {
-  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col transition-colors duration-200">
@@ -14,18 +12,6 @@ export default function AppLayout() {
           </div>
           <span className="text-xl font-bold text-slate-900 dark:text-white">CastAll</span>
         </Link>
-
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            {theme === 'dark' ? 'Light' : 'Dark'}
-          </button>
-        </div>
       </header>
 
       <main className="flex-1">
