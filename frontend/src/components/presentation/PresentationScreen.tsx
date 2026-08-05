@@ -51,7 +51,7 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
           ref={videoRef}
           autoPlay
           playsInline
-          className="relative z-10 max-w-full max-h-full w-full h-full"
+          className="relative z-10 w-full h-full"
           style={{ objectFit: 'contain' }}
         />
       ) : (

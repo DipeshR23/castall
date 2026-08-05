@@ -85,8 +85,8 @@ export default function SharePage() {
 
   if (step === 'waiting') {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-6 sm:py-8 md:py-12">
-        <div className="w-full max-w-content">
+      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+        <div className="w-full max-w-7xl">
           <WaitingForApproval />
         </div>
       </div>
@@ -95,8 +95,8 @@ export default function SharePage() {
 
   if (step === 'sharing') {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-4 py-6 sm:py-8 md:py-12">
-        <div className="w-full max-w-content">
+      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+        <div className="w-full max-w-7xl">
           <StartSharing />
         </div>
       </div>
@@ -104,11 +104,15 @@ export default function SharePage() {
   }
 
   return (
-    <JoinCard
-      onConnect={handleConnect}
-      deviceName={localDeviceName}
-      onDeviceNameChange={setLocalDeviceName}
-      isJoining={isJoining}
-    />
+    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+      <div className="w-full max-w-7xl">
+        <JoinCard
+          onConnect={handleConnect}
+          deviceName={localDeviceName}
+          onDeviceNameChange={setLocalDeviceName}
+          isJoining={isJoining}
+        />
+      </div>
+    </div>
   );
 }

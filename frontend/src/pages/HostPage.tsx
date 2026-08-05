@@ -231,8 +231,8 @@ export default function HostPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] w-full px-4 py-6 sm:py-8 md:py-12">
-      <div className="w-full max-w-content">
+    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] w-full px-[5%] py-8 sm:py-12">
+      <div className="w-full max-w-7xl">
         <HostCard
           roomCode={roomCode}
           status={status}
