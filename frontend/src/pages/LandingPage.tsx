@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Monitor, Smartphone, Shield, Zap, MonitorPlay, Sun, Moon } from 'lucide-react';
+import { Monitor, Smartphone, Shield, MonitorPlay, Sun, Moon } from 'lucide-react';
 import { useState } from 'react';
 
 export default function LandingPage() {
@@ -28,14 +28,6 @@ export default function LandingPage() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative flex flex-col items-center text-center pt-12 sm:pt-16 lg:pt-24 pb-16 sm:pb-24 lg:pb-32 px-4">
-        {/* Connected Badge */}
-        <div className="absolute top-4 left-4 sm:left-8">
-          <div className="inline-flex items-center gap-2 rounded-full bg-success/10 px-3 py-1.5 text-xs font-medium text-success">
-            <span className="h-2 w-2 rounded-full bg-success" />
-            Connected
-          </div>
-        </div>
-
         {/* Theme Toggle - positioned like screenshot */}
         <div className="absolute top-4 right-4 sm:right-8">
           <button
@@ -105,17 +97,9 @@ export default function LandingPage() {
         </div>
 
         <div className="relative max-w-5xl mx-auto">
-          {/* Desktop Dotted Line */}
-          <div className="hidden sm:block absolute top-6 left-0 right-0">
-            <div className="flex items-center justify-center">
-              <div className="h-px w-16 sm:w-24 border-t-2 border-dotted border-slate-300" />
-              <div className="h-px w-16 sm:w-24 border-t-2 border-dotted border-slate-300 ml-4" />
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
-          {steps.map((step) => (
-            <div key={step.num} className="flex flex-col items-center text-center">
+            {steps.map((step) => (
+              <div key={step.num} className="flex flex-col items-center text-center">
                 {/* Number Badge */}
                 <div className="relative mb-6">
                   <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold shadow-sm">
@@ -156,11 +140,6 @@ export default function LandingPage() {
               icon: Shield,
               title: 'Secure',
               description: 'End-to-end',
-            },
-            {
-              icon: Zap,
-              title: 'Fast & Reliable',
-              description: 'Built with WebRTC',
             },
           ].map((feature) => (
             <div

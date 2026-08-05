@@ -31,54 +31,6 @@ export default function AppLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
-
-      <footer className="bg-slate-900 text-white py-12 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary/20 flex items-center justify-center">
-              <Monitor className="h-4 w-4 text-primary" />
-            </div>
-            <span className="text-lg font-semibold">CastAll</span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400">
-            <span>Tech Stack</span>
-            <span className="flex items-center gap-1">
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-              WebRTC
-            </span>
-            <span className="flex items-center gap-1">
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-              Socket.IO
-            </span>
-            <span className="flex items-center gap-1">
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M8 12l2 2 4-4" />
-              </svg>
-              React
-            </span>
-            <span className="flex items-center gap-1">
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-              Tailwind CSS
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-400">Design Style</span>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Clean • Modern • Minimal • User Friendly</span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
