@@ -8,49 +8,28 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <header className="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-50">
-        <Link to="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-2.5 group">
           <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
             <Monitor className="h-5 w-5 text-white" />
           </div>
           <span className="text-xl font-bold text-slate-900">CastAll</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
-            Features
-          </Link>
-          <Link to="/" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
-            How it works
-          </Link>
-          <Link to="/" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
-            About
-          </Link>
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-50 transition-colors"
             aria-label="Toggle theme"
           >
-            {isDark ? <Sun className="h-5 w-5 text-slate-600" /> : <Moon className="h-5 w-5 text-slate-600" />}
-          </button>
-        </nav>
-
-        <div className="flex md:hidden items-center gap-4">
-          <button
-            type="button"
-            onClick={() => setIsDark(!isDark)}
-            className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <Sun className="h-5 w-5 text-slate-600" /> : <Moon className="h-5 w-5 text-slate-600" />}
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            {isDark ? 'Light' : 'Dark'}
           </button>
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12 lg:py-16">
-        <div className="w-full max-w-7xl">
-          <Outlet />
-        </div>
+      <main className="flex-1">
+        <Outlet />
       </main>
 
       <footer className="bg-slate-900 text-white py-12 px-6 lg:px-8">
