@@ -55,33 +55,33 @@ export default function LandingPage() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-md sm:max-w-lg px-4 sm:px-0">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-lg sm:max-w-2xl px-4 sm:px-0">
           <button
             type="button"
             onClick={() => navigate('/host')}
-            className="flex-1 rounded-xl sm:rounded-2xl bg-primary px-5 py-3 sm:px-6 sm:py-4 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-primary-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="flex-1 rounded-2xl sm:rounded-3xl bg-primary px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-base sm:text-lg md:text-xl font-semibold text-white shadow-sm hover:bg-primary-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            <div className="flex items-center justify-center gap-2">
-              <Monitor className="h-4 w-4 sm:h-5 sm:w-5" />
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              <Monitor className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
               <span>Host Presentation</span>
             </div>
           </button>
           <button
             type="button"
             onClick={() => navigate('/share')}
-            className="flex-1 rounded-xl sm:rounded-2xl bg-white border border-slate-200 px-5 py-3 sm:px-6 sm:py-4 text-sm sm:text-base font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="flex-1 rounded-2xl sm:rounded-3xl bg-white border-2 border-slate-200 px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-base sm:text-lg md:text-xl font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            <div className="flex items-center justify-center gap-2">
-              <MonitorPlay className="h-4 w-4 sm:h-5 sm:w-5" />
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              <MonitorPlay className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
               <span>Share Screen</span>
             </div>
           </button>
         </div>
 
         {/* Helper Text */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 md:gap-12 mt-6 sm:mt-8 px-4">
-          <p className="text-[11px] sm:text-xs text-slate-400">Create a room and get a QR code</p>
-          <p className="text-[11px] sm:text-xs text-slate-400">Join a room and share your screen</p>
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 md:gap-12 mt-8 sm:mt-10 px-4">
+          <p className="text-xs sm:text-sm text-slate-400">Create a room and get a QR code</p>
+          <p className="text-xs sm:text-sm text-slate-400">Join a room and share your screen</p>
         </div>
       </section>
 
@@ -124,7 +124,7 @@ export default function LandingPage() {
 
       {/* Features Section */}
       <section className="py-12 sm:py-16 md:py-24 lg:py-32 px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
           {[
             {
               icon: Monitor,
