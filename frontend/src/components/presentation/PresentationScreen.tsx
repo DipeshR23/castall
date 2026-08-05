@@ -55,7 +55,7 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
           style={{ objectFit: 'contain' }}
         />
       ) : (
-        <div className="relative z-10 flex flex-col items-center text-center px-4">
+        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center px-4">
           <Spinner size="lg" />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-8 mb-4">Waiting for Stream</h2>
           <p className="text-lg sm:text-xl text-white/80 mb-8">The presenter will begin sharing shortly...</p>
