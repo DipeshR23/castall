@@ -7,8 +7,8 @@ import PresentationScreen from '../components/presentation/PresentationScreen';
 
 export default function PresentationPage() {
   const navigate = useNavigate();
-  const { sessionToken } = useRoom();
-  const { remoteStream, cleanup } = useWebRTC(sessionToken ? 'active' : null, sessionToken);
+  const { sessionToken, roomCode } = useRoom();
+  const { remoteStream, cleanup } = useWebRTC(roomCode, sessionToken);
   useWebRTCStats(remoteStream, !!remoteStream);
 
   const handleDisconnect = () => {

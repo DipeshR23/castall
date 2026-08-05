@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Monitor, Square } from 'lucide-react';
 import Button from '../ui/Button.js';
 import { useRoom } from '../../contexts/RoomContext.js';
 import { webrtcService } from '../../services/webrtc.js';
 import { roomService } from '../../services/room.js';
 import { toast } from 'sonner';
+import { getSocket } from '../../services/socket.js';
 import ScreenRecommendation from './ScreenRecommendation';
 
 type SharingStep = 'ready' | 'recommendation' | 'sharing';
@@ -13,6 +14,50 @@ export default function StartSharing() {
   const [step, setStep] = useState<SharingStep>('ready');
   const [isConnecting, setIsConnecting] = useState(false);
   const { sessionToken } = useRoom();
+
+  useEffect(() => {
+    if (!sessionToken) return;
+
+    const socket = getSocket();
+
+    const handleAnswer = async (data: { sdp: string; sessionToken: string }) => {
+      if (data.sessionToken !== sessionToken) return;
+
+      try {
+        await webrtcService.setRemoteDescription(data.sdp);
+        console.log('[StartSharing] Remote description set from answer');
+      } catch (error) {
+        console.error('[StartSharing] Failed to handle answer:', error);
+      }
+    };
+
+    const handleIceCandidate = async (data: {
+      candidate: string;
+      sdpMid: string;
+      sdpMLineIndex: number;
+      sessionToken: string;
+    }) => {
+      if (data.sessionToken !== sessionToken) return;
+
+      try {
+        await webrtcService.addIceCandidate(
+          data.candidate,
+          data.sdpMid,
+          data.sdpMLineIndex
+        );
+      } catch (error) {
+        console.error('[StartSharing] Failed to handle ICE candidate:', error);
+      }
+    };
+
+    socket.on('webrtc-answer', handleAnswer);
+    socket.on('ice-candidate', handleIceCandidate);
+
+    return () => {
+      socket.off('webrtc-answer', handleAnswer);
+      socket.off('ice-candidate', handleIceCandidate);
+    };
+  }, [sessionToken]);
 
   const startSharing = async () => {
     setStep('recommendation');
