@@ -5,6 +5,7 @@ import { useRoom } from '../contexts/RoomContext.js';
 import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../hooks/useSocket.js';
 import PresentationScreen from '../components/presentation/PresentationScreen';
+import ConnectionStatusButton from '../components/ui/ConnectionStatusButton.js';
 
 export default function PresentationPage() {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ export default function PresentationPage() {
     cleanup();
     navigate('/');
   };
+
+  const isConnected = !!remoteStream;
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -46,6 +49,11 @@ export default function PresentationPage() {
   }, [socket, cleanup, navigate]);
 
   return (
-    <PresentationScreen remoteStream={remoteStream} onDisconnect={handleDisconnect} />
+    <div className="relative">
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
+        <ConnectionStatusButton connected={isConnected} />
+      </div>
+      <PresentationScreen remoteStream={remoteStream} onDisconnect={handleDisconnect} />
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import JoinCard from '../components/room/JoinCard';
 import WaitingForApproval from '../components/room/WaitingForApproval';
 import StartSharing from '../components/presentation/StartSharing';
+import ConnectionStatusButton from '../components/ui/ConnectionStatusButton.js';
 import { useRoom } from '../contexts/RoomContext.js';
 import { useSocket } from '../hooks/useSocket.js';
 
@@ -13,6 +14,8 @@ export default function SharePage() {
   const { socket } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
+
+  const isConnected = step === 'waiting' || step === 'sharing';
 
   useEffect(() => {
     if (!socket) return;
@@ -74,7 +77,10 @@ export default function SharePage() {
 
   if (step === 'waiting') {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+      <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+          <ConnectionStatusButton connected={isConnected} />
+        </div>
         <div className="w-full max-w-7xl">
           <WaitingForApproval />
         </div>
@@ -84,7 +90,10 @@ export default function SharePage() {
 
   if (step === 'sharing') {
     return (
-      <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+      <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+          <ConnectionStatusButton connected={isConnected} />
+        </div>
         <div className="w-full max-w-7xl">
           <StartSharing />
         </div>
@@ -93,7 +102,10 @@ export default function SharePage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+    <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <ConnectionStatusButton connected={isConnected} />
+      </div>
       <div className="w-full max-w-7xl">
         <JoinCard
           deviceName={localDeviceName}
