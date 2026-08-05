@@ -41,31 +41,31 @@ export default function LandingPage() {
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-lg sm:max-w-2xl px-4 sm:px-0">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-xl sm:max-w-3xl md:max-w-4xl px-4 sm:px-0">
           <button
             type="button"
             onClick={() => navigate('/host')}
-            className="flex-1 rounded-button bg-primary px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-base sm:text-lg md:text-xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="flex-1 rounded-button bg-primary px-10 py-5 sm:px-12 sm:py-6 md:px-14 md:py-7 lg:px-16 lg:py-8 text-lg sm:text-xl md:text-2xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            <div className="flex items-center justify-center gap-2 sm:gap-3">
-              <Monitor className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+            <div className="flex items-center justify-center gap-3 sm:gap-4">
+              <Monitor className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9" />
               <span>Host Presentation</span>
             </div>
           </button>
           <button
             type="button"
             onClick={() => navigate('/share')}
-            className="flex-1 rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-base sm:text-lg md:text-xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="flex-1 rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-10 py-5 sm:px-12 sm:py-6 md:px-14 md:py-7 lg:px-16 lg:py-8 text-lg sm:text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            <div className="flex items-center justify-center gap-2 sm:gap-3">
-              <MonitorPlay className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+            <div className="flex items-center justify-center gap-3 sm:gap-4">
+              <MonitorPlay className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9" />
               <span>Share Screen</span>
             </div>
           </button>
         </div>
 
         {/* Helper Text */}
-        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 w-full max-w-lg sm:max-w-2xl px-4 sm:px-0">
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 w-full max-w-xl sm:max-w-3xl md:max-w-4xl px-4 sm:px-0">
           <p className="flex-1 text-center text-small text-slate-400 dark:text-slate-500">Create a room and get a QR code</p>
           <p className="flex-1 text-center text-small text-slate-400 dark:text-slate-500">Join a room and share your screen</p>
         </div>
