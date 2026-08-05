@@ -1,16 +1,37 @@
 import { Outlet, Link } from 'react-router-dom';
-import { Monitor } from 'lucide-react';
+
+const Logo = () => (
+  <svg viewBox="0 0 256 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-8 w-auto sm:h-9 md:h-10">
+    <path d="M32 48C32 28.0589 48.0589 12 68 12H188C207.941 12 224 28.0589 224 48V132C224 151.941 207.941 168 188 168H120L92 196V168H68C48.0589 168 32 151.941 32 132V48Z" fill="url(#logo-gradient-1)"/>
+    <path d="M48 48C48 37.3724 55.3724 30 66 30H126V138H66C55.3724 138 48 130.628 48 120V48Z" fill="url(#logo-gradient-2)"/>
+    <path d="M152 76C152 72.6863 154.686 70 158 70H172C175.314 70 178 72.6863 178 76V148C178 151.314 175.314 154 172 154H158C154.686 154 152 151.314 152 148V76Z" fill="url(#logo-gradient-2)"/>
+    <path d="M166 82C166 79.7909 167.791 78 170 78H174C176.209 78 178 79.7909 178 82V142C178 144.209 176.209 146 174 146H170C167.791 146 166 144.209 166 142V82Z" fill="#1E293B"/>
+    <path d="M174 82C174 79.7909 175.791 78 178 78H182C184.209 78 186 79.7909 186 82V142C186 144.209 184.209 146 182 146H178C175.791 146 174 144.209 174 142V82Z" fill="#1E293B"/>
+    <path d="M98 124C98 124 94 120 94 116C94 112 98 108 104 108C110 108 114 112 114 116C114 120 110 124 110 124" stroke="#2563EB" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M86 108C86 108 82 102 82 96C82 90 86 84 94 84C102 84 106 90 106 96C106 102 102 108 102 108" stroke="#2563EB" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M74 90C74 90 70 82 70 74C70 66 74 58 84 58C94 58 98 66 98 74C98 82 94 90 94 90" stroke="#2563EB" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="74" cy="118" r="14" fill="#2563EB"/>
+    <path d="M204 168H120" stroke="#1E293B" strokeWidth="8" strokeLinecap="round"/>
+    <defs>
+      <linearGradient id="logo-gradient-1" x1="32" y1="12" x2="224" y2="168" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#3B82F6"/>
+        <stop offset="1" stopColor="#2563EB"/>
+      </linearGradient>
+      <linearGradient id="logo-gradient-2" x1="48" y1="30" x2="178" y2="154" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#1E40AF"/>
+        <stop offset="1" stopColor="#1E293B"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 export default function AppLayout() {
-
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col transition-colors duration-200">
-      <header className="h-[72px] bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-6 lg:px-8 sticky top-0 z-50 transition-colors duration-200">
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-            <Monitor className="h-5 w-5 text-white" />
-          </div>
-          <span className="text-xl font-bold text-slate-900 dark:text-white">CastAll</span>
+      <header className="h-[72px] bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-5 sm:px-6 md:px-8 lg:px-10 sticky top-0 z-50 transition-colors duration-200">
+        <Link to="/" className="flex items-center gap-2 sm:gap-2.5 md:gap-3 group">
+          <Logo />
+          <span className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">CastAll</span>
         </Link>
       </header>
 
