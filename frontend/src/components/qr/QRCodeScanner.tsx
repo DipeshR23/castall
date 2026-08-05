@@ -41,7 +41,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-3 sm:p-4">
-      <div className="w-full max-w-sm rounded-card bg-white dark:bg-slate-800 p-4 sm:p-6 shadow-soft">
+      <div className="w-full max-w-content rounded-card bg-white dark:bg-slate-800 p-4 sm:p-6 shadow-soft">
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">Scan QR Code</h2>
           <button
