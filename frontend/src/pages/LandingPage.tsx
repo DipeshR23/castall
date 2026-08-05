@@ -65,9 +65,9 @@ export default function LandingPage() {
         </div>
 
         {/* Helper Text */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 md:gap-12 mt-8 sm:mt-10 px-4">
-          <p className="text-xs sm:text-sm text-slate-400">Create a room and get a QR code</p>
-          <p className="text-xs sm:text-sm text-slate-400">Join a room and share your screen</p>
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 w-full max-w-lg sm:max-w-2xl px-4 sm:px-0">
+          <p className="flex-1 text-center text-xs sm:text-sm text-slate-400">Create a room and get a QR code</p>
+          <p className="flex-1 text-center text-xs sm:text-sm text-slate-400">Join a room and share your screen</p>
         </div>
       </section>
 
