@@ -1,0 +1,77 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#2563EB',
+        'primary-hover': '#1D4ED8',
+        'dark-navy': '#0B1F3A',
+        heading: '#0F172A',
+        background: '#F8FAFC',
+        surface: '#FFFFFF',
+        'text-primary': '#0F172A',
+        'text-secondary': '#64748B',
+        border: '#E2E8F0',
+        success: '#22C55E',
+        error: '#EF4444',
+        disabled: '#CBD5E1',
+        slate: {
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          400: '#94A3B8',
+          500: '#64748B',
+          600: '#475569',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+          950: '#020617',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+      },
+      fontSize: {
+        hero: ['clamp(2.5rem, 5vw, 3rem)', { lineHeight: '1.1' }],
+        'page-title': ['clamp(1.75rem, 3.5vw, 2rem)', { lineHeight: '1.2' }],
+        'section-title': ['clamp(1.25rem, 2.5vw, 1.5rem)', { lineHeight: '1.3' }],
+        'card-title': ['clamp(1.125rem, 2vw, 1.25rem)', { lineHeight: '1.4' }],
+        body: ['clamp(0.9375rem, 1.5vw, 1rem)', { lineHeight: '1.6' }],
+        small: ['clamp(0.8125rem, 1.2vw, 0.875rem)', { lineHeight: '1.5' }],
+        caption: ['clamp(0.6875rem, 1vw, 0.75rem)', { lineHeight: '1.4' }],
+      },
+      borderRadius: {
+        sm: '8px',
+        button: '14px',
+        input: '14px',
+        card: '22px',
+        'qr-card': '24px',
+        badge: '999px',
+      },
+      boxShadow: {
+        soft: '0 10px 30px rgba(2,8,23,.08)',
+        'soft-hover': '0 14px 40px rgba(2,8,23,.12)',
+      },
+      spacing: {
+        4: '0.25rem',
+        8: '0.5rem',
+        12: '0.75rem',
+        16: '1rem',
+        24: '1.5rem',
+        32: '2rem',
+        48: '3rem',
+        64: '4rem',
+        80: '5rem',
+      },
+      transitionDuration: {
+        150: '150ms',
+      },
+      maxWidth: {
+        '8xl': '1280px',
+      },
+    },
+  },
+  plugins: [],
+};
