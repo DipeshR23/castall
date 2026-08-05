@@ -3,7 +3,6 @@ import { toast } from 'sonner';
 import JoinCard from '../components/room/JoinCard';
 import WaitingForApproval from '../components/room/WaitingForApproval';
 import StartSharing from '../components/presentation/StartSharing';
-import ConnectionStatus from '../components/ui/ConnectionStatus';
 import { useRoom } from '../contexts/RoomContext.js';
 import { useSocket } from '../hooks/useSocket.js';
 
@@ -11,7 +10,7 @@ type ShareStep = 'join' | 'waiting' | 'sharing';
 
 export default function SharePage() {
   const { setStatus, setDeviceName, setSessionToken, joinRoom, isJoining } = useRoom();
-  const { socket, isConnected } = useSocket();
+  const { socket } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
 
@@ -93,14 +92,11 @@ export default function SharePage() {
   }
 
   return (
-    <>
-      <ConnectionStatus isConnected={isConnected} />
-      <JoinCard
-        onConnect={handleConnect}
-        deviceName={localDeviceName}
-        onDeviceNameChange={setLocalDeviceName}
-        isJoining={isJoining}
-      />
-    </>
+    <JoinCard
+      onConnect={handleConnect}
+      deviceName={localDeviceName}
+      onDeviceNameChange={setLocalDeviceName}
+      isJoining={isJoining}
+    />
   );
 }

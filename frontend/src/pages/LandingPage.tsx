@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { Monitor, Smartphone, Shield, MonitorPlay, Sun, Moon } from 'lucide-react';
-import { useState } from 'react';
+import { Monitor, Smartphone, Shield, MonitorPlay } from 'lucide-react';
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const [isDark, setIsDark] = useState(false);
 
   const steps = [
     {
@@ -28,18 +26,6 @@ export default function LandingPage() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative flex flex-col items-center text-center pt-10 sm:pt-14 md:pt-20 lg:pt-24 pb-12 sm:pb-16 md:pb-20 lg:pb-24 px-4">
-        {/* Theme Toggle */}
-        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 md:top-6 md:right-8">
-          <button
-            type="button"
-            onClick={() => setIsDark(!isDark)}
-            className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-200 bg-white px-2.5 py-1 sm:px-3 sm:py-1.5 text-[11px] sm:text-xs font-medium text-slate-600 shadow-sm hover:bg-slate-50 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <Sun className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> : <Moon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
-            {isDark ? 'Light' : 'Dark'}
-          </button>
-        </div>
 
         {/* Main Heading */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-1.5 sm:mb-2 tracking-tight px-2">
