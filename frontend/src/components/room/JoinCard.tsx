@@ -57,13 +57,15 @@ export default function JoinCard({ deviceName, onDeviceNameChange, isJoining }: 
     const extractedCode = extractRoomCode(scannedText);
 
     if (!extractedCode) {
-      setError('Invalid QR code. Please scan a valid CastAll room QR code.');
+      const errorMsg = 'Invalid QR code. Please scan a valid CastAll room QR code.';
+      setError(errorMsg);
       return false;
     }
 
     const validation = roomCodeSchema.safeParse(extractedCode);
     if (!validation.success) {
-      setError('Invalid room code format in QR code.');
+      const errorMsg = 'Invalid room code format in QR code.';
+      setError(errorMsg);
       return false;
     }
 
@@ -72,7 +74,9 @@ export default function JoinCard({ deviceName, onDeviceNameChange, isJoining }: 
       setShowScanner(false);
       setCode(validation.data);
       return true;
-    } catch {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to join room';
+      setError(message);
       return false;
     }
   };

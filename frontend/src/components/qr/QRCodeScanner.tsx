@@ -15,24 +15,40 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const [cameraReady, setCameraReady] = useState(false);
   const [isScanningFile, setIsScanningFile] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [scanSuccess, setScanSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraReaderRef = useRef<HTMLDivElement>(null);
   const cameraScannerRef = useRef<Html5Qrcode | null>(null);
   const fileScannerRef = useRef<Html5Qrcode | null>(null);
   const mountedRef = useRef(true);
+  const onScanRef = useRef(onScan);
+  const handleCloseRef = useRef(onClose);
+  const cameraStartingRef = useRef(false);
+
+  useEffect(() => {
+    onScanRef.current = onScan;
+  }, [onScan]);
+
+  useEffect(() => {
+    handleCloseRef.current = onClose;
+  }, [onClose]);
 
   const stopCamera = useCallback(async () => {
     if (cameraScannerRef.current) {
       try {
-        await cameraScannerRef.current.stop();
+        const state = cameraScannerRef.current.getState();
+        if (state === 2) {
+          await cameraScannerRef.current.stop();
+        }
       } catch {
-        // ignore
+        // ignore stop errors
       }
       cameraScannerRef.current = null;
     }
     if (mountedRef.current) {
       setCameraReady(false);
     }
+    cameraStartingRef.current = false;
   }, []);
 
   const cleanupFileScanner = useCallback(() => {
@@ -47,6 +63,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
     if (mountedRef.current) {
       setIsScanningFile(false);
       setImagePreview(null);
+      setScanSuccess(false);
     }
   }, []);
 
@@ -62,15 +79,20 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const handleClose = useCallback(async () => {
     await stopCamera();
     cleanupFileScanner();
-    onClose();
-  }, [onClose, stopCamera, cleanupFileScanner]);
+    handleCloseRef.current();
+  }, [stopCamera, cleanupFileScanner]);
 
   const startCamera = useCallback(async () => {
+    if (cameraStartingRef.current) return;
+    cameraStartingRef.current = true;
+
     setError(null);
+    setScanSuccess(false);
     setCameraReady(false);
 
     if (!cameraReaderRef.current) {
       setError('Scanner container not ready. Please try again.');
+      cameraStartingRef.current = false;
       return;
     }
 
@@ -82,6 +104,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       const cameras = await Html5Qrcode.getCameras();
       if (!cameras || cameras.length === 0) {
         setError('No camera found on this device.');
+        cameraStartingRef.current = false;
         return;
       }
 
@@ -97,25 +120,38 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
         async (decodedText) => {
           if (!mountedRef.current) return;
           try {
-            const success = await onScan(decodedText);
+            const success = await onScanRef.current(decodedText);
             if (success && mountedRef.current) {
-              void handleClose();
+              setScanSuccess(true);
+              await stopCamera();
+              setTimeout(() => {
+                if (mountedRef.current) {
+                  handleCloseRef.current();
+                }
+              }, 300);
             }
-          } catch {
+          } catch (err) {
             if (mountedRef.current) {
-              setError('Failed to connect. Please try again.');
+              const message = err instanceof Error ? err.message : 'Failed to connect';
+              if (message.includes('expired') || message.includes('not found') || message.includes('invalid')) {
+                setError(message);
+              } else {
+                setError('Failed to connect. Please try again.');
+              }
             }
           }
         },
         () => {
-          // ignore scan errors
+          // ignore continuous scan errors
         }
       );
 
       if (mountedRef.current) {
         setCameraReady(true);
       }
+      cameraStartingRef.current = false;
     } catch (err) {
+      cameraStartingRef.current = false;
       if (!mountedRef.current) return;
       const message = err instanceof Error ? err.message : 'Failed to start camera';
       let userMessage = 'Unable to access camera. Please check permissions and try again.';
@@ -131,22 +167,25 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       setError(userMessage);
       setCameraReady(false);
     }
-  }, [onScan, handleClose]);
+  }, [stopCamera]);
 
   const requestCamera = useCallback(() => {
     setError(null);
     setImagePreview(null);
+    setScanSuccess(false);
     setMode('camera');
   }, []);
 
   useEffect(() => {
-    if (mode !== 'camera' || cameraReady) return;
+    if (mode !== 'camera') return;
 
     let cancelled = false;
+    let started = false;
 
     const initCamera = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      if (cancelled || !mountedRef.current) return;
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      if (cancelled || started || !mountedRef.current) return;
+      started = true;
       await startCamera();
     };
 
@@ -155,7 +194,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
     return () => {
       cancelled = true;
     };
-  }, [mode, cameraReady, startCamera]);
+  }, [mode, startCamera]);
 
   const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -163,6 +202,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
     setError(null);
     setImagePreview(null);
+    setScanSuccess(false);
     setIsScanningFile(true);
 
     if (!file.type.startsWith('image/')) {
@@ -183,13 +223,19 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       if (!mountedRef.current) return;
 
       try {
-        const success = await onScan(decodedText);
+        const success = await onScanRef.current(decodedText);
         if (success && mountedRef.current) {
-          void handleClose();
+          setScanSuccess(true);
+          setTimeout(() => {
+            if (mountedRef.current) {
+              handleCloseRef.current();
+            }
+          }, 300);
         }
-      } catch {
+      } catch (err) {
         if (mountedRef.current) {
-          setError('This QR code is invalid or the room has expired. Please try another image.');
+          const message = err instanceof Error ? err.message : 'Failed to connect';
+          setError(message);
         }
       }
     } catch {
@@ -202,7 +248,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
         setIsScanningFile(false);
       }
     }
-  }, [onScan, handleClose]);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-3 sm:p-4">
@@ -261,14 +307,27 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                 ref={cameraReaderRef}
                 className="w-full overflow-hidden rounded-button min-h-[220px] flex items-center justify-center"
               >
-                {!cameraReady && (
+                {!cameraReady && !error && (
                   <div className="flex flex-col items-center gap-2 py-8">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     <span className="text-small text-slate-600 dark:text-slate-300">Starting camera...</span>
                   </div>
                 )}
               </div>
-              {cameraReady && (
+
+              {scanSuccess && (
+                <div className="rounded-button bg-success/10 border border-success/20 p-3 text-center">
+                  <p className="text-small text-success font-medium">QR Code scanned successfully! Connecting...</p>
+                </div>
+              )}
+
+              {error && !scanSuccess && (
+                <div className="rounded-button bg-error/10 border border-error/20 p-3 text-center">
+                  <p className="text-small text-error font-medium">{error}</p>
+                </div>
+              )}
+
+              {cameraReady && !scanSuccess && (
                 <button
                   type="button"
                   onClick={handleClose}
@@ -298,7 +357,12 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                   <span className="ml-2 text-small text-slate-600 dark:text-slate-300">Scanning image...</span>
                 </div>
               )}
-              {error && (
+              {scanSuccess && (
+                <div className="rounded-button bg-success/10 border border-success/20 p-3 text-center">
+                  <p className="text-small text-success font-medium">QR Code scanned successfully! Connecting...</p>
+                </div>
+              )}
+              {error && !scanSuccess && (
                 <div className="rounded-button bg-error/10 border border-error/20 p-3 text-center">
                   <p className="text-small text-error font-medium">{error}</p>
                 </div>
@@ -318,12 +382,6 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                 onChange={handleFileChange}
                 className="hidden"
               />
-            </div>
-          )}
-
-          {error && mode !== 'file' && (
-            <div className="mt-3 rounded-button bg-error/10 border border-error/20 p-3 text-center">
-              <p className="text-small text-error font-medium">{error}</p>
             </div>
           )}
         </div>
