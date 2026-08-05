@@ -73,6 +73,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       mountedRef.current = false;
       void stopCamera();
       cleanupFileScanner();
+      cameraStartingRef.current = false;
     };
   }, [stopCamera, cleanupFileScanner]);
 
@@ -180,12 +181,10 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
     if (mode !== 'camera') return;
 
     let cancelled = false;
-    let started = false;
 
     const initCamera = async () => {
       await new Promise((resolve) => setTimeout(resolve, 150));
-      if (cancelled || started || !mountedRef.current) return;
-      started = true;
+      if (cancelled || !mountedRef.current) return;
       await startCamera();
     };
 
@@ -386,7 +385,6 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
           )}
         </div>
 
-        <div id="qr-reader-camera" className="hidden" />
         <div id="qr-reader-file" className="hidden" />
       </div>
     </div>
