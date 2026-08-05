@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { X, WifiOff } from 'lucide-react';
+import { X } from 'lucide-react';
 import Spinner from '../ui/Spinner.js';
 
 interface PresentationScreenProps {
@@ -19,30 +19,62 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
   }, [remoteStream]);
 
   return (
-    <div className="fixed inset-0 bg-dark flex items-center justify-center">
+    <div className="fixed inset-0 bg-primary flex items-center justify-center overflow-hidden">
+      {/* Decorative background ellipses with white stripes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        {/* Large ellipse - top left */}
+        <div
+          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
+          style={{
+            background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.3) 20px, rgba(255,255,255,0.3) 40px)',
+          }}
+        />
+        {/* Medium ellipse - bottom right */}
+        <div
+          className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20"
+          style={{
+            background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,255,255,0.25) 15px, rgba(255,255,255,0.25) 30px)',
+          }}
+        />
+        {/* Small ellipse - center right */}
+        <div
+          className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15"
+          style={{
+            background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(255,255,255,0.2) 12px, rgba(255,255,255,0.2) 24px)',
+          }}
+        />
+      </div>
+
+      {/* Content */}
       {remoteStream ? (
         <video
           ref={videoRef}
           autoPlay
           playsInline
-          className="max-w-full max-h-full w-full h-full"
+          className="relative z-10 max-w-full max-h-full w-full h-full"
           style={{ objectFit: 'contain' }}
         />
       ) : (
-        <div className="flex flex-col items-center text-center px-4">
+        <div className="relative z-10 flex flex-col items-center text-center px-4">
           <Spinner size="lg" />
-          <h2 className="text-card-title font-semibold text-white mt-6 mb-2">Waiting for Stream</h2>
-          <p className="text-small text-gray-300 mb-8">The presenter will begin sharing shortly...</p>
-          <div className="flex items-center gap-2 text-small text-gray-400">
-            <WifiOff className="h-4 w-4" />
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-8 mb-4">Waiting for Stream</h2>
+          <p className="text-lg sm:text-xl text-white/80 mb-8">The presenter will begin sharing shortly...</p>
+          <div className="flex items-center gap-2 text-base text-white/60">
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+              <path d="M12 18a6 6 0 100-12 6 6 0 000 12z" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
             <span>No active stream</span>
           </div>
         </div>
       )}
+
+      {/* Disconnect button - top right */}
       <button
         type="button"
         onClick={onDisconnect}
-        className="fixed top-4 right-4 z-50 rounded-button bg-dark/60 backdrop-blur-sm p-2 sm:p-3 text-white hover:bg-dark/80 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-150 active:scale-95 min-h-[44px] min-w-[44px] flex items-center justify-center"
+        className="fixed top-4 right-4 z-50 rounded-xl bg-white/10 backdrop-blur-md p-2 sm:p-3 text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-150 active:scale-95 min-h-[44px] min-w-[44px] flex items-center justify-center"
         aria-label="Disconnect"
       >
         <X className="h-5 w-5 sm:h-6 sm:w-6" />
