@@ -108,11 +108,10 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
             <button
               type="button"
               onClick={() => handleCopy(roomCode || '')}
-              className={`inline-flex items-center gap-2 rounded-button border-2 px-4 sm:px-5 py-2.5 sm:py-3 text-small font-medium transition-all duration-150 min-h-[44px] ${
-                copiedCode
-                  ? 'border-success bg-success/10 text-success'
-                  : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600'
-              }`}
+              className={`inline-flex items-center gap-2 rounded-button border-2 px-4 sm:px-5 py-2.5 sm:py-3 text-small font-medium transition-all duration-150 min-h-[44px] ${copiedCode
+                ? 'border-success bg-success/10 text-success'
+                : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600'
+                }`}
             >
               <Copy className="h-4 w-4 sm:h-5 sm:w-5" />
               {copiedCode ? 'Copied!' : 'Copy Code'}
@@ -126,7 +125,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
               <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:150ms]" />
               <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:300ms]" />
             </div>
-            <p className="text-small text-slate-600 dark:text-slate-300 font-medium">Waiting for Presenter...</p>
+            <p className="text-small text-slate-600 dark:text-slate-300 font-medium">Waiting for Presenter</p>
           </div>
 
           {/* Expiry Countdown */}
@@ -143,7 +142,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
               onClick={onReset}
               className="w-full inline-flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold text-primary hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
             >
-              <RefreshCw className="h-4 w-4 sm:h-5 sm:w-5" />
+              <RefreshCw className="h-15 w-15 sm:h-5 sm:w-5" />
               Reset Room
             </button>
             <button

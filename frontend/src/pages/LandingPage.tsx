@@ -110,39 +110,43 @@ export default function LandingPage() {
 
       {/* Features Section */}
       <section className="py-12 sm:py-16 md:py-24 lg:py-32 px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
-          {[
-            {
-              icon: Monitor,
-              title: 'No Installation',
-              description: '100% Browser based',
-            },
-            {
-              icon: Smartphone,
-              title: 'QR Connect',
-              description: 'Scan & connect',
-            },
-            {
-              icon: Shield,
-              title: 'Secure',
-              description: 'End-to-end',
-            },
-          ].map((feature) => (
-            <div
-              key={feature.title}
-              className="rounded-card bg-white dark:bg-slate-800 p-5 sm:p-6 shadow-soft border border-slate-200 dark:border-slate-700 hover:shadow-soft-hover transition-all duration-150"
-            >
-              <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-button bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
-                <feature.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-              </div>
-              <h3 className="text-small sm:text-base font-semibold text-slate-900 dark:text-white mb-1">
-                {feature.title}
-              </h3>
-              <p className="text-caption text-slate-500 dark:text-slate-400">
-                {feature.description}
-              </p>
+        <div className="max-w-5xl mx-auto">
+          <div className="rounded-card bg-white dark:bg-slate-800 p-5 sm:p-6 md:p-8 shadow-soft border border-slate-200 dark:border-slate-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
+              {[
+                {
+                  icon: Monitor,
+                  title: 'No Installation',
+                  description: '100% Browser based',
+                },
+                {
+                  icon: Smartphone,
+                  title: 'QR Connect',
+                  description: 'Scan & connect',
+                },
+                {
+                  icon: Shield,
+                  title: 'Secure',
+                  description: 'End-to-end',
+                },
+              ].map((feature) => (
+                <div
+                  key={feature.title}
+                  className="flex flex-col items-center text-center rounded-button border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 p-5 sm:p-6"
+                >
+                  <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-button bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
+                    <feature.icon className="h-5 w-5 sm:h-6 sm:w-5 text-primary" />
+                  </div>
+                  <h3 className="text-small sm:text-base font-semibold text-slate-900 dark:text-white mb-1">
+                    {feature.title}
+                  </h3>
+                  <p className="text-caption text-slate-500 dark:text-slate-400">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </section>
     </div>
