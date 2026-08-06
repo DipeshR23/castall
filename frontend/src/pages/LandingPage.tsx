@@ -95,7 +95,7 @@ export default function LandingPage() {
 
                 {/* Icon */}
                 <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center mb-3 sm:mb-4">
-                  <step.Icon className="h-8 w-8 sm:h-8 sm:w-8 md:h-10 md:w-10 text-slate-700 dark:text-slate-300" />
+                  <step.Icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 text-slate-700 dark:text-slate-300" />
                 </div>
 
                 {/* Title */}
