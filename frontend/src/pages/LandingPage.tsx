@@ -45,20 +45,20 @@ export default function LandingPage() {
           <button
             type="button"
             onClick={() => navigate('/host')}
-            className="flex-1 rounded-button bg-primary px-10 py-5 sm:px-12 sm:py-6 md:px-14 md:py-7 lg:px-16 lg:py-8 text-lg sm:text-xl md:text-2xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="flex-1 rounded-button bg-primary px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-lg sm:text-xl md:text-2xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            <div className="flex items-center justify-center gap-3 sm:gap-4">
-              <Monitor className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9" />
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              <Monitor className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
               <span>Host Presentation</span>
             </div>
           </button>
           <button
             type="button"
             onClick={() => navigate('/share')}
-            className="flex-1 rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-10 py-5 sm:px-12 sm:py-6 md:px-14 md:py-7 lg:px-16 lg:py-8 text-lg sm:text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            className="flex-1 rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-lg sm:text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            <div className="flex items-center justify-center gap-3 sm:gap-4">
-              <MonitorPlay className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9" />
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              <MonitorPlay className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
               <span>Share Screen</span>
             </div>
           </button>
@@ -135,7 +135,7 @@ export default function LandingPage() {
                   className="flex flex-col items-center text-center rounded-button border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/40 p-5 sm:p-6"
                 >
                   <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-button bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
-                    <feature.icon className="h-5 w-5 sm:h-6 sm:w-5 text-primary" />
+                    <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                   </div>
                   <h3 className="text-small sm:text-base font-semibold text-slate-900 dark:text-white mb-1">
                     {feature.title}
