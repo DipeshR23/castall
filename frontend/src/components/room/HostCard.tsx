@@ -108,7 +108,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
                 : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600'
                 }`}
             >
-              <Copy className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Copy className="h-5 w-5 sm:h-6 sm:w-6" />
               {copiedCode ? 'Copied!' : 'Copy Code'}
             </button>
           </div>

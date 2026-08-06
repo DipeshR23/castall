@@ -136,7 +136,7 @@ export default function JoinCard({ deviceName, onDeviceNameChange, isJoining }: 
           onClick={() => setShowScanner(true)}
           className="w-full flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-small font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
         >
-          <Camera className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
+          <Camera className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
           Scan QR Code
         </button>
 
@@ -152,7 +152,7 @@ export default function JoinCard({ deviceName, onDeviceNameChange, isJoining }: 
             </>
           ) : (
             <>
-              <svg className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
               Connect

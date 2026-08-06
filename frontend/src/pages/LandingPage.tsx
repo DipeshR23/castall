@@ -49,7 +49,7 @@ export default function LandingPage() {
               className="w-full rounded-button bg-primary px-5 py-3 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-base sm:text-xl md:text-2xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <div className="flex items-center justify-center gap-2 sm:gap-3">
-                <Monitor className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                <Monitor className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                 <span>Host Presentation</span>
               </div>
             </button>
@@ -62,7 +62,7 @@ export default function LandingPage() {
               className="w-full rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-5 py-3 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-base sm:text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <div className="flex items-center justify-center gap-2 sm:gap-3">
-                <MonitorPlay className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                <MonitorPlay className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
                 <span>Share Screen</span>
               </div>
             </button>
@@ -95,7 +95,7 @@ export default function LandingPage() {
 
                 {/* Icon */}
                 <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center mb-3 sm:mb-4">
-                  <step.Icon className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 text-slate-700 dark:text-slate-300" />
+                  <step.Icon className="h-8 w-8 sm:h-8 sm:w-8 md:h-10 md:w-10 text-slate-700 dark:text-slate-300" />
                 </div>
 
                 {/* Title */}
