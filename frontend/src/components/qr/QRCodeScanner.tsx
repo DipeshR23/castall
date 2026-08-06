@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useId } from 'react';
 import { Camera, Image, CameraOff, Upload, Loader2 } from 'lucide-react';
 import { Html5Qrcode } from 'html5-qrcode';
 
@@ -10,6 +10,9 @@ interface QRCodeScannerProps {
 type ScanMode = 'idle' | 'camera' | 'file';
 
 export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
+  const scannerId = useId();
+  const cameraId = `qr-reader-camera-${scannerId}`;
+  const fileId = `qr-reader-file-${scannerId}`;
   const [mode, setMode] = useState<ScanMode>('idle');
   const [error, setError] = useState<string | null>(null);
   const [cameraReady, setCameraReady] = useState(false);
@@ -99,7 +102,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
     try {
       if (!cameraScannerRef.current) {
-        cameraScannerRef.current = new Html5Qrcode('qr-reader-camera');
+        cameraScannerRef.current = new Html5Qrcode(cameraId);
       }
 
       const cameras = await Html5Qrcode.getCameras();
@@ -168,7 +171,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       setError(userMessage);
       setCameraReady(false);
     }
-  }, [stopCamera]);
+  }, [stopCamera, cameraId]);
 
   const requestCamera = useCallback(() => {
     setError(null);
@@ -215,7 +218,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
     try {
       if (!fileScannerRef.current) {
-        fileScannerRef.current = new Html5Qrcode('qr-reader-file');
+        fileScannerRef.current = new Html5Qrcode(fileId);
       }
 
       const decodedText = await fileScannerRef.current.scanFile(file, false);
@@ -247,7 +250,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
         setIsScanningFile(false);
       }
     }
-  }, []);
+  }, [fileId]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-3 sm:p-4">
@@ -302,7 +305,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
           {mode === 'camera' && (
             <div className="flex flex-col gap-3">
               <div
-                id="qr-reader-camera"
+                id={cameraId}
                 ref={cameraReaderRef}
                 className="w-full overflow-hidden rounded-button min-h-[220px] flex items-center justify-center"
               >
@@ -385,7 +388,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
           )}
         </div>
 
-        <div id="qr-reader-file" className="hidden" />
+        <div id={fileId} className="hidden" />
       </div>
     </div>
   );

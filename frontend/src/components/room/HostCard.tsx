@@ -1,6 +1,7 @@
 import QRCodeCard from '../qr/QRCodeCard.js';
 import { Copy, RefreshCw } from 'lucide-react';
 import { useClipboard } from '../../hooks/useClipboard.js';
+import { formatTime } from '../../utils/formatters.js';
 import { useState, useEffect } from 'react';
 
 interface HostCardProps {
@@ -12,12 +13,6 @@ interface HostCardProps {
   onReject: () => void;
   onReset: () => void;
   onBack: () => void;
-}
-
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
 export default function HostCard({ roomCode, status, incomingDevice, expiresIn, onAccept, onReject, onReset, onBack }: HostCardProps) {

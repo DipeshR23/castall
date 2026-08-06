@@ -13,14 +13,11 @@ export function useWebRTC(roomCode: string | null, sessionToken: string | null) 
   }, []);
 
   useEffect(() => {
-    console.log('[useWebRTC] effect run', { roomCode, sessionToken: sessionToken ? sessionToken.slice(0, 8) + '...' : null });
     if (!roomCode || !sessionToken) return;
 
     const socket = getSocket();
-    console.log('[useWebRTC] socket connected:', socket.connected);
 
     const handleOffer = async (data: { sdp: string; sessionToken: string }) => {
-      console.log('[useWebRTC] received webrtc-offer', { sessionTokenMatch: data.sessionToken === sessionToken });
       if (data.sessionToken !== sessionToken) return;
 
       try {
@@ -35,7 +32,6 @@ export function useWebRTC(roomCode: string | null, sessionToken: string | null) 
         });
 
         pc.ontrack = (event: RTCTrackEvent) => {
-          console.log('[useWebRTC] ontrack fired', { streams: event.streams?.length });
           if (event.streams && event.streams[0]) {
             setRemoteStream(event.streams[0]);
           }
@@ -43,9 +39,7 @@ export function useWebRTC(roomCode: string | null, sessionToken: string | null) 
 
         await webrtcService.setRemoteOffer(data.sdp);
         const answer = await webrtcService.createAnswer();
-        console.log('[useWebRTC] created answer, sending...');
         await roomService.sendAnswer(answer.sdp || '', sessionToken);
-        console.log('[useWebRTC] answer sent');
       } catch (error) {
         console.error('[useWebRTC] Failed to handle offer:', error);
         toast.error('Failed to connect to presentation');
@@ -54,12 +48,10 @@ export function useWebRTC(roomCode: string | null, sessionToken: string | null) 
     };
 
     const handleAnswer = async (data: { sdp: string; sessionToken: string }) => {
-      console.log('[useWebRTC] received webrtc-answer', { sessionTokenMatch: data.sessionToken === sessionToken });
       if (data.sessionToken !== sessionToken) return;
 
       try {
         await webrtcService.setRemoteDescription(data.sdp);
-        console.log('[useWebRTC] remote description set');
       } catch (error) {
         console.error('[useWebRTC] Failed to handle answer:', error);
       }
@@ -71,7 +63,6 @@ export function useWebRTC(roomCode: string | null, sessionToken: string | null) 
       sdpMLineIndex: number;
       sessionToken: string;
     }) => {
-      console.log('[useWebRTC] received ice-candidate');
       if (data.sessionToken !== sessionToken) return;
 
       try {
@@ -89,10 +80,7 @@ export function useWebRTC(roomCode: string | null, sessionToken: string | null) 
     socket.on('webrtc-answer', handleAnswer);
     socket.on('ice-candidate', handleIceCandidate);
 
-    console.log('[useWebRTC] listeners registered');
-
     return () => {
-      console.log('[useWebRTC] cleanup');
       socket.off('webrtc-offer', handleOffer);
       socket.off('webrtc-answer', handleAnswer);
       socket.off('ice-candidate', handleIceCandidate);

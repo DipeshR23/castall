@@ -25,7 +25,6 @@ export default function StartSharing() {
 
       try {
         await webrtcService.setRemoteDescription(data.sdp);
-        console.log('[StartSharing] Remote description set from answer');
       } catch (error) {
         console.error('[StartSharing] Failed to handle answer:', error);
       }
