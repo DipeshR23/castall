@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   res.json({
     status: 'ok',
     uptime: process.uptime(),
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/version', (req, res) => {
+router.get('/version', (_req, res) => {
   res.json({
     version: '1.0.0',
     name: 'castall-backend',
