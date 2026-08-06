@@ -278,7 +278,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                 onClick={requestCamera}
                 className="w-full flex items-center justify-center gap-2 rounded-button bg-primary px-4 py-3 text-base font-semibold text-white hover:bg-primary-hover transition-all duration-150 min-h-[52px]"
               >
-                <Camera className="h-5 w-5" />
+                <Camera className="h-5 w-5 sm:h-6 sm:w-6" />
                 Scan with Camera
               </button>
               <button
@@ -286,7 +286,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
               >
-                <Image className="h-5 w-5" />
+                <Image className="h-5 w-5 sm:h-6 sm:w-6" />
                 Scan from Image
               </button>
               <input
@@ -335,7 +335,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                   onClick={handleClose}
                   className="w-full flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
                 >
-                  <CameraOff className="h-5 w-5" />
+                  <CameraOff className="h-5 w-5 sm:h-6 sm:w-6" />
                   Stop Camera
                 </button>
               )}
@@ -374,7 +374,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className="w-full flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 py-3 text-base font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
               >
-                <Upload className="h-5 w-5" />
+                <Upload className="h-5 w-5 sm:h-6 sm:w-6" />
                 Choose Another Image
               </button>
               <input

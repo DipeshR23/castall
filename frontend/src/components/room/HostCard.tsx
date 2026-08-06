@@ -137,7 +137,7 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
               onClick={onReset}
               className="w-full inline-flex items-center justify-center gap-2 rounded-button border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg font-semibold text-primary hover:bg-slate-50 dark:hover:bg-slate-600 transition-all duration-150 min-h-[52px]"
             >
-              <RefreshCw className="h-6 w-6 sm:h-5 sm:w-5" />
+              <RefreshCw className="h-5 w-5 sm:h-6 sm:w-6" />
               Reset Room
             </button>
             <button
