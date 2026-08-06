@@ -42,32 +42,32 @@ export default function LandingPage() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-xl sm:max-w-3xl md:max-w-4xl px-4 sm:px-0">
-          <button
-            type="button"
-            onClick={() => navigate('/host')}
-            className="flex-1 rounded-button bg-primary px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-lg sm:text-xl md:text-2xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          >
-            <div className="flex items-center justify-center gap-2 sm:gap-3">
-              <Monitor className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
-              <span>Host Presentation</span>
-            </div>
-          </button>
-          <button
-            type="button"
-            onClick={() => navigate('/share')}
-            className="flex-1 rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-lg sm:text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-          >
-            <div className="flex items-center justify-center gap-2 sm:gap-3">
-              <MonitorPlay className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" />
-              <span>Share Screen</span>
-            </div>
-          </button>
-        </div>
-
-        {/* Helper Text */}
-        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 w-full max-w-xl sm:max-w-3xl md:max-w-4xl px-4 sm:px-0">
-          <p className="flex-1 text-center text-small text-slate-400 dark:text-slate-500">Create a room and get a QR code</p>
-          <p className="flex-1 text-center text-small text-slate-400 dark:text-slate-500">Join a room and share your screen</p>
+          <div className="flex flex-col gap-1.5 sm:gap-2 flex-1">
+            <button
+              type="button"
+              onClick={() => navigate('/host')}
+              className="w-full rounded-button bg-primary px-5 py-3 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-base sm:text-xl md:text-2xl font-semibold text-white shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                <Monitor className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                <span>Host Presentation</span>
+              </div>
+            </button>
+            <p className="text-center text-small text-slate-400 dark:text-slate-500">Create a room and get a QR code</p>
+          </div>
+          <div className="flex flex-col gap-1.5 sm:gap-2 flex-1">
+            <button
+              type="button"
+              onClick={() => navigate('/share')}
+              className="w-full rounded-button bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 px-5 py-3 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-14 lg:py-7 text-base sm:text-xl md:text-2xl font-semibold text-slate-700 dark:text-slate-200 shadow-soft hover:shadow-soft-hover transition-all duration-150 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              <div className="flex items-center justify-center gap-2 sm:gap-3">
+                <MonitorPlay className="h-4 w-4 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+                <span>Share Screen</span>
+              </div>
+            </button>
+            <p className="text-center text-small text-slate-400 dark:text-slate-500">Join a room and share your screen</p>
+          </div>
         </div>
       </section>
 
