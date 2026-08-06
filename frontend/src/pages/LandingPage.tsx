@@ -77,7 +77,7 @@ export default function LandingPage() {
           <h2 className="text-section-title font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">
             How it works
           </h2>
-          <p className="text-small text-slate-500 dark:text-slate-400">
+          <p className="text-small sm:text-base md:text-lg text-slate-500 dark:text-slate-400">
             Just 3 simple steps
           </p>
         </div>
@@ -94,12 +94,12 @@ export default function LandingPage() {
                 </div>
 
                 {/* Icon */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center mb-3 sm:mb-4">
-                  <step.Icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 text-slate-700 dark:text-slate-300" />
+                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center mb-3 sm:mb-4">
+                  <step.Icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 lg:h-14 lg:w-14 xl:h-16 xl:w-16 text-slate-700 dark:text-slate-300" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-small sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white leading-snug px-2">
+                <h3 className="text-small sm:text-base md:text-lg lg:text-xl font-semibold text-slate-900 dark:text-white leading-snug px-2">
                   {step.title}
                 </h3>
               </div>
