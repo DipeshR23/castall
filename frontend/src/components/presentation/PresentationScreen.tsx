@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import { WifiOff } from 'lucide-react';
 import Spinner from '../ui/Spinner.js';
 
 interface PresentationScreenProps {
@@ -57,7 +56,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         />
       ) : sessionEnded ? (
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center px-4">
-          <WifiOff className="h-12 w-12 text-error mb-4" />
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mt-8 mb-4">Session Ended</h2>
           <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300">{sessionEndMessage}</p>
         </div>
