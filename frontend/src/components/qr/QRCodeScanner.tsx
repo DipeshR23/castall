@@ -27,6 +27,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const onScanRef = useRef(onScan);
   const handleCloseRef = useRef(onClose);
   const cameraStartingRef = useRef(false);
+  const cameraStartedRef = useRef(false);
 
   useEffect(() => {
     onScanRef.current = onScan;
@@ -37,7 +38,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   }, [onClose]);
 
   const stopCamera = useCallback(async () => {
-    if (cameraScannerRef.current) {
+    if (cameraStartedRef.current && cameraScannerRef.current) {
       try {
         await cameraScannerRef.current.stop();
       } catch {
@@ -54,6 +55,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       setCameraReady(false);
     }
     cameraStartingRef.current = false;
+    cameraStartedRef.current = false;
   }, []);
 
   const cleanupFileScanner = useCallback(() => {
@@ -154,6 +156,7 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
       if (mountedRef.current) {
         setCameraReady(true);
+        cameraStartedRef.current = true;
       }
       cameraStartingRef.current = false;
     } catch (err) {
@@ -177,7 +180,9 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
 
   useEffect(() => {
     if (mode !== 'camera') {
-      void stopCamera();
+      if (cameraStartedRef.current) {
+        void stopCamera();
+      }
     }
   }, [mode, stopCamera]);
 
