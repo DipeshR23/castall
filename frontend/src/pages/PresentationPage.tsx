@@ -77,7 +77,7 @@ export default function PresentationPage() {
         <ConnectionStatusButton connected={isConnected} />
       </div>
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
-        <ConnectionStatusButton connected={false} label="Exit" onClick={handleDisconnect} icon={<LogOut className="h-5 w-5" />} />
+        <ConnectionStatusButton connected={false} label="Exit" onClick={handleDisconnect} icon={<LogOut className="h-5 w-5" />} hoverable />
       </div>
       <PresentationScreen remoteStream={remoteStream} sessionEnded={sessionEnded} sessionEndMessage={sessionEndMessage} />
     </div>
