@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Share your screen to any device instantly — no software installation required.
+  Share your screen to any device instantly- no software installation required.
 </p>
 
 <p align="center">
@@ -787,9 +787,8 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 **Dipesh Rijal**
 
 - GitHub: [@DipeshR23](https://github.com/DipeshR23)
-- LinkedIn: [linkedin.com/in/dipeshrijal](https://linkedin.com/in/dipeshrijal)
-- Portfolio: [dipeshrijal.com.np](https://dipeshrijal.com.np)
-- Email: dipeshrijal@gmail.com
+- LinkedIn: [linkedin.com/in/dipeshrijal45](https://www.linkedin.com/in/dipeshrijal45/)
+- Email: rdtech9347@gmail.com
 
 ---
 
