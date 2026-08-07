@@ -65,3 +65,30 @@ a {
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #475569;
 }
+
+/* Presentation page smoke animation */
+@keyframes smoke-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(5%, 3%) scale(1.05); }
+  50% { transform: translate(2%, 6%) scale(1.02); }
+  75% { transform: translate(-3%, 2%) scale(0.98); }
+}
+
+@keyframes smoke-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-4%, 5%) scale(1.04); }
+  50% { transform: translate(-6%, 2%) scale(0.97); }
+  75% { transform: translate(3%, -3%) scale(1.03); }
+}
+
+@keyframes smoke-drift-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(3%, -4%) scale(1.06); }
+  66% { transform: translate(-4%, -2%) scale(0.96); }
+}
+
+@keyframes smoke-drift-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-5%, 4%) scale(1.03); }
+  66% { transform: translate(4%, -5%) scale(0.98); }
+}
