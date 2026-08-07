@@ -88,18 +88,18 @@ export default function LandingPage() {
               <div key={step.num} className="flex flex-col items-center text-center">
                 {/* Number Badge */}
                 <div className="mb-4 sm:mb-6">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold shadow-soft">
+                  <div className="w-[clamp(1.5rem,1.5vw+1rem,2.5rem)] h-[clamp(1.5rem,1.5vw+1rem,2.5rem)] rounded-full bg-primary text-white flex items-center justify-center text-[clamp(0.75rem,0.8vw,1rem)] font-bold shadow-soft">
                     {step.num}
                   </div>
                 </div>
 
                 {/* Icon */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center mb-3 sm:mb-4">
-                  <step.Icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 lg:h-14 lg:w-14 xl:h-16 xl:w-16 text-slate-700 dark:text-slate-300" />
+                <div className="w-[clamp(3.5rem,5vw+2.5rem,7rem)] h-[clamp(3.5rem,5vw+2.5rem,7rem)] rounded-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-soft flex items-center justify-center mb-3 sm:mb-4">
+                  <step.Icon className="h-[clamp(2.5rem,3vw+1.75rem,5.5rem)] w-[clamp(2.5rem,3vw+1.75rem,5.5rem)] text-slate-700 dark:text-slate-300" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-small sm:text-base md:text-lg lg:text-xl font-semibold text-slate-900 dark:text-white leading-snug px-2">
+                <h3 className="text-[clamp(0.9375rem,1vw+0.5rem,1.25rem)] font-semibold text-slate-900 dark:text-white leading-snug px-2">
                   {step.title}
                 </h3>
               </div>
