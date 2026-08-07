@@ -1,4 +1,4 @@
-import { Wifi, WifiOff } from 'lucide-react';
+import { CheckCircle2, XCircle } from 'lucide-react';
 
 interface ConnectionStatusButtonProps {
   connected?: boolean;
@@ -18,7 +18,7 @@ export default function ConnectionStatusButton({ connected, label, onClick, icon
           : 'border-error/40 bg-error/10 text-error'
       }`}
     >
-      {connected ? <Wifi className="h-5 w-5" /> : (icon ?? <WifiOff className="h-5 w-5" />)}
+      {connected ? <CheckCircle2 className="h-5 w-5" /> : (icon ?? <XCircle className="h-5 w-5" />)}
       <span className="hidden sm:inline">{label ?? (connected ? 'Connected' : 'Disconnected')}</span>
     </button>
   );
