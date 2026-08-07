@@ -9,6 +9,9 @@ interface Ball {
   radius: number;
   ref: React.RefObject<HTMLDivElement | null>;
   phase: number;
+  targetAngle: number;
+  angleTimer: number;
+  angleInterval: number;
 }
 
 interface PresentationScreenProps {
@@ -40,9 +43,9 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       ? [darkBallRef1, darkBallRef2, darkBallRef3]
       : [lightBallRef1, lightBallRef2, lightBallRef3];
 
-    const MIN_SPEED = 0.9;
-    const MAX_SPEED = 2.0;
-    const STEER_STRENGTH = 0.12;
+    const MIN_SPEED = 1.0;
+    const MAX_SPEED = 2.2;
+    const WANDER_STRENGTH = 0.18;
 
     const balls: Ball[] = ballRefs.map((ref) => {
       const size = ref.current?.offsetWidth || 300;
@@ -55,6 +58,9 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         radius: size / 2,
         ref,
         phase: Math.random() * Math.PI * 2,
+        targetAngle: angle,
+        angleTimer: 0,
+        angleInterval: 60 + Math.random() * 120,
       };
     });
 
@@ -69,19 +75,25 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       const height = window.innerHeight;
 
       balls.forEach((ball) => {
-        ball.vx += Math.cos(currentTime * 0.0015 + ball.phase) * STEER_STRENGTH * dt;
-        ball.vy += Math.sin(currentTime * 0.0019 + ball.phase) * STEER_STRENGTH * dt;
+        ball.angleTimer += dt;
+        if (ball.angleTimer >= ball.angleInterval) {
+          ball.angleTimer = 0;
+          ball.angleInterval = 60 + Math.random() * 120;
+          ball.targetAngle += (Math.random() - 0.5) * Math.PI * 1.5;
+        }
+
+        const currentAngle = Math.atan2(ball.vy, ball.vx);
+        let angleDiff = ball.targetAngle - currentAngle;
+        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+        const newAngle = currentAngle + angleDiff * WANDER_STRENGTH * dt;
 
         const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-        if (speed > 0.0001) {
-          const clamped = Math.max(MIN_SPEED, Math.min(MAX_SPEED, speed));
-          ball.vx = (ball.vx / speed) * clamped;
-          ball.vy = (ball.vy / speed) * clamped;
-        } else {
-          const angle = Math.random() * Math.PI * 2;
-          ball.vx = Math.cos(angle) * MIN_SPEED;
-          ball.vy = Math.sin(angle) * MIN_SPEED;
-        }
+        const targetSpeed = MIN_SPEED + Math.abs(Math.sin(currentTime * 0.0008 + ball.phase)) * (MAX_SPEED - MIN_SPEED);
+        const newSpeed = speed + (targetSpeed - speed) * 0.02 * dt;
+
+        ball.vx = Math.cos(newAngle) * newSpeed;
+        ball.vy = Math.sin(newAngle) * newSpeed;
 
         ball.x += ball.vx * dt;
         ball.y += ball.vy * dt;
@@ -90,17 +102,21 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         if (ball.x <= 0) {
           ball.x = 0;
           ball.vx = Math.abs(ball.vx);
+          ball.targetAngle = Math.acos(Math.abs(ball.vx) / Math.max(0.0001, Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy))) * (Math.random() < 0.5 ? 1 : -1);
         } else if (ball.x + size >= width) {
           ball.x = width - size;
           ball.vx = -Math.abs(ball.vx);
+          ball.targetAngle = Math.PI - Math.acos(Math.abs(ball.vx) / Math.max(0.0001, Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy))) * (Math.random() < 0.5 ? 1 : -1);
         }
 
         if (ball.y <= 0) {
           ball.y = 0;
           ball.vy = Math.abs(ball.vy);
+          ball.targetAngle = Math.asin(Math.abs(ball.vy) / Math.max(0.0001, Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy))) * (Math.random() < 0.5 ? 1 : -1);
         } else if (ball.y + size >= height) {
           ball.y = height - size;
           ball.vy = -Math.abs(ball.vy);
+          ball.targetAngle = -Math.asin(Math.abs(ball.vy) / Math.max(0.0001, Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy))) * (Math.random() < 0.5 ? 1 : -1);
         }
       });
 
@@ -127,10 +143,12 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             const dot = dvx * nx + dvy * ny;
 
             if (dot > 0) {
-              b1.vx -= dot * nx;
-              b1.vy -= dot * ny;
-              b2.vx += dot * nx;
-              b2.vy += dot * ny;
+              const restitution = 0.9;
+              const impulse = dot * restitution;
+              b1.vx -= impulse * nx;
+              b1.vy -= impulse * ny;
+              b2.vx += impulse * nx;
+              b2.vy += impulse * ny;
             }
           }
         }
