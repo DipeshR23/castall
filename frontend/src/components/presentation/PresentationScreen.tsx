@@ -1,6 +1,15 @@
 import { useRef, useEffect } from 'react';
 import Spinner from '../ui/Spinner.js';
 
+interface Ball {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  ref: React.RefObject<HTMLDivElement | null>;
+}
+
 interface PresentationScreenProps {
   remoteStream: MediaStream | null;
   sessionEnded?: boolean;
@@ -9,6 +18,12 @@ interface PresentationScreenProps {
 
 export default function PresentationScreen({ remoteStream, sessionEnded, sessionEndMessage }: PresentationScreenProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const lightBallRef1 = useRef<HTMLDivElement | null>(null);
+  const lightBallRef2 = useRef<HTMLDivElement | null>(null);
+  const lightBallRef3 = useRef<HTMLDivElement | null>(null);
+  const darkBallRef1 = useRef<HTMLDivElement | null>(null);
+  const darkBallRef2 = useRef<HTMLDivElement | null>(null);
+  const darkBallRef3 = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -17,6 +32,122 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       video.play().catch(() => {});
     }
   }, [remoteStream]);
+
+  useEffect(() => {
+    const isDark = document.documentElement.classList.contains('dark');
+    const ballRefs = isDark
+      ? [darkBallRef1, darkBallRef2, darkBallRef3]
+      : [lightBallRef1, lightBallRef2, lightBallRef3];
+    const balls: Ball[] = ballRefs.map((ref) => {
+      const size = ref.current?.offsetWidth || 300;
+      return {
+        x: Math.random() * (window.innerWidth - size),
+        y: Math.random() * (window.innerHeight - size),
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        radius: size / 2,
+        ref,
+      };
+    });
+
+    let animationId: number;
+    const friction = 0.999;
+    const maxSpeed = 0.6;
+
+    const animate = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      balls.forEach((ball) => {
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.vx *= friction;
+        ball.vy *= friction;
+
+        const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+        if (speed > maxSpeed) {
+          ball.vx = (ball.vx / speed) * maxSpeed;
+          ball.vy = (ball.vy / speed) * maxSpeed;
+        }
+
+        const size = ball.radius * 2;
+        if (ball.x <= 0) {
+          ball.x = 0;
+          ball.vx = Math.abs(ball.vx) * 0.8;
+        } else if (ball.x + size >= width) {
+          ball.x = width - size;
+          ball.vx = -Math.abs(ball.vx) * 0.8;
+        }
+
+        if (ball.y <= 0) {
+          ball.y = 0;
+          ball.vy = Math.abs(ball.vy) * 0.8;
+        } else if (ball.y + size >= height) {
+          ball.y = height - size;
+          ball.vy = -Math.abs(ball.vy) * 0.8;
+        }
+      });
+
+      for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+          const b1 = balls[i];
+          const b2 = balls[j];
+          const dx = (b2.x + b2.radius) - (b1.x + b1.radius);
+          const dy = (b2.y + b2.radius) - (b1.y + b1.radius);
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const minDist = b1.radius + b2.radius;
+
+          if (dist < minDist && dist > 0) {
+            const nx = dx / dist;
+            const ny = dy / dist;
+            const overlap = minDist - dist;
+            b1.x -= nx * overlap * 0.5;
+            b1.y -= ny * overlap * 0.5;
+            b2.x += nx * overlap * 0.5;
+            b2.y += ny * overlap * 0.5;
+
+            const dvx = b2.vx - b1.vx;
+            const dvy = b2.vy - b1.vy;
+            const dot = dvx * nx + dvy * ny;
+
+            if (dot < 0) {
+              b1.vx += dot * nx * 0.5;
+              b1.vy += dot * ny * 0.5;
+              b2.vx -= dot * nx * 0.5;
+              b2.vy -= dot * ny * 0.5;
+            }
+          }
+        }
+      }
+
+      balls.forEach((ball) => {
+        if (ball.ref.current) {
+          ball.ref.current.style.transform = `translate(${ball.x}px, ${ball.y}px)`;
+        }
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+
+    const handleResize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      balls.forEach((ball) => {
+        const size = ball.radius * 2;
+        if (ball.x + size > width) ball.x = width - size;
+        if (ball.y + size > height) ball.y = height - size;
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
@@ -45,21 +176,24 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         <div className="dark:hidden">
           {/* Large ellipse - top left */}
           <div
-            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
+            ref={lightBallRef1}
+            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(37,99,235,0.25) 20px, rgba(37,99,235,0.25) 40px)',
             }}
           />
           {/* Medium ellipse - bottom right */}
           <div
-            className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20"
+            ref={lightBallRef2}
+            className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(37,99,235,0.22) 15px, rgba(37,99,235,0.22) 30px)',
             }}
           />
           {/* Small ellipse - center right */}
           <div
-            className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15"
+            ref={lightBallRef3}
+            className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(37,99,235,0.2) 12px, rgba(37,99,235,0.2) 24px)',
             }}
@@ -70,21 +204,24 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         <div className="hidden dark:block">
           {/* Large ellipse - top left */}
           <div
-            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
+            ref={darkBallRef1}
+            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.3) 20px, rgba(255,255,255,0.3) 40px)',
             }}
           />
           {/* Medium ellipse - bottom right */}
           <div
-            className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20"
+            ref={darkBallRef2}
+            className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,255,255,0.25) 15px, rgba(255,255,255,0.25) 30px)',
             }}
           />
           {/* Small ellipse - center right */}
           <div
-            className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15"
+            ref={darkBallRef3}
+            className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(255,255,255,0.2) 12px, rgba(255,255,255,0.2) 24px)',
             }}
@@ -113,7 +250,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-8">The presenter will begin sharing shortly...</p>
           <div className="flex items-center gap-2 text-base text-slate-500 dark:text-slate-400">
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10z" />
               <path d="M12 18a6 6 0 100-12 6 6 0 000 12z" />
               <circle cx="12" cy="12" r="2" />
             </svg>
