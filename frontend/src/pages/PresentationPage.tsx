@@ -9,13 +9,20 @@ import ConnectionStatusButton from '../components/ui/ConnectionStatusButton.js';
 
 export default function PresentationPage() {
   const navigate = useNavigate();
-  const { sessionToken, roomCode } = useRoom();
+  const { sessionToken, roomCode, reset } = useRoom();
   const { remoteStream, cleanup } = useWebRTC(roomCode, sessionToken);
   useWebRTCStats(remoteStream, !!remoteStream);
-  const { socket } = useSocket();
+  const { socket, disconnect } = useSocket();
 
   const handleDisconnect = () => {
     cleanup();
+    navigate('/');
+  };
+
+  const handleExit = () => {
+    cleanup();
+    disconnect();
+    reset();
     navigate('/');
   };
 
@@ -50,8 +57,11 @@ export default function PresentationPage() {
 
   return (
     <div className="relative">
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50">
         <ConnectionStatusButton connected={isConnected} />
+      </div>
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
+        <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
       </div>
       <PresentationScreen remoteStream={remoteStream} onDisconnect={handleDisconnect} />
     </div>

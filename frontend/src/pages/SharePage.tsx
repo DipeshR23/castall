@@ -6,16 +6,29 @@ import StartSharing from '../components/presentation/StartSharing';
 import ConnectionStatusButton from '../components/ui/ConnectionStatusButton.js';
 import { useRoom } from '../contexts/RoomContext.js';
 import { useSocket } from '../hooks/useSocket.js';
+import { useNavigate } from 'react-router-dom';
+import { webrtcService } from '../services/webrtc.js';
+import { roomService } from '../services/room.js';
 
 type ShareStep = 'join' | 'waiting' | 'sharing';
 
 export default function SharePage() {
-  const { setStatus, setSessionToken, isJoining } = useRoom();
-  const { socket } = useSocket();
+  const navigate = useNavigate();
+  const { setStatus, setSessionToken, isJoining, reset } = useRoom();
+  const { socket, disconnect } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
 
   const isConnected = step === 'waiting' || step === 'sharing';
+
+  const handleExit = () => {
+    webrtcService.cleanup();
+    roomService.stopSharing();
+    roomService.disconnectSession();
+    disconnect();
+    reset();
+    navigate('/');
+  };
 
   useEffect(() => {
     if (!socket) return;
@@ -78,8 +91,11 @@ export default function SharePage() {
   if (step === 'waiting') {
     return (
       <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
           <ConnectionStatusButton connected={isConnected} />
+        </div>
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
         </div>
         <div className="w-full max-w-7xl">
           <WaitingForApproval />
@@ -91,8 +107,11 @@ export default function SharePage() {
   if (step === 'sharing') {
     return (
       <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
           <ConnectionStatusButton connected={isConnected} />
+        </div>
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
         </div>
         <div className="w-full max-w-7xl">
           <StartSharing />
@@ -103,8 +122,11 @@ export default function SharePage() {
 
   return (
     <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+      <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
         <ConnectionStatusButton connected={isConnected} />
+      </div>
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
       </div>
       <div className="w-full max-w-7xl">
         <JoinCard
