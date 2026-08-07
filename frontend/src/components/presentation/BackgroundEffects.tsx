@@ -239,7 +239,7 @@ export default function BackgroundEffects() {
   return (
     <>
       {/* Smoke background */}
-      <div className="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         {/* Light mode smoke */}
         <div className="dark:hidden">
           <div className="absolute -top-20 -left-20 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full bg-blue-200/70 blur-[100px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
