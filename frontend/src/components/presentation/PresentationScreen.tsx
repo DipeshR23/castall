@@ -24,10 +24,10 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* Light mode smoke */}
         <div className="dark:hidden">
-          <div className="absolute -top-20 -left-20 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full bg-slate-200/60 blur-[100px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
-          <div className="absolute top-1/3 -right-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-200/50 blur-[90px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
-          <div className="absolute -bottom-20 left-1/4 w-[65vw] h-[65vw] max-w-[650px] max-h-[650px] rounded-full bg-slate-100/70 blur-[110px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
-          <div className="absolute top-2/3 right-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-blue-100/40 blur-[80px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
+          <div className="absolute -top-20 -left-20 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full bg-blue-200/70 blur-[100px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 -right-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-300/60 blur-[90px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
+          <div className="absolute -bottom-20 left-1/4 w-[65vw] h-[65vw] max-w-[650px] max-h-[650px] rounded-full bg-blue-100/80 blur-[110px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
+          <div className="absolute top-2/3 right-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-blue-200/50 blur-[80px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
         </div>
 
         {/* Dark mode smoke */}
