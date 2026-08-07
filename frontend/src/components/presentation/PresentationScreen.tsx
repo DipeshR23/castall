@@ -243,25 +243,28 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           {/* Large ellipse */}
           <div
             ref={lightBallRef1}
-            className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-20 will-change-transform"
+            className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-30 will-change-transform"
             style={{
-              background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(37,99,235,0.25) 20px, rgba(37,99,235,0.25) 40px)',
+              background: 'repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(37,99,235,0.35) 15px, rgba(37,99,235,0.35) 30px)',
+              boxShadow: '0 0 60px rgba(37,99,235,0.25), 0 0 120px rgba(37,99,235,0.15)',
             }}
           />
           {/* Medium ellipse */}
           <div
             ref={lightBallRef2}
-            className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-20 will-change-transform"
+            className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-30 will-change-transform"
             style={{
-              background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(37,99,235,0.22) 15px, rgba(37,99,235,0.22) 30px)',
+              background: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(37,99,235,0.3) 12px, rgba(37,99,235,0.3) 24px)',
+              boxShadow: '0 0 50px rgba(37,99,235,0.2), 0 0 100px rgba(37,99,235,0.1)',
             }}
           />
           {/* Small ellipse */}
           <div
             ref={lightBallRef3}
-            className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full opacity-15 will-change-transform"
+            className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full opacity-25 will-change-transform"
             style={{
-              background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(37,99,235,0.2) 12px, rgba(37,99,235,0.2) 24px)',
+              background: 'repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(37,99,235,0.28) 10px, rgba(37,99,235,0.28) 20px)',
+              boxShadow: '0 0 40px rgba(37,99,235,0.18), 0 0 80px rgba(37,99,235,0.1)',
             }}
           />
         </div>
@@ -271,25 +274,28 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           {/* Large ellipse */}
           <div
             ref={darkBallRef1}
-            className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-20 will-change-transform"
+            className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-25 will-change-transform"
             style={{
-              background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.3) 20px, rgba(255,255,255,0.3) 40px)',
+              background: 'repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(37,99,235,0.45) 15px, rgba(37,99,235,0.45) 30px)',
+              boxShadow: '0 0 60px rgba(37,99,235,0.35), 0 0 120px rgba(37,99,235,0.2)',
             }}
           />
           {/* Medium ellipse */}
           <div
             ref={darkBallRef2}
-            className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-20 will-change-transform"
+            className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-25 will-change-transform"
             style={{
-              background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,255,255,0.25) 15px, rgba(255,255,255,0.25) 30px)',
+              background: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(37,99,235,0.4) 12px, rgba(37,99,235,0.4) 24px)',
+              boxShadow: '0 0 50px rgba(37,99,235,0.3), 0 0 100px rgba(37,99,235,0.15)',
             }}
           />
           {/* Small ellipse */}
           <div
             ref={darkBallRef3}
-            className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full opacity-15 will-change-transform"
+            className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full opacity-20 will-change-transform"
             style={{
-              background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(255,255,255,0.2) 12px, rgba(255,255,255,0.2) 24px)',
+              background: 'repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(37,99,235,0.35) 10px, rgba(37,99,235,0.35) 20px)',
+              boxShadow: '0 0 40px rgba(37,99,235,0.25), 0 0 80px rgba(37,99,235,0.12)',
             }}
           />
         </div>
