@@ -127,7 +127,7 @@ export default function StartSharing() {
   return (
     <div className="w-full rounded-card bg-white dark:bg-slate-800 p-6 sm:p-8 shadow-soft border border-slate-200 dark:border-slate-700">
       <div className="flex flex-col items-center text-center">
-        <Monitor className="h-12 w-12 text-primary mb-4" />
+        <Monitor className="h-10 w-10 sm:h-12 sm:w-12 text-primary mb-4" />
         <h2 className="text-card-title font-semibold text-slate-900 dark:text-white mb-2">Ready to Share</h2>
         <p className="text-small text-slate-500 dark:text-slate-400 mb-6">Click the button below to start presenting</p>
         <Button onClick={startSharing} disabled={isConnecting || !sessionToken} className="flex items-center gap-2">
