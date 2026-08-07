@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import HostCard from '../components/room/HostCard';
+import BackgroundEffects from '../components/presentation/BackgroundEffects.js';
 import { useRoom } from '../contexts/RoomContext.js';
 import { useSocket } from '../hooks/useSocket.js';
 import { roomService } from '../services/room.js';
@@ -190,49 +191,62 @@ export default function HostPage() {
 
   if (!isConnected) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4" role="status" aria-label="Connecting to server">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-sm text-slate-500 dark:text-slate-400">Connecting to server...</p>
+      <div className="relative flex flex-col items-center justify-center gap-4" role="status" aria-label="Connecting to server">
+        <BackgroundEffects />
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm text-slate-500 dark:text-slate-400">Connecting to server...</p>
+        </div>
       </div>
     );
   }
 
   if (isCreating && !roomCode) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4" role="status" aria-label="Creating room">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-sm text-slate-500 dark:text-slate-400">Creating room...</p>
+      <div className="relative flex flex-col items-center justify-center gap-4" role="status" aria-label="Creating room">
+        <BackgroundEffects />
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm text-slate-500 dark:text-slate-400">Creating room...</p>
+        </div>
       </div>
     );
   }
 
   if (initError) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 px-4" role="alert">
-        <p className="text-sm text-error text-center">{initError}</p>
-        <button
-          type="button"
-          onClick={handleRetry}
-          className="rounded-xl bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-hover transition-all duration-150 min-h-[44px]"
-        >
-          Retry
-        </button>
+      <div className="relative flex flex-col items-center justify-center gap-4 px-4" role="alert">
+        <BackgroundEffects />
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+          <p className="text-sm text-error text-center">{initError}</p>
+          <button
+            type="button"
+            onClick={handleRetry}
+            className="rounded-xl bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-hover transition-all duration-150 min-h-[44px]"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
 
   if (!roomCode || status === 'ENDED' || status === 'EXPIRED' || status === 'DESTROYED') {
     return (
-      <div className="flex flex-col items-center justify-center gap-4" role="status" aria-label="Creating new room">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-sm text-slate-500 dark:text-slate-400">Creating a new room...</p>
+      <div className="relative flex flex-col items-center justify-center gap-4" role="status" aria-label="Creating new room">
+        <BackgroundEffects />
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm text-slate-500 dark:text-slate-400">Creating a new room...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-72px)] w-full px-[5%] py-8 sm:py-12">
-      <div className="w-full max-w-7xl">
+    <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] w-full px-[5%] py-8 sm:py-12">
+      <BackgroundEffects />
+      <div className="relative z-10 w-full max-w-7xl">
         <HostCard
           roomCode={roomCode}
           status={status}
