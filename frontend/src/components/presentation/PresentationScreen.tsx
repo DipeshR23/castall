@@ -21,21 +21,21 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
   return (
     <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
       {/* Smoke background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* Light mode smoke */}
         <div className="dark:hidden">
-          <div className="absolute -top-20 -left-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-slate-200/40 blur-[80px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
-          <div className="absolute top-1/3 -right-20 w-[50vw] h-[50vw] max-w-[500px] max-h-[500px] rounded-full bg-blue-200/30 blur-[70px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
-          <div className="absolute -bottom-20 left-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-slate-100/50 blur-[90px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
-          <div className="absolute top-2/3 right-1/4 w-[45vw] h-[45vw] max-w-[450px] max-h-[450px] rounded-full bg-blue-100/25 blur-[60px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
+          <div className="absolute -top-20 -left-20 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full bg-slate-200/60 blur-[100px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 -right-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-200/50 blur-[90px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
+          <div className="absolute -bottom-20 left-1/4 w-[65vw] h-[65vw] max-w-[650px] max-h-[650px] rounded-full bg-slate-100/70 blur-[110px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
+          <div className="absolute top-2/3 right-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-blue-100/40 blur-[80px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
         </div>
 
         {/* Dark mode smoke */}
         <div className="hidden dark:block">
-          <div className="absolute -top-20 -left-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-500/15 blur-[80px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
-          <div className="absolute top-1/3 -right-20 w-[50vw] h-[50vw] max-w-[500px] max-h-[500px] rounded-full bg-blue-400/10 blur-[70px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
-          <div className="absolute -bottom-20 left-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-slate-700/20 blur-[90px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
-          <div className="absolute top-2/3 right-1/4 w-[45vw] h-[45vw] max-w-[450px] max-h-[450px] rounded-full bg-blue-600/10 blur-[60px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
+          <div className="absolute -top-20 -left-20 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] rounded-full bg-blue-500/25 blur-[100px] animate-[smoke-drift-1_22s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 -right-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-400/20 blur-[90px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
+          <div className="absolute -bottom-20 left-1/4 w-[65vw] h-[65vw] max-w-[650px] max-h-[650px] rounded-full bg-slate-700/30 blur-[110px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
+          <div className="absolute top-2/3 right-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-blue-600/15 blur-[80px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
         </div>
       </div>
 
