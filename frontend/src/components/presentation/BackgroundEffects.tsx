@@ -25,9 +25,11 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
   const darkBallRef1 = useRef<HTMLDivElement | null>(null);
   const darkBallRef2 = useRef<HTMLDivElement | null>(null);
   const darkBallRef3 = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const { theme } = useTheme();
   const themeRef = useRef(theme);
   const topOffsetRef = useRef(topOffset);
+  const containerSizeRef = useRef({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
     themeRef.current = theme;
@@ -36,6 +38,31 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
   useEffect(() => {
     topOffsetRef.current = topOffset;
   });
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const updateSize = () => {
+      const rect = container.getBoundingClientRect();
+      containerSizeRef.current = {
+        width: rect.width,
+        height: rect.height,
+      };
+    };
+
+    updateSize();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+
+    resizeObserver.observe(container);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const MIN_SPEED = 1.0;
@@ -62,8 +89,8 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
       const size = getBallSize(ref);
       const angle = (index / 3) * Math.PI * 2 + Math.random() * 0.5;
       return {
-        x: Math.random() * Math.max(0, window.innerWidth - size),
-        y: Math.random() * Math.max(0, window.innerHeight - size),
+        x: Math.random() * Math.max(0, containerSizeRef.current.width - size),
+        y: Math.random() * Math.max(0, containerSizeRef.current.height - size),
         vx: Math.cos(angle) * MIN_SPEED,
         vy: Math.sin(angle) * MIN_SPEED,
         radius: size / 2,
@@ -109,8 +136,9 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
         balls[i].ref = visibleRefs[i];
       }
 
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const containerSize = containerSizeRef.current;
+      const width = containerSize.width;
+      const height = containerSize.height;
 
       balls.forEach((ball) => {
         ball.angleTimer += dt;
@@ -224,8 +252,8 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
     animationId = requestAnimationFrame(animate);
 
     const handleResize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const width = containerSizeRef.current.width;
+      const height = containerSizeRef.current.height;
       const visibleRefs = getVisibleRefs();
       balls.forEach((ball, index) => {
         const newSize = getBallSize(visibleRefs[index]);
@@ -246,7 +274,7 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
   }, []);
 
   return (
-    <>
+    <div ref={containerRef} className="absolute inset-0">
       {/* Smoke background */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         {/* Light mode smoke */}
@@ -322,6 +350,6 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
