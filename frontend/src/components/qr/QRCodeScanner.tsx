@@ -39,12 +39,14 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
   const stopCamera = useCallback(async () => {
     if (cameraScannerRef.current) {
       try {
-        const state = cameraScannerRef.current.getState();
-        if (state === 2) {
-          await cameraScannerRef.current.stop();
-        }
+        await cameraScannerRef.current.stop();
       } catch {
         // ignore stop errors
+      }
+      try {
+        cameraScannerRef.current.clear();
+      } catch {
+        // ignore clear errors
       }
       cameraScannerRef.current = null;
     }
@@ -172,6 +174,12 @@ export default function QRCodeScanner({ onScan, onClose }: QRCodeScannerProps) {
       setCameraReady(false);
     }
   }, [stopCamera, cameraId]);
+
+  useEffect(() => {
+    if (mode !== 'camera') {
+      void stopCamera();
+    }
+  }, [mode, stopCamera]);
 
   const requestCamera = useCallback(() => {
     setError(null);
