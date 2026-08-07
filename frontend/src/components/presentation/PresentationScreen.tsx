@@ -38,7 +38,10 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
     const ballRefs = isDark
       ? [darkBallRef1, darkBallRef2, darkBallRef3]
       : [lightBallRef1, lightBallRef2, lightBallRef3];
-    const BASE_SPEED = 0.8;
+    const BASE_SPEED = 0.9;
+    const MIN_SPEED = 0.6;
+    const MAX_SPEED = 1.4;
+    const STEER_STRENGTH = 0.05;
     const balls: Ball[] = ballRefs.map((ref) => {
       const size = ref.current?.offsetWidth || 300;
       const angle = Math.random() * Math.PI * 2;
@@ -59,14 +62,22 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       const height = window.innerHeight;
 
       balls.forEach((ball) => {
-        ball.x += ball.vx;
-        ball.y += ball.vy;
+        ball.vx += (Math.random() - 0.5) * STEER_STRENGTH;
+        ball.vy += (Math.random() - 0.5) * STEER_STRENGTH;
 
         const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-        if (speed > 0) {
-          ball.vx = (ball.vx / speed) * BASE_SPEED;
-          ball.vy = (ball.vy / speed) * BASE_SPEED;
+        if (speed > 0.0001) {
+          const clamped = Math.max(MIN_SPEED, Math.min(MAX_SPEED, speed));
+          ball.vx = (ball.vx / speed) * clamped;
+          ball.vy = (ball.vy / speed) * clamped;
+        } else {
+          const angle = Math.random() * Math.PI * 2;
+          ball.vx = Math.cos(angle) * BASE_SPEED;
+          ball.vy = Math.sin(angle) * BASE_SPEED;
         }
+
+        ball.x += ball.vx;
+        ball.y += ball.vy;
 
         const size = ball.radius * 2;
         if (ball.x <= 0) {
@@ -95,7 +106,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           const dist = Math.sqrt(dx * dx + dy * dy);
           const minDist = b1.radius + b2.radius;
 
-          if (dist < minDist && dist > 0.001) {
+          if (dist < minDist && dist > 0.0001) {
             const nx = dx / dist;
             const ny = dy / dist;
             const overlap = minDist - dist;
@@ -120,9 +131,10 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
 
       balls.forEach((ball) => {
         const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-        if (speed > 0) {
-          ball.vx = (ball.vx / speed) * BASE_SPEED;
-          ball.vy = (ball.vy / speed) * BASE_SPEED;
+        if (speed > 0.0001) {
+          const clamped = Math.max(MIN_SPEED, Math.min(MAX_SPEED, speed));
+          ball.vx = (ball.vx / speed) * clamped;
+          ball.vy = (ball.vy / speed) * clamped;
         }
 
         if (ball.ref.current) {
