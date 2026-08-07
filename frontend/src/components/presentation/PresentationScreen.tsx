@@ -54,8 +54,19 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       dark: [darkBallRef1, darkBallRef2, darkBallRef3],
     };
 
-    const balls: Ball[] = allRefs.light.map((ref, index) => {
-      const size = ref.current?.offsetWidth || 300;
+    const getInitialRefs = () => allRefs[themeRef.current];
+    const initialRefs = getInitialRefs();
+
+    const getBallSize = (ref: React.RefObject<HTMLDivElement | null>) => {
+      const measured = ref.current?.offsetWidth ?? 0;
+      if (measured > 0) return measured;
+      if (ref === lightBallRef3 || ref === darkBallRef3) return 300;
+      if (ref === lightBallRef2 || ref === darkBallRef2) return 400;
+      return 500;
+    };
+
+    const balls: Ball[] = initialRefs.map((ref, index) => {
+      const size = getBallSize(ref);
       const angle = (index / 3) * Math.PI * 2 + Math.random() * 0.5;
       return {
         x: Math.random() * Math.max(0, window.innerWidth - size),
@@ -70,6 +81,26 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         angleInterval: 80 + Math.random() * 100,
       };
     });
+
+    for (let attempt = 0; attempt < balls.length; attempt++) {
+      for (let j = attempt + 1; j < balls.length; j++) {
+        const a = balls[attempt];
+        const b = balls[j];
+        const dx = (b.x + b.radius) - (a.x + a.radius);
+        const dy = (b.y + b.radius) - (a.y + a.radius);
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const minDist = a.radius + b.radius;
+        if (dist < minDist && dist > 0.0001) {
+          const nx = dx / dist;
+          const ny = dy / dist;
+          const overlap = minDist - dist;
+          a.x -= nx * overlap * 0.5;
+          a.y -= ny * overlap * 0.5;
+          b.x += nx * overlap * 0.5;
+          b.y += ny * overlap * 0.5;
+        }
+      }
+    }
 
     let animationId: number;
     let lastTime = performance.now();
@@ -120,27 +151,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
 
         ball.x += ball.vx * dt;
         ball.y += ball.vy * dt;
-
-        const size = ball.radius * 2;
-        if (ball.x <= 0) {
-          ball.x = 0;
-          ball.vx = Math.abs(ball.vx);
-          ball.targetAngle = Math.abs(Math.atan2(ball.vy, ball.vx));
-        } else if (ball.x + size >= width) {
-          ball.x = width - size;
-          ball.vx = -Math.abs(ball.vx);
-          ball.targetAngle = Math.PI - Math.abs(Math.atan2(ball.vy, ball.vx));
-        }
-
-        if (ball.y <= 0) {
-          ball.y = 0;
-          ball.vy = Math.abs(ball.vy);
-          ball.targetAngle = Math.abs(Math.atan2(ball.vy, ball.vx));
-        } else if (ball.y + size >= height) {
-          ball.y = height - size;
-          ball.vy = -Math.abs(ball.vy);
-          ball.targetAngle = -Math.abs(Math.atan2(ball.vy, ball.vx));
-        }
       });
 
       for (let i = 0; i < balls.length; i++) {
@@ -180,6 +190,29 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       }
 
       balls.forEach((ball) => {
+        const size = ball.radius * 2;
+        if (ball.x <= 0) {
+          ball.x = 0;
+          ball.vx = Math.abs(ball.vx);
+          ball.targetAngle = Math.abs(Math.atan2(ball.vy, ball.vx));
+        } else if (ball.x + size >= width) {
+          ball.x = width - size;
+          ball.vx = -Math.abs(ball.vx);
+          ball.targetAngle = Math.PI - Math.abs(Math.atan2(ball.vy, ball.vx));
+        }
+
+        if (ball.y <= 0) {
+          ball.y = 0;
+          ball.vy = Math.abs(ball.vy);
+          ball.targetAngle = Math.abs(Math.atan2(ball.vy, ball.vx));
+        } else if (ball.y + size >= height) {
+          ball.y = height - size;
+          ball.vy = -Math.abs(ball.vy);
+          ball.targetAngle = -Math.abs(Math.atan2(ball.vy, ball.vx));
+        }
+      });
+
+      balls.forEach((ball) => {
         const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
         if (speed > 0.0001) {
           const clamped = Math.max(MIN_SPEED, Math.min(MAX_SPEED, speed));
@@ -200,10 +233,14 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      balls.forEach((ball) => {
-        const size = ball.radius * 2;
-        if (ball.x + size > width) ball.x = width - size;
-        if (ball.y + size > height) ball.y = height - size;
+      const visibleRefs = getVisibleRefs();
+      balls.forEach((ball, index) => {
+        const newSize = getBallSize(visibleRefs[index]);
+        const newRadius = newSize / 2;
+        ball.radius = newRadius;
+        const size = newSize;
+        if (ball.x + size > width) ball.x = Math.max(0, width - size);
+        if (ball.y + size > height) ball.y = Math.max(0, height - size);
       });
     };
 
