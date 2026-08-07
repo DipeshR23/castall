@@ -38,21 +38,21 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
     const ballRefs = isDark
       ? [darkBallRef1, darkBallRef2, darkBallRef3]
       : [lightBallRef1, lightBallRef2, lightBallRef3];
+    const BASE_SPEED = 0.8;
     const balls: Ball[] = ballRefs.map((ref) => {
       const size = ref.current?.offsetWidth || 300;
+      const angle = Math.random() * Math.PI * 2;
       return {
-        x: Math.random() * (window.innerWidth - size),
-        y: Math.random() * (window.innerHeight - size),
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
+        x: Math.random() * Math.max(0, window.innerWidth - size),
+        y: Math.random() * Math.max(0, window.innerHeight - size),
+        vx: Math.cos(angle) * BASE_SPEED,
+        vy: Math.sin(angle) * BASE_SPEED,
         radius: size / 2,
         ref,
       };
     });
 
     let animationId: number;
-    const friction = 0.999;
-    const maxSpeed = 0.6;
 
     const animate = () => {
       const width = window.innerWidth;
@@ -61,30 +61,28 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       balls.forEach((ball) => {
         ball.x += ball.vx;
         ball.y += ball.vy;
-        ball.vx *= friction;
-        ball.vy *= friction;
 
         const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-        if (speed > maxSpeed) {
-          ball.vx = (ball.vx / speed) * maxSpeed;
-          ball.vy = (ball.vy / speed) * maxSpeed;
+        if (speed > 0) {
+          ball.vx = (ball.vx / speed) * BASE_SPEED;
+          ball.vy = (ball.vy / speed) * BASE_SPEED;
         }
 
         const size = ball.radius * 2;
         if (ball.x <= 0) {
           ball.x = 0;
-          ball.vx = Math.abs(ball.vx) * 0.8;
+          ball.vx = Math.abs(ball.vx);
         } else if (ball.x + size >= width) {
           ball.x = width - size;
-          ball.vx = -Math.abs(ball.vx) * 0.8;
+          ball.vx = -Math.abs(ball.vx);
         }
 
         if (ball.y <= 0) {
           ball.y = 0;
-          ball.vy = Math.abs(ball.vy) * 0.8;
+          ball.vy = Math.abs(ball.vy);
         } else if (ball.y + size >= height) {
           ball.y = height - size;
-          ball.vy = -Math.abs(ball.vy) * 0.8;
+          ball.vy = -Math.abs(ball.vy);
         }
       });
 
@@ -97,7 +95,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           const dist = Math.sqrt(dx * dx + dy * dy);
           const minDist = b1.radius + b2.radius;
 
-          if (dist < minDist && dist > 0) {
+          if (dist < minDist && dist > 0.001) {
             const nx = dx / dist;
             const ny = dy / dist;
             const overlap = minDist - dist;
@@ -106,21 +104,27 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             b2.x += nx * overlap * 0.5;
             b2.y += ny * overlap * 0.5;
 
-            const dvx = b2.vx - b1.vx;
-            const dvy = b2.vy - b1.vy;
+            const dvx = b1.vx - b2.vx;
+            const dvy = b1.vy - b2.vy;
             const dot = dvx * nx + dvy * ny;
 
-            if (dot < 0) {
-              b1.vx += dot * nx * 0.5;
-              b1.vy += dot * ny * 0.5;
-              b2.vx -= dot * nx * 0.5;
-              b2.vy -= dot * ny * 0.5;
+            if (dot > 0) {
+              b1.vx -= dot * nx;
+              b1.vy -= dot * ny;
+              b2.vx += dot * nx;
+              b2.vy += dot * ny;
             }
           }
         }
       }
 
       balls.forEach((ball) => {
+        const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+        if (speed > 0) {
+          ball.vx = (ball.vx / speed) * BASE_SPEED;
+          ball.vy = (ball.vy / speed) * BASE_SPEED;
+        }
+
         if (ball.ref.current) {
           ball.ref.current.style.transform = `translate(${ball.x}px, ${ball.y}px)`;
         }
