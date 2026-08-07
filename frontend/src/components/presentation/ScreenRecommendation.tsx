@@ -1,4 +1,4 @@
-import { Monitor, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Button from '../ui/Button.js';
 
 interface ScreenRecommendationProps {
@@ -10,7 +10,6 @@ export default function ScreenRecommendation({ onContinue, isSelecting }: Screen
   return (
     <div className="w-full rounded-card bg-white dark:bg-slate-800 p-6 sm:p-8 shadow-soft border border-slate-200 dark:border-slate-700">
       <div className="flex flex-col items-center text-center">
-        <Monitor className="h-12 w-12 text-primary mb-4" />
         <h2 className="text-card-title font-semibold text-slate-900 dark:text-white mb-2">Select Your Screen</h2>
         <p className="text-small text-slate-500 dark:text-slate-400 mb-2">
           For the best presentation experience, select:
