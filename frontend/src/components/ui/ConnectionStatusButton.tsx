@@ -1,4 +1,4 @@
-import { Wifi, WifiOff } from 'lucide-react';
+import { Wifi, LogOut } from 'lucide-react';
 
 interface ConnectionStatusButtonProps {
   connected?: boolean;
@@ -17,7 +17,7 @@ export default function ConnectionStatusButton({ connected, label, onClick }: Co
           : 'border-error/40 bg-error/10 text-error'
       }`}
     >
-      {connected ? <Wifi className="h-5 w-5" /> : <WifiOff className="h-5 w-5" />}
+      {connected ? <Wifi className="h-5 w-5" /> : <LogOut className="h-5 w-5" />}
       <span className="hidden sm:inline">{label ?? (connected ? 'Connected' : 'Disconnected')}</span>
     </button>
   );
