@@ -20,29 +20,57 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
 
   return (
     <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
-      {/* Decorative background ellipses with white stripes */}
+      {/* Decorative background ellipses */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        {/* Large ellipse - top left */}
-        <div
-          className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
-          style={{
-            background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.3) 20px, rgba(255,255,255,0.3) 40px)',
-          }}
-        />
-        {/* Medium ellipse - bottom right */}
-        <div
-          className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20"
-          style={{
-            background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,255,255,0.25) 15px, rgba(255,255,255,0.25) 30px)',
-          }}
-        />
-        {/* Small ellipse - center right */}
-        <div
-          className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15"
-          style={{
-            background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(255,255,255,0.2) 12px, rgba(255,255,255,0.2) 24px)',
-          }}
-        />
+        {/* Light mode ellipses */}
+        <div className="dark:hidden">
+          {/* Large ellipse - top left */}
+          <div
+            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
+            style={{
+              background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(37,99,235,0.25) 20px, rgba(37,99,235,0.25) 40px)',
+            }}
+          />
+          {/* Medium ellipse - bottom right */}
+          <div
+            className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20"
+            style={{
+              background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(37,99,235,0.22) 15px, rgba(37,99,235,0.22) 30px)',
+            }}
+          />
+          {/* Small ellipse - center right */}
+          <div
+            className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15"
+            style={{
+              background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(37,99,235,0.2) 12px, rgba(37,99,235,0.2) 24px)',
+            }}
+          />
+        </div>
+
+        {/* Dark mode ellipses */}
+        <div className="hidden dark:block">
+          {/* Large ellipse - top left */}
+          <div
+            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-20"
+            style={{
+              background: 'repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.3) 20px, rgba(255,255,255,0.3) 40px)',
+            }}
+          />
+          {/* Medium ellipse - bottom right */}
+          <div
+            className="absolute -bottom-24 -right-24 w-[400px] h-[400px] rounded-full opacity-20"
+            style={{
+              background: 'repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255,255,255,0.25) 15px, rgba(255,255,255,0.25) 30px)',
+            }}
+          />
+          {/* Small ellipse - center right */}
+          <div
+            className="absolute top-1/2 right-10 -translate-y-1/2 w-[300px] h-[300px] rounded-full opacity-15"
+            style={{
+              background: 'repeating-linear-gradient(-45deg, transparent, transparent 12px, rgba(255,255,255,0.2) 12px, rgba(255,255,255,0.2) 24px)',
+            }}
+          />
+        </div>
       </div>
 
       {/* Content */}
