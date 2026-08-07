@@ -225,6 +225,8 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           <div className="absolute top-1/3 -right-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-300/60 blur-[90px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
           <div className="absolute -bottom-20 left-1/4 w-[65vw] h-[65vw] max-w-[650px] max-h-[650px] rounded-full bg-blue-100/80 blur-[110px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
           <div className="absolute top-2/3 right-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-blue-200/50 blur-[80px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
+          <div className="absolute top-1/2 left-1/4 w-[45vw] h-[45vw] max-w-[450px] max-h-[450px] rounded-full bg-blue-300/40 blur-[90px] animate-[smoke-drift-1_24s_ease-in-out_infinite]" />
+          <div className="absolute -bottom-10 right-1/3 w-[50vw] h-[50vw] max-w-[500px] max-h-[500px] rounded-full bg-blue-100/60 blur-[100px] animate-[smoke-drift-2_20s_ease-in-out_infinite]" />
         </div>
 
         {/* Dark mode smoke */}
@@ -233,6 +235,8 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           <div className="absolute top-1/3 -right-20 w-[60vw] h-[60vw] max-w-[600px] max-h-[600px] rounded-full bg-blue-400/20 blur-[90px] animate-[smoke-drift-2_26s_ease-in-out_infinite]" />
           <div className="absolute -bottom-20 left-1/4 w-[65vw] h-[65vw] max-w-[650px] max-h-[650px] rounded-full bg-slate-700/30 blur-[110px] animate-[smoke-drift-3_20s_ease-in-out_infinite]" />
           <div className="absolute top-2/3 right-1/4 w-[55vw] h-[55vw] max-w-[550px] max-h-[550px] rounded-full bg-blue-600/15 blur-[80px] animate-[smoke-drift-4_24s_ease-in-out_infinite]" />
+          <div className="absolute top-1/2 left-1/4 w-[45vw] h-[45vw] max-w-[450px] max-h-[450px] rounded-full bg-blue-500/20 blur-[90px] animate-[smoke-drift-1_24s_ease-in-out_infinite]" />
+          <div className="absolute -bottom-10 right-1/3 w-[50vw] h-[50vw] max-w-[500px] max-h-[500px] rounded-full bg-blue-600/18 blur-[100px] animate-[smoke-drift-2_20s_ease-in-out_infinite]" />
         </div>
       </div>
 
@@ -246,7 +250,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-30 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(37,99,235,0.35) 15px, rgba(37,99,235,0.35) 30px)',
-              boxShadow: '0 0 60px rgba(37,99,235,0.25), 0 0 120px rgba(37,99,235,0.15)',
             }}
           />
           {/* Medium ellipse */}
@@ -255,7 +258,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-30 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(37,99,235,0.3) 12px, rgba(37,99,235,0.3) 24px)',
-              boxShadow: '0 0 50px rgba(37,99,235,0.2), 0 0 100px rgba(37,99,235,0.1)',
             }}
           />
           {/* Small ellipse */}
@@ -264,7 +266,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full opacity-25 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(37,99,235,0.28) 10px, rgba(37,99,235,0.28) 20px)',
-              boxShadow: '0 0 40px rgba(37,99,235,0.18), 0 0 80px rgba(37,99,235,0.1)',
             }}
           />
         </div>
@@ -277,7 +278,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full opacity-25 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(37,99,235,0.45) 15px, rgba(37,99,235,0.45) 30px)',
-              boxShadow: '0 0 60px rgba(37,99,235,0.35), 0 0 120px rgba(37,99,235,0.2)',
             }}
           />
           {/* Medium ellipse */}
@@ -286,7 +286,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full opacity-25 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(37,99,235,0.4) 12px, rgba(37,99,235,0.4) 24px)',
-              boxShadow: '0 0 50px rgba(37,99,235,0.3), 0 0 100px rgba(37,99,235,0.15)',
             }}
           />
           {/* Small ellipse */}
@@ -295,7 +294,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             className="absolute top-0 left-0 w-[300px] h-[300px] rounded-full opacity-20 will-change-transform"
             style={{
               background: 'repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(37,99,235,0.35) 10px, rgba(37,99,235,0.35) 20px)',
-              boxShadow: '0 0 40px rgba(37,99,235,0.25), 0 0 80px rgba(37,99,235,0.12)',
             }}
           />
         </div>
