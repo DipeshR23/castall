@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useWebRTC } from '../hooks/useWebRTC';
 import { useWebRTCStats } from '../hooks/useWebRTCStats';
 import { useRoom } from '../contexts/RoomContext.js';
@@ -14,17 +14,33 @@ export default function PresentationPage() {
   useWebRTCStats(remoteStream, !!remoteStream);
   const { socket, disconnect } = useSocket();
 
-  const handleDisconnect = () => {
-    cleanup();
-    navigate('/');
-  };
+  const [sessionEnded, setSessionEnded] = useState(false);
+  const [sessionEndMessage, setSessionEndMessage] = useState('');
 
-  const handleExit = () => {
+  const handleDisconnect = useCallback(() => {
     cleanup();
     disconnect();
     reset();
     navigate('/');
-  };
+  }, [cleanup, disconnect, reset, navigate]);
+
+  const handleStopSharing = useCallback(() => {
+    cleanup();
+    setSessionEnded(true);
+    setSessionEndMessage('The presenter stopped sharing.');
+  }, [cleanup]);
+
+  const handleDisconnectSession = useCallback(() => {
+    cleanup();
+    setSessionEnded(true);
+    setSessionEndMessage('The presenter left the room.');
+  }, [cleanup]);
+
+  const handleConnectionLost = useCallback(() => {
+    cleanup();
+    setSessionEnded(true);
+    setSessionEndMessage('Connection to the presenter was lost.');
+  }, [cleanup]);
 
   const isConnected = !!remoteStream;
 
@@ -43,17 +59,16 @@ export default function PresentationPage() {
   useEffect(() => {
     if (!socket) return;
 
-    const handleStopSharing = () => {
-      cleanup();
-      navigate('/');
-    };
-
     socket.on('stop-sharing', handleStopSharing);
+    socket.on('disconnect-session', handleDisconnectSession);
+    socket.on('connection-lost', handleConnectionLost);
 
     return () => {
       socket.off('stop-sharing', handleStopSharing);
+      socket.off('disconnect-session', handleDisconnectSession);
+      socket.off('connection-lost', handleConnectionLost);
     };
-  }, [socket, cleanup, navigate]);
+  }, [socket, handleStopSharing, handleDisconnectSession, handleConnectionLost]);
 
   return (
     <div className="relative">
@@ -61,9 +76,9 @@ export default function PresentationPage() {
         <ConnectionStatusButton connected={isConnected} />
       </div>
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
-        <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
+        <ConnectionStatusButton connected={false} label="Exit" onClick={handleDisconnect} />
       </div>
-      <PresentationScreen remoteStream={remoteStream} onDisconnect={handleDisconnect} />
+      <PresentationScreen remoteStream={remoteStream} sessionEnded={sessionEnded} sessionEndMessage={sessionEndMessage} />
     </div>
   );
 }

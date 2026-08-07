@@ -1,13 +1,14 @@
 import { useRef, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { WifiOff } from 'lucide-react';
 import Spinner from '../ui/Spinner.js';
 
 interface PresentationScreenProps {
   remoteStream: MediaStream | null;
-  onDisconnect: () => void;
+  sessionEnded?: boolean;
+  sessionEndMessage?: string;
 }
 
-export default function PresentationScreen({ remoteStream, onDisconnect }: PresentationScreenProps) {
+export default function PresentationScreen({ remoteStream, sessionEnded, sessionEndMessage }: PresentationScreenProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -54,6 +55,12 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
           className="absolute inset-0 z-10 h-full w-full"
           style={{ objectFit: 'contain' }}
         />
+      ) : sessionEnded ? (
+        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center px-4">
+          <WifiOff className="h-12 w-12 text-error mb-4" />
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mt-8 mb-4">Session Ended</h2>
+          <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300">{sessionEndMessage}</p>
+        </div>
       ) : (
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center px-4">
           <Spinner size="lg" />
@@ -69,16 +76,6 @@ export default function PresentationScreen({ remoteStream, onDisconnect }: Prese
           </div>
         </div>
       )}
-
-      {/* Disconnect button - top right */}
-      <button
-        type="button"
-        onClick={onDisconnect}
-        className="fixed top-4 right-4 z-50 rounded-xl bg-slate-900/80 dark:bg-white/10 backdrop-blur-md p-2 sm:p-3 text-white hover:bg-slate-900/90 dark:hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-white/50 transition-all duration-150 active:scale-95 min-h-[44px] min-w-[44px] flex items-center justify-center"
-        aria-label="Disconnect"
-      >
-        <X className="h-5 w-5 sm:h-6 sm:w-6" />
-      </button>
     </div>
   );
 }
