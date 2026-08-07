@@ -9,6 +9,7 @@ import { useSocket } from '../hooks/useSocket.js';
 import { useNavigate } from 'react-router-dom';
 import { webrtcService } from '../services/webrtc.js';
 import { roomService } from '../services/room.js';
+import { LogOut } from 'lucide-react';
 
 type ShareStep = 'join' | 'waiting' | 'sharing';
 
@@ -95,7 +96,7 @@ export default function SharePage() {
           <ConnectionStatusButton connected={isConnected} />
         </div>
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
-          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
+          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} />
         </div>
         <div className="w-full max-w-7xl">
           <WaitingForApproval />
@@ -111,7 +112,7 @@ export default function SharePage() {
           <ConnectionStatusButton connected={isConnected} />
         </div>
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
-          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
+          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} />
         </div>
         <div className="w-full max-w-7xl">
           <StartSharing />
@@ -126,7 +127,7 @@ export default function SharePage() {
         <ConnectionStatusButton connected={isConnected} />
       </div>
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
-        <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} />
+          <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} />
       </div>
       <div className="w-full max-w-7xl">
         <JoinCard

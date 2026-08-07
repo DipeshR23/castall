@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../hooks/useSocket.js';
 import PresentationScreen from '../components/presentation/PresentationScreen';
 import ConnectionStatusButton from '../components/ui/ConnectionStatusButton.js';
+import { LogOut } from 'lucide-react';
 
 export default function PresentationPage() {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ export default function PresentationPage() {
         <ConnectionStatusButton connected={isConnected} />
       </div>
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50">
-        <ConnectionStatusButton connected={false} label="Exit" onClick={handleDisconnect} />
+        <ConnectionStatusButton connected={false} label="Exit" onClick={handleDisconnect} icon={<LogOut className="h-5 w-5" />} />
       </div>
       <PresentationScreen remoteStream={remoteStream} sessionEnded={sessionEnded} sessionEndMessage={sessionEndMessage} />
     </div>
