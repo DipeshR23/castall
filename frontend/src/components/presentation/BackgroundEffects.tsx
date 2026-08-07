@@ -14,7 +14,11 @@ interface Ball {
   angleInterval: number;
 }
 
-export default function BackgroundEffects() {
+interface BackgroundEffectsProps {
+  topOffset?: number;
+}
+
+export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsProps) {
   const lightBallRef1 = useRef<HTMLDivElement | null>(null);
   const lightBallRef2 = useRef<HTMLDivElement | null>(null);
   const lightBallRef3 = useRef<HTMLDivElement | null>(null);
@@ -23,10 +27,15 @@ export default function BackgroundEffects() {
   const darkBallRef3 = useRef<HTMLDivElement | null>(null);
   const { theme } = useTheme();
   const themeRef = useRef(theme);
+  const topOffsetRef = useRef(topOffset);
 
   useEffect(() => {
     themeRef.current = theme;
   }, [theme]);
+
+  useEffect(() => {
+    topOffsetRef.current = topOffset;
+  });
 
   useEffect(() => {
     const MIN_SPEED = 1.0;
@@ -185,8 +194,8 @@ export default function BackgroundEffects() {
           ball.targetAngle = Math.PI - Math.abs(Math.atan2(ball.vy, ball.vx));
         }
 
-        if (ball.y <= 0) {
-          ball.y = 0;
+        if (ball.y <= topOffsetRef.current) {
+          ball.y = topOffsetRef.current;
           ball.vy = Math.abs(ball.vy);
           ball.targetAngle = Math.abs(Math.atan2(ball.vy, ball.vx));
         } else if (ball.y + size >= height) {

@@ -21,7 +21,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
 
   return (
     <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
-      <BackgroundEffects />
+      <BackgroundEffects topOffset={72} />
 
       {/* Content */}
       {remoteStream ? (
