@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Monitor, Smartphone, Shield, MonitorPlay } from 'lucide-react';
+import BackgroundEffects from '../components/presentation/BackgroundEffects.js';
 
 export default function LandingPage() {
   const navigate = useNavigate();
@@ -23,7 +24,8 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="flex flex-col">
+    <div className="relative flex flex-col overflow-hidden">
+      <BackgroundEffects smokeOnly />
       {/* Hero Section */}
       <section className="relative flex flex-col items-center text-center pt-10 sm:pt-14 md:pt-20 lg:pt-24 pb-12 sm:pb-16 md:pb-20 lg:pb-24 px-4">
 

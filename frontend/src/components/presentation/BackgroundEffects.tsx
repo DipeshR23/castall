@@ -16,9 +16,10 @@ interface Ball {
 
 interface BackgroundEffectsProps {
   topOffset?: number;
+  smokeOnly?: boolean;
 }
 
-export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsProps) {
+export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: BackgroundEffectsProps) {
   const lightBallRef1 = useRef<HTMLDivElement | null>(null);
   const lightBallRef2 = useRef<HTMLDivElement | null>(null);
   const lightBallRef3 = useRef<HTMLDivElement | null>(null);
@@ -29,6 +30,7 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
   const { theme } = useTheme();
   const themeRef = useRef(theme);
   const topOffsetRef = useRef(topOffset);
+  const smokeOnlyRef = useRef(smokeOnly);
   const containerSizeRef = useRef({ width: window.innerWidth, height: window.innerHeight });
 
   useEffect(() => {
@@ -37,6 +39,10 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
 
   useEffect(() => {
     topOffsetRef.current = topOffset;
+  });
+
+  useEffect(() => {
+    smokeOnlyRef.current = smokeOnly;
   });
 
   useEffect(() => {
@@ -65,6 +71,8 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
   }, []);
 
   useEffect(() => {
+    if (smokeOnlyRef.current) return;
+
     const MIN_SPEED = 1.0;
     const MAX_SPEED = 2.2;
     const WANDER_STRENGTH = 0.12;
@@ -274,7 +282,7 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0">
+    <div ref={containerRef} className={smokeOnly ? 'fixed inset-0 pointer-events-none z-0' : 'absolute inset-0'}>
       {/* Smoke background */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
         {/* Light mode smoke */}
@@ -298,8 +306,9 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
         </div>
       </div>
 
-      {/* Decorative background ellipses */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+      {!smokeOnly && (
+        /* Decorative background ellipses */
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
         {/* Light mode ellipses */}
         <div className="dark:hidden">
           <div
@@ -350,6 +359,7 @@ export default function BackgroundEffects({ topOffset = 0 }: BackgroundEffectsPr
           />
         </div>
       </div>
+      )}
     </div>
   );
 }
