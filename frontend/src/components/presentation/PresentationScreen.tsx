@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import Spinner from '../ui/Spinner.js';
+import { useTheme } from '../../contexts/ThemeContext.js';
 
 interface Ball {
   x: number;
@@ -28,6 +29,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
   const darkBallRef1 = useRef<HTMLDivElement | null>(null);
   const darkBallRef2 = useRef<HTMLDivElement | null>(null);
   const darkBallRef3 = useRef<HTMLDivElement | null>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const video = videoRef.current;
@@ -38,7 +40,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
   }, [remoteStream]);
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark');
+    const isDark = theme === 'dark';
     const ballRefs = isDark
       ? [darkBallRef1, darkBallRef2, darkBallRef3]
       : [lightBallRef1, lightBallRef2, lightBallRef3];
@@ -188,7 +190,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
