@@ -13,7 +13,6 @@ interface Ball {
   targetAngle: number;
   angleTimer: number;
   angleInterval: number;
-  collisionCooldown: number;
 }
 
 interface PresentationScreenProps {
@@ -69,7 +68,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
         targetAngle: angle,
         angleTimer: 0,
         angleInterval: 80 + Math.random() * 100,
-        collisionCooldown: 0,
       };
     });
 
@@ -91,10 +89,6 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
       const height = window.innerHeight;
 
       balls.forEach((ball) => {
-        if (ball.collisionCooldown > 0) {
-          ball.collisionCooldown -= dt;
-        }
-
         ball.angleTimer += dt;
         if (ball.angleTimer >= ball.angleInterval) {
           ball.angleTimer = 0;
@@ -169,22 +163,17 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
             b2.x += nx * overlap * 0.5;
             b2.y += ny * overlap * 0.5;
 
-            if (b1.collisionCooldown <= 0 && b2.collisionCooldown <= 0) {
-              const dvx = b1.vx - b2.vx;
-              const dvy = b1.vy - b2.vy;
-              const dot = dvx * nx + dvy * ny;
+            const dvx = b1.vx - b2.vx;
+            const dvy = b1.vy - b2.vy;
+            const dot = dvx * nx + dvy * ny;
 
-              if (dot > 0) {
-                const restitution = 0.8;
-                const impulse = dot * restitution;
-                b1.vx -= impulse * nx;
-                b1.vy -= impulse * ny;
-                b2.vx += impulse * nx;
-                b2.vy += impulse * ny;
-
-                b1.collisionCooldown = 10;
-                b2.collisionCooldown = 10;
-              }
+            if (dot > 0) {
+              const restitution = 0.8;
+              const impulse = dot * restitution;
+              b1.vx -= impulse * nx;
+              b1.vy -= impulse * ny;
+              b2.vx += impulse * nx;
+              b2.vy += impulse * ny;
             }
           }
         }
