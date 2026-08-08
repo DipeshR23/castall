@@ -20,7 +20,7 @@ export default function HostPage() {
     reset,
     expiresIn,
   } = useRoom();
-  const { socket, isConnected } = useSocket();
+  const { socket, isConnected, connectionError } = useSocket();
   const [incomingDevice, setIncomingDevice] = useState<string | null>(null);
   const [initError, setInitError] = useState<string | null>(null);
   const statusRef = useRef(status);
@@ -196,6 +196,9 @@ export default function HostPage() {
         <div className="relative z-10 flex flex-col items-center justify-center gap-4">
           <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-sm text-slate-500 dark:text-slate-400">Connecting to server...</p>
+          {connectionError && (
+            <p className="text-xs text-error text-center max-w-md">{connectionError}</p>
+          )}
         </div>
       </div>
     );

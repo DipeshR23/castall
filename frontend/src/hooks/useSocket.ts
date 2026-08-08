@@ -5,15 +5,24 @@ import { getSocket, disconnectSocket } from '../services/socket.js';
 export function useSocket() {
   const [socket, setSocket] = useState<CastAllSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   useEffect(() => {
     const sock = getSocket();
 
-    const handleConnect = () => setIsConnected(true);
+    const handleConnect = () => {
+      setIsConnected(true);
+      setConnectionError(null);
+    };
     const handleDisconnect = () => setIsConnected(false);
+    const handleConnectError = (error: Error) => {
+      setIsConnected(false);
+      setConnectionError(error.message);
+    };
 
     sock.on('connect', handleConnect);
     sock.on('disconnect', handleDisconnect);
+    sock.on('connect_error', handleConnectError);
 
     if (sock.connected) {
       setIsConnected(true);
@@ -24,6 +33,7 @@ export function useSocket() {
     return () => {
       sock.off('connect', handleConnect);
       sock.off('disconnect', handleDisconnect);
+      sock.off('connect_error', handleConnectError);
     };
   }, []);
 
@@ -38,7 +48,8 @@ export function useSocket() {
     disconnectSocket();
     setIsConnected(false);
     setSocket(null);
+    setConnectionError(null);
   }, []);
 
-  return { socket, isConnected, connect, disconnect };
+  return { socket, isConnected, connectionError, connect, disconnect };
 }
