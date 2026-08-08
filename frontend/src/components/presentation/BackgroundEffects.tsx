@@ -152,8 +152,13 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
       lastTime = currentTime;
 
       const visibleRefs = getVisibleRefs();
+      const currentScale = getScale(containerSizeRef.current.width);
       for (let i = 0; i < balls.length; i++) {
-        balls[i].ref = visibleRefs[i];
+        const newRef = visibleRefs[i];
+        if (balls[i].ref !== newRef) {
+          balls[i].ref = newRef;
+          syncBallSize(balls[i], getBallSize(newRef, currentScale));
+        }
       }
 
       const containerSize = containerSizeRef.current;
