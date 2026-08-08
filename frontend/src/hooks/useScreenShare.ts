@@ -7,6 +7,14 @@ export function useScreenShare() {
 
   const startSharing = useCallback(async () => {
     setError(null);
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+      const message = 'Screen sharing is not supported in this browser. Please use Chrome or Edge on Android, or Chrome on desktop.';
+      setError(message);
+      toast.error(message);
+      throw new Error(message);
+    }
+
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
