@@ -3,6 +3,16 @@ import { z } from 'zod';
 
 dotenv.config();
 
+const rawEnv = {
+  nodeEnv: process.env.NODE_ENV,
+  port: process.env.PORT,
+  frontendUrl: process.env.FRONTEND_URL,
+  stunServer: process.env.STUN_SERVER,
+  turnServer: process.env.TURN_SERVER,
+  turnUsername: process.env.TURN_USERNAME,
+  turnPassword: process.env.TURN_PASSWORD,
+};
+
 const envSchema = z.object({
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
   port: z.coerce.number().default(3000),
@@ -13,4 +23,4 @@ const envSchema = z.object({
   turnPassword: z.string().optional(),
 });
 
-export const config = envSchema.parse(process.env);
+export const config = envSchema.parse(rawEnv);
