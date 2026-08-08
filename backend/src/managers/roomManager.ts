@@ -5,7 +5,6 @@ import { logger } from '../logger/pino.js';
 
 export class RoomManager {
   private rooms: Map<string, RoomSession> = new Map();
-  private codeIndex: Map<string, string> = new Map();
 
   createRoom(hostSocketId: string, hostBrowser?: string, hostPlatform?: string): RoomSession {
     const roomCode = this.generateUniqueCode();
@@ -30,7 +29,6 @@ export class RoomManager {
     };
 
     this.rooms.set(roomCode, room);
-    this.codeIndex.set(roomCode, roomCode);
 
     logger.info({ roomCode, roomId }, 'Room created');
 
@@ -169,7 +167,6 @@ export class RoomManager {
 
     room.status = RoomStatus.DESTROYED;
     this.rooms.delete(roomCode);
-    this.codeIndex.delete(roomCode);
 
     logger.info({ roomCode }, 'Room destroyed');
   }
@@ -193,7 +190,6 @@ export class RoomManager {
     for (const [code, room] of this.rooms) {
       if (room.status === RoomStatus.ENDED || room.status === RoomStatus.EXPIRED || room.status === RoomStatus.DESTROYED) {
         this.rooms.delete(code);
-        this.codeIndex.delete(code);
       }
     }
   }
@@ -206,7 +202,7 @@ export class RoomManager {
     do {
       code = generateRoomCode();
       attempts++;
-    } while (this.codeIndex.has(code) && attempts < maxAttempts);
+    } while (this.rooms.has(code) && attempts < maxAttempts);
 
     if (attempts >= maxAttempts) {
       throw new Error('Failed to generate unique room code');

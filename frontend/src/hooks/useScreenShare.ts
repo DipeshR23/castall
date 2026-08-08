@@ -45,8 +45,8 @@ export function useScreenShare() {
   const stopSharing = useCallback(() => {
     try {
       roomService.stopSharing();
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error('[useScreenShare] stopSharing failed:', err);
     }
   }, []);
 

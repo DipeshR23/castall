@@ -50,7 +50,7 @@ export class WebRTCService {
 
     this.peerConnection.onconnectionstatechange = () => {
       const state = this.peerConnection?.connectionState;
-      if (state === 'failed' || state === 'disconnected') {
+      if (state === 'failed') {
         this.cleanup();
       }
     };
@@ -141,6 +141,7 @@ export class WebRTCService {
       });
     } catch (error) {
       console.error('Failed to add ICE candidate', error);
+      throw error;
     }
   }
 

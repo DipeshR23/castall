@@ -21,7 +21,6 @@ app.use(
 
 app.use(express.json());
 app.use('/health', healthRouter);
-app.use('/', healthRouter);
 
 const server = createServer(app);
 
@@ -42,11 +41,15 @@ server.listen(PORT, () => {
 });
 
 setInterval(() => {
-  const expired = roomService.expireOldRooms();
-  if (expired.length > 0) {
-    logger.info({ expiredCount: expired.length }, 'Expired old rooms');
+  try {
+    const expired = roomService.expireOldRooms();
+    if (expired.length > 0) {
+      logger.info({ expiredCount: expired.length }, 'Expired old rooms');
+    }
+    roomService.cleanup();
+  } catch (error) {
+    logger.error({ error }, 'Room maintenance interval error');
   }
-  roomService.cleanup();
 }, 60 * 1000);
 
 export { app, server, io };

@@ -39,11 +39,11 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
 
   useEffect(() => {
     topOffsetRef.current = topOffset;
-  });
+  }, [topOffset]);
 
   useEffect(() => {
     smokeOnlyRef.current = smokeOnly;
-  });
+  }, [smokeOnly]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -107,7 +107,7 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
       const angle = (index / 3) * Math.PI * 2 + Math.random() * 0.5;
       const ball: Ball = {
         x: Math.random() * Math.max(0, containerSizeRef.current.width - size),
-        y: Math.random() * Math.max(0, containerSizeRef.current.height - size),
+        y: Math.random() * Math.max(topOffsetRef.current, containerSizeRef.current.height - size) + topOffsetRef.current,
         vx: Math.cos(angle) * MIN_SPEED,
         vy: Math.sin(angle) * MIN_SPEED,
         radius: size / 2,

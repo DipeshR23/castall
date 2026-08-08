@@ -2,6 +2,7 @@ import type { Socket } from 'socket.io';
 import { roomService } from '../services/roomService.js';
 import { logger } from '../logger/pino.js';
 import { validateRoomCode, sanitizeDeviceName, validateSessionToken, validateSDP, validateICECandidate } from '../utils/validation.js';
+import { RoomStatus } from '../types/room.js';
 
 function errorResponse(code: string, message: string) {
   return { success: false, code, message };
@@ -56,7 +57,7 @@ export function registerRoomHandlers(socket: Socket) {
       socket.join(sanitizedCode);
       
       const updatedRoom = roomService.getRoomByCode(sanitizedCode);
-      if (updatedRoom?.host) {
+      if (updatedRoom?.host?.connected) {
         socket.to(sanitizedCode).emit('presentation-request', {
           deviceName: sanitizedName,
         });
@@ -130,6 +131,11 @@ export function registerRoomHandlers(socket: Socket) {
         return;
       }
 
+      if (room.status !== RoomStatus.APPROVED && room.status !== RoomStatus.STREAMING) {
+        callback(errorResponse('ROOM_INVALID', 'Room is not approved for sharing.'));
+        return;
+      }
+
       roomService.startStreaming(room.roomCode);
       
       socket.to(room.roomCode).emit('start-sharing');
@@ -152,6 +158,11 @@ export function registerRoomHandlers(socket: Socket) {
         return;
       }
 
+      if (room.status !== RoomStatus.STREAMING && room.status !== RoomStatus.APPROVED) {
+        callback(errorResponse('ROOM_INVALID', 'Room is not currently streaming.'));
+        return;
+      }
+
       roomService.endSession(room.roomCode);
       
       socket.to(room.roomCode).emit('stop-sharing');
@@ -171,6 +182,11 @@ export function registerRoomHandlers(socket: Socket) {
       const room = roomService.getRoomByHostSocketId(socket.id) || roomService.getRoomByPresenterSocketId(socket.id);
       if (!room) {
         callback(errorResponse('ROOM_NOT_FOUND', 'Room not found.'));
+        return;
+      }
+
+      if (room.status !== RoomStatus.STREAMING && room.status !== RoomStatus.APPROVED) {
+        callback(errorResponse('ROOM_INVALID', 'Room is not in an active session.'));
         return;
       }
 

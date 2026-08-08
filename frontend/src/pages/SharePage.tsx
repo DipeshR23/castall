@@ -23,7 +23,7 @@ export default function SharePage() {
 
   const isConnected = step === 'waiting' || step === 'sharing';
 
-  const handleExit = () => {
+  const handleExit = async () => {
     webrtcService.cleanup();
     roomService.stopSharing();
     roomService.disconnectSession();

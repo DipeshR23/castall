@@ -86,7 +86,6 @@ export default function HostPage() {
     const handleAcceptRequest = (data: { approved: boolean }) => {
       if (data.approved) {
         setStatus('APPROVED');
-        navigate('/presentation');
       } else {
         setStatus('WAITING');
         setIncomingDevice(null);
@@ -183,7 +182,6 @@ export default function HostPage() {
   }, [reset, createRoom]);
 
   const handleRetry = useCallback(async () => {
-    initAttemptedRef.current = false;
     setInitError(null);
     clearCreatingTimeout();
     await createRoom();

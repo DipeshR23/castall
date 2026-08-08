@@ -75,22 +75,54 @@ export const roomService = {
 
   rejectRequest(): void {
     const socket = getSocket();
-    socket.emit('reject-request', {}, () => {});
+    if (!socket.connected) {
+      console.error('reject-request failed: socket not connected');
+      return;
+    }
+    socket.emit('reject-request', {}, (response) => {
+      if (response && !response.success) {
+        console.error('reject-request failed:', response.message);
+      }
+    });
   },
 
   startSharing(): void {
     const socket = getSocket();
-    socket.emit('start-sharing', {}, () => {});
+    if (!socket.connected) {
+      console.error('start-sharing failed: socket not connected');
+      return;
+    }
+    socket.emit('start-sharing', {}, (response) => {
+      if (response && !response.success) {
+        console.error('start-sharing failed:', response.message);
+      }
+    });
   },
 
   stopSharing(): void {
     const socket = getSocket();
-    socket.emit('stop-sharing', {}, () => {});
+    if (!socket.connected) {
+      console.error('stop-sharing failed: socket not connected');
+      return;
+    }
+    socket.emit('stop-sharing', {}, (response) => {
+      if (response && !response.success) {
+        console.error('stop-sharing failed:', response.message);
+      }
+    });
   },
 
   disconnectSession(): void {
     const socket = getSocket();
-    socket.emit('disconnect-session', {}, () => {});
+    if (!socket.connected) {
+      console.error('disconnect-session failed: socket not connected');
+      return;
+    }
+    socket.emit('disconnect-session', {}, (response) => {
+      if (response && !response.success) {
+        console.error('disconnect-session failed:', response.message);
+      }
+    });
   },
 
   sendOffer(sdp: string, sessionToken: string): Promise<void> {
