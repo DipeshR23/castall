@@ -9,16 +9,23 @@ import { setupSocketHandlers } from './sockets/index.js';
 import healthRouter from './routes/health.js';
 import { roomService } from './services/roomService.js';
 
+const allowedOrigins = [config.frontendUrl, 'http://localhost:5173', 'http://localhost:5177'];
+
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
+    }
+  },
+  credentials: true,
+};
+
 const app = express();
 
 app.use(helmet());
-app.use(
-  cors({
-    origin: config.frontendUrl,
-    credentials: true,
-  })
-);
-
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/health', healthRouter);
 
@@ -26,7 +33,7 @@ const server = createServer(app);
 
 const io = new SocketIOServer(server, {
   cors: {
-    origin: config.frontendUrl,
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
   },
 });
