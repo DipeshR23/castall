@@ -88,8 +88,6 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
     const initialRefs = getInitialRefs();
 
     const getBallSize = (ref: React.RefObject<HTMLDivElement | null>, scale: number) => {
-      const measured = ref.current?.offsetWidth ?? 0;
-      if (measured > 0) return measured;
       if (ref === lightBallRef3 || ref === darkBallRef3) return 300 * scale;
       if (ref === lightBallRef2 || ref === darkBallRef2) return 400 * scale;
       return 500 * scale;
@@ -122,13 +120,7 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
       return ball;
     });
 
-    balls.forEach((ball) => {
-      const size = ball.radius * 2;
-      if (ball.ref.current) {
-        ball.ref.current.style.width = `${size}px`;
-        ball.ref.current.style.height = `${size}px`;
-      }
-    });
+    balls.forEach((ball) => syncBallSize(ball, ball.radius * 2));
 
     for (let attempt = 0; attempt < balls.length; attempt++) {
       for (let j = attempt + 1; j < balls.length; j++) {
