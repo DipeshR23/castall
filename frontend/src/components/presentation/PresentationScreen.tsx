@@ -20,7 +20,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
   }, [remoteStream]);
 
   return (
-    <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
+    <div className="absolute inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden h-full w-full">
       <BackgroundEffects topOffset={72} />
 
       {/* Content */}
@@ -30,7 +30,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           autoPlay
           playsInline
           className="absolute inset-0 z-10 h-full w-full"
-          style={{ objectFit: 'contain' }}
+          style={{ objectFit: 'cover' }}
         />
       ) : sessionEnded ? (
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center px-4">
