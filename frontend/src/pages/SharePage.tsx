@@ -100,7 +100,7 @@ export default function SharePage() {
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} hoverable />
         </div>
-        <div className="relative z-10 w-full max-w-7xl">
+        <div className="relative z-10 w-full max-w-7xl pt-14 sm:pt-16">
           <WaitingForApproval />
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function SharePage() {
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} hoverable />
         </div>
-        <div className="relative z-10 w-full max-w-7xl">
+        <div className="relative z-10 w-full max-w-7xl pt-14 sm:pt-16">
           <StartSharing />
         </div>
       </div>
@@ -133,7 +133,7 @@ export default function SharePage() {
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} hoverable />
       </div>
-      <div className="relative z-10 w-full max-w-7xl">
+      <div className="relative z-10 w-full max-w-7xl pt-14 sm:pt-16">
         <JoinCard
           deviceName={localDeviceName}
           onDeviceNameChange={setLocalDeviceName}
