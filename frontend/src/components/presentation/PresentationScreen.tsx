@@ -29,7 +29,7 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
           ref={videoRef}
           autoPlay
           playsInline
-          className="absolute inset-0 z-10 h-full w-full"
+          className="absolute top-[72px] left-0 right-0 bottom-0 z-10"
           style={{ objectFit: 'contain' }}
         />
       ) : sessionEnded ? (
