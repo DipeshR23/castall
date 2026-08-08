@@ -77,6 +77,8 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
     const MAX_SPEED = 2.2;
     const WANDER_STRENGTH = 0.12;
 
+    const getScale = (width: number): number => Math.min(1, Math.max(0.3, width / 1253));
+
     const allRefs = {
       light: [lightBallRef1, lightBallRef2, lightBallRef3],
       dark: [darkBallRef1, darkBallRef2, darkBallRef3],
@@ -85,18 +87,27 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
     const getInitialRefs = () => allRefs[themeRef.current];
     const initialRefs = getInitialRefs();
 
-    const getBallSize = (ref: React.RefObject<HTMLDivElement | null>) => {
+    const getBallSize = (ref: React.RefObject<HTMLDivElement | null>, scale: number) => {
       const measured = ref.current?.offsetWidth ?? 0;
       if (measured > 0) return measured;
-      if (ref === lightBallRef3 || ref === darkBallRef3) return 300;
-      if (ref === lightBallRef2 || ref === darkBallRef2) return 400;
-      return 500;
+      if (ref === lightBallRef3 || ref === darkBallRef3) return 300 * scale;
+      if (ref === lightBallRef2 || ref === darkBallRef2) return 400 * scale;
+      return 500 * scale;
     };
 
+    const syncBallSize = (ball: Ball, size: number) => {
+      ball.radius = size / 2;
+      if (ball.ref.current) {
+        ball.ref.current.style.width = `${size}px`;
+        ball.ref.current.style.height = `${size}px`;
+      }
+    };
+
+    const scale = getScale(containerSizeRef.current.width);
     const balls: Ball[] = initialRefs.map((ref, index) => {
-      const size = getBallSize(ref);
+      const size = getBallSize(ref, scale);
       const angle = (index / 3) * Math.PI * 2 + Math.random() * 0.5;
-      return {
+      const ball: Ball = {
         x: Math.random() * Math.max(0, containerSizeRef.current.width - size),
         y: Math.random() * Math.max(0, containerSizeRef.current.height - size),
         vx: Math.cos(angle) * MIN_SPEED,
@@ -108,6 +119,15 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
         angleTimer: 0,
         angleInterval: 80 + Math.random() * 100,
       };
+      return ball;
+    });
+
+    balls.forEach((ball) => {
+      const size = ball.radius * 2;
+      if (ball.ref.current) {
+        ball.ref.current.style.width = `${size}px`;
+        ball.ref.current.style.height = `${size}px`;
+      }
     });
 
     for (let attempt = 0; attempt < balls.length; attempt++) {
@@ -262,11 +282,11 @@ export default function BackgroundEffects({ topOffset = 0, smokeOnly = false }: 
     const handleResize = () => {
       const width = containerSizeRef.current.width;
       const height = containerSizeRef.current.height;
+      const scale = getScale(width);
       const visibleRefs = getVisibleRefs();
       balls.forEach((ball, index) => {
-        const newSize = getBallSize(visibleRefs[index]);
-        const newRadius = newSize / 2;
-        ball.radius = newRadius;
+        const newSize = getBallSize(visibleRefs[index], scale);
+        syncBallSize(ball, newSize);
         const size = newSize;
         if (ball.x + size > width) ball.x = Math.max(0, width - size);
         if (ball.y + size > height) ball.y = Math.max(0, height - size);
