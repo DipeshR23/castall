@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import { config } from './config/env.js';
 import { logger } from './logger/pino.js';
 import { setupSocketHandlers } from './sockets/index.js';
-import healthRouter from './routes/health';
+import healthRouter from './routes/health.js';
 import { roomService } from './services/roomService.js';
 
 const app = express();
