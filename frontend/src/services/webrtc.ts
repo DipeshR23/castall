@@ -72,19 +72,25 @@ export class WebRTCService {
         },
         audio: true,
       });
-
-      const videoTrack = this.localStream.getVideoTracks()[0];
-      if (videoTrack) {
-        videoTrack.onended = () => {
-          this.cleanup();
-        };
-      }
-
-      return this.localStream;
     } catch (error) {
-      this.localStream = null;
-      throw error;
+      console.warn('[webrtc] getDisplayMedia with audio failed, retrying without audio:', error);
+      this.localStream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+          frameRate: { ideal: 30 },
+        },
+      });
     }
+
+    const videoTrack = this.localStream.getVideoTracks()[0];
+    if (videoTrack) {
+      videoTrack.onended = () => {
+        this.cleanup();
+      };
+    }
+
+    return this.localStream;
   }
 
   async createOffer(): Promise<RTCSessionDescriptionInit> {
