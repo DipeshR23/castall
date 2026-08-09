@@ -17,11 +17,10 @@ type ShareStep = 'join' | 'waiting' | 'sharing';
 export default function SharePage() {
   const navigate = useNavigate();
   const { setStatus, setSessionToken, isJoining, reset } = useRoom();
-  const { socket, isConnected, disconnect } = useSocket();
+  const { socket, disconnect } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
-
-  const isConnectedSocket = isConnected;
+  const isConnectedSocket = step === 'waiting' || step === 'sharing';
 
   const handleExit = async () => {
     webrtcService.cleanup();
