@@ -43,9 +43,11 @@ export default function HostCard({ roomCode, status, incomingDevice, expiresIn, 
   }, [expiresIn]);
 
   const handleCopy = async (text: string) => {
-    await copyToClipboard(text);
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 2000);
+    const success = await copyToClipboard(text);
+    setCopiedCode(success);
+    if (success) {
+      setTimeout(() => setCopiedCode(false), 2000);
+    }
   };
 
   if (status === 'REQUESTED' && incomingDevice) {

@@ -24,6 +24,8 @@ export class WebRTCService {
   private localStream: MediaStream | null = null;
   private remoteStream: MediaStream | null = null;
   private iceCandidateHandler: ((candidate: RTCIceCandidateInit) => void) | null = null;
+  private iceCandidateBuffer: RTCIceCandidateInit[] = [];
+  private remoteDescriptionSet = false;
 
   constructor(private iceServers: RTCConfiguration['iceServers']) {}
 
@@ -35,12 +37,6 @@ export class WebRTCService {
     this.peerConnection = new RTCPeerConnection({
       iceServers: this.iceServers,
     });
-
-    this.peerConnection.ontrack = (event) => {
-      if (event.streams && event.streams[0]) {
-        this.remoteStream = event.streams[0];
-      }
-    };
 
     this.peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
@@ -120,6 +116,8 @@ export class WebRTCService {
       throw new Error('Peer connection not initialized');
     }
     await this.peerConnection.setRemoteDescription(new RTCSessionDescription({ type: 'answer', sdp }));
+    this.remoteDescriptionSet = true;
+    this.flushIceCandidateBuffer();
   }
 
   async setRemoteOffer(sdp: string): Promise<void> {
@@ -127,11 +125,31 @@ export class WebRTCService {
       throw new Error('Peer connection not initialized');
     }
     await this.peerConnection.setRemoteDescription(new RTCSessionDescription({ type: 'offer', sdp }));
+    this.remoteDescriptionSet = true;
+    this.flushIceCandidateBuffer();
+  }
+
+  private flushIceCandidateBuffer(): void {
+    if (!this.peerConnection || this.iceCandidateBuffer.length === 0) return;
+    const candidates = [...this.iceCandidateBuffer];
+    this.iceCandidateBuffer = [];
+    for (const candidate of candidates) {
+      const candidateStr = candidate.candidate ?? '';
+      const sdpMid = candidate.sdpMid ?? '';
+      const sdpMLineIndex = candidate.sdpMLineIndex ?? 0;
+      this.addIceCandidate(candidateStr, sdpMid, sdpMLineIndex).catch(() => {
+        // Ignore buffered candidate failures; they may be stale
+      });
+    }
   }
 
   async addIceCandidate(candidate: string, sdpMid: string, sdpMLineIndex: number): Promise<void> {
     if (!this.peerConnection) {
       throw new Error('Peer connection not initialized');
+    }
+    if (!this.remoteDescriptionSet) {
+      this.iceCandidateBuffer.push({ candidate, sdpMid, sdpMLineIndex });
+      return;
     }
     try {
       await this.peerConnection.addIceCandidate({
@@ -168,6 +186,8 @@ export class WebRTCService {
     }
     this.remoteStream = null;
     this.iceCandidateHandler = null;
+    this.iceCandidateBuffer = [];
+    this.remoteDescriptionSet = false;
   }
 }
 

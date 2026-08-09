@@ -1,6 +1,6 @@
 import { RoomStatus, type RoomSession } from '../types/room.js';
 import { generateRoomCode, generateRoomId, generateSessionToken } from '../utils/codeGenerator.js';
-import { ROOM_EXPIRY_MS } from '../constants/index.js';
+import { ROOM_EXPIRY_MS, REQUESTED_ROOM_EXPIRY_MS } from '../constants/index.js';
 import { logger } from '../logger/pino.js';
 
 export class RoomManager {
@@ -176,10 +176,17 @@ export class RoomManager {
     const expired: string[] = [];
 
     for (const [code, room] of this.rooms) {
-      if (now > room.expiresAt && room.status === RoomStatus.WAITING) {
+      const createdAt = new Date(room.createdAt);
+      const age = now.getTime() - createdAt.getTime();
+
+      if (room.status === RoomStatus.WAITING && age > ROOM_EXPIRY_MS) {
         room.status = RoomStatus.EXPIRED;
         expired.push(code);
         logger.info({ roomCode: code }, 'Room expired');
+      } else if (room.status === RoomStatus.REQUESTED && age > REQUESTED_ROOM_EXPIRY_MS) {
+        room.status = RoomStatus.EXPIRED;
+        expired.push(code);
+        logger.info({ roomCode: code }, 'Requested room expired');
       }
     }
 

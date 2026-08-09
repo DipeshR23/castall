@@ -38,7 +38,11 @@ export default function JoinCard({ deviceName, onDeviceNameChange, isJoining }: 
       setError(result.error.errors[0]?.message || 'Invalid room code');
       return;
     }
-    await handleConnect(result.data);
+    try {
+      await handleConnect(result.data);
+    } catch (err) {
+      // error already set by handleConnect
+    }
   };
 
   const handleConnect = async (roomCode: string) => {

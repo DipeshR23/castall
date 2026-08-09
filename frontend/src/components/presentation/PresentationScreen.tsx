@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Spinner from '../ui/Spinner.js';
 import BackgroundEffects from './BackgroundEffects.js';
 
@@ -10,14 +10,25 @@ interface PresentationScreenProps {
 
 export default function PresentationScreen({ remoteStream, sessionEnded, sessionEndMessage }: PresentationScreenProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (video && remoteStream) {
       video.srcObject = remoteStream;
-      video.play().catch(() => {});
+      setAutoplayBlocked(false);
+      video.play().catch(() => {
+        setAutoplayBlocked(true);
+      });
     }
   }, [remoteStream]);
+
+  const handleVideoClick = () => {
+    const video = videoRef.current;
+    if (video) {
+      video.play().then(() => setAutoplayBlocked(false)).catch(() => {});
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-slate-50 dark:bg-slate-900 overflow-hidden">
@@ -25,13 +36,23 @@ export default function PresentationScreen({ remoteStream, sessionEnded, session
 
       {/* Content */}
       {remoteStream ? (
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          className="absolute top-[72px] left-0 right-0 bottom-0 z-10"
-          style={{ objectFit: 'contain' }}
-        />
+        <div className="absolute inset-0 z-10" onClick={autoplayBlocked ? handleVideoClick : undefined} style={{ cursor: autoplayBlocked ? 'pointer' : 'default' }}>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="absolute top-[72px] left-0 right-0 bottom-0 h-full w-full"
+            style={{ objectFit: 'contain' }}
+          />
+          {autoplayBlocked && (
+            <div className="absolute inset-0 top-[72px] flex items-center justify-center bg-black/30">
+              <div className="rounded-card bg-white/90 dark:bg-slate-800/90 px-6 py-4 text-center shadow-soft">
+                <p className="text-base font-medium text-slate-900 dark:text-white mb-2">Tap to play</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Autoplay was blocked by your browser.</p>
+              </div>
+            </div>
+          )}
+        </div>
       ) : sessionEnded ? (
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center text-center px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mt-8 mb-4">Session Ended</h2>

@@ -1,5 +1,6 @@
 export const ROOM_CODE_LENGTH = 6;
 export const ROOM_EXPIRY_MS = 15 * 60 * 1000;
+export const REQUESTED_ROOM_EXPIRY_MS = 5 * 60 * 1000;
 export const SESSION_TOKEN_LENGTH = 32;
 export const RECONNECTION_WINDOW_MS = 30 * 1000;
 export const MAX_DEVICE_NAME_LENGTH = 50;

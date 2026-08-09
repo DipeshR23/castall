@@ -17,11 +17,11 @@ type ShareStep = 'join' | 'waiting' | 'sharing';
 export default function SharePage() {
   const navigate = useNavigate();
   const { setStatus, setSessionToken, isJoining, reset } = useRoom();
-  const { socket, disconnect } = useSocket();
+  const { socket, isConnected, disconnect } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
 
-  const isConnected = step === 'waiting' || step === 'sharing';
+  const isConnectedSocket = isConnected;
 
   const handleExit = async () => {
     webrtcService.cleanup();
@@ -95,7 +95,7 @@ export default function SharePage() {
       <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
         <BackgroundEffects />
         <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-          <ConnectionStatusButton connected={isConnected} />
+          <ConnectionStatusButton connected={isConnectedSocket} />
         </div>
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} hoverable />
@@ -112,7 +112,7 @@ export default function SharePage() {
       <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
         <BackgroundEffects />
         <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-          <ConnectionStatusButton connected={isConnected} />
+          <ConnectionStatusButton connected={isConnectedSocket} />
         </div>
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} hoverable />
@@ -128,7 +128,7 @@ export default function SharePage() {
     <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
       <BackgroundEffects />
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-        <ConnectionStatusButton connected={isConnected} />
+        <ConnectionStatusButton connected={isConnectedSocket} />
       </div>
       <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
           <ConnectionStatusButton connected={false} label="Exit" onClick={handleExit} icon={<LogOut className="h-5 w-5" />} hoverable />
