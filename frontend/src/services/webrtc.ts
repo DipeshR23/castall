@@ -60,7 +60,7 @@ export class WebRTCService {
 
   async acquireLocalStream(): Promise<MediaStream> {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-      throw new Error('Screen sharing is not supported in this browser. Please use Chrome or Edge on Android, or Chrome on desktop.');
+      throw new Error('Screen sharing is not available in this browser context. Ensure you are using Google Chrome on Android (not a WebView or restricted browser), the site is served over HTTPS, and screen capture permissions are allowed.');
     }
 
     try {

@@ -9,7 +9,7 @@ export function useScreenShare() {
     setError(null);
 
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
-      const message = 'Screen sharing is not supported in this browser. Please use Chrome or Edge on Android, or Chrome on desktop.';
+      const message = 'Screen sharing is not available in this browser context. Ensure you are using Google Chrome on Android (not a WebView or restricted browser), the site is served over HTTPS, and screen capture permissions are allowed.';
       setError(message);
       toast.error(message);
       throw new Error(message);
