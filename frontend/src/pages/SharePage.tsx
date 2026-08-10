@@ -17,7 +17,7 @@ type ShareStep = 'join' | 'waiting' | 'sharing';
 export default function SharePage() {
   const navigate = useNavigate();
   const { setStatus, setSessionToken, isJoining, reset } = useRoom();
-  const { socket, disconnect } = useSocket();
+  const { socket, isReconnecting, disconnect } = useSocket();
   const [localDeviceName, setLocalDeviceName] = useState('');
   const [step, setStep] = useState<ShareStep>('join');
   const isConnectedSocket = step === 'waiting' || step === 'sharing';
@@ -88,6 +88,19 @@ export default function SharePage() {
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [step]);
+
+  if (isReconnecting) {
+    return (
+      <div className="relative flex items-center justify-center min-h-[calc(100vh-72px)] px-[5%] py-8 sm:py-12">
+        <BackgroundEffects />
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm text-slate-500 dark:text-slate-400">Reconnecting to server...</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 text-center max-w-md">Please wait while we restore your connection.</p>
+        </div>
+      </div>
+    );
+  }
 
   if (step === 'waiting') {
     return (

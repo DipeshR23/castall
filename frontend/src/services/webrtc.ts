@@ -44,6 +44,16 @@ export class WebRTCService {
       }
     };
 
+    this.peerConnection.oniceconnectionstatechange = () => {
+      const state = this.peerConnection?.iceConnectionState;
+      if (state === 'failed' || state === 'disconnected') {
+        console.warn(`[webrtc] ICE connection state: ${state}`);
+      }
+      if (state === 'failed') {
+        this.cleanup();
+      }
+    };
+
     this.peerConnection.onconnectionstatechange = () => {
       const state = this.peerConnection?.connectionState;
       if (state === 'failed') {

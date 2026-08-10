@@ -20,7 +20,7 @@ export default function HostPage() {
     reset,
     expiresIn,
   } = useRoom();
-  const { socket, isConnected, connectionError } = useSocket();
+  const { socket, isConnected, connectionError, isReconnecting } = useSocket();
   const [incomingDevice, setIncomingDevice] = useState<string | null>(null);
   const [initError, setInitError] = useState<string | null>(null);
   const statusRef = useRef(status);
@@ -186,6 +186,19 @@ export default function HostPage() {
     clearCreatingTimeout();
     await createRoom();
   }, [createRoom, clearCreatingTimeout]);
+
+  if (isReconnecting) {
+    return (
+      <div className="relative flex flex-col items-center justify-center gap-4" role="status" aria-label="Reconnecting to server">
+        <BackgroundEffects />
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-sm text-slate-500 dark:text-slate-400">Reconnecting to server...</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 text-center max-w-md">Please wait while we restore your connection.</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isConnected) {
     return (
