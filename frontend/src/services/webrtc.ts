@@ -59,6 +59,16 @@ export class WebRTCService {
   }
 
   async acquireLocalStream(): Promise<MediaStream> {
+    console.log("=== CASTALL SCREEN CAPTURE DIAGNOSTIC ===");
+    console.log("secureContext:", window.isSecureContext);
+    console.log("protocol:", window.location.protocol);
+    console.log("origin:", window.location.origin);
+    console.log("mediaDevices:", typeof navigator.mediaDevices);
+    console.log("getDisplayMedia:", typeof navigator.mediaDevices?.getDisplayMedia);
+    console.log("visibility:", document.visibilityState);
+    console.log("focused:", document.hasFocus());
+    console.log("userAgent:", navigator.userAgent);
+
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
       throw new Error('Screen sharing is not available in this browser context. Ensure you are using Google Chrome on Android (not a WebView or restricted browser), the site is served over HTTPS, and screen capture permissions are allowed.');
     }
@@ -73,6 +83,14 @@ export class WebRTCService {
         audio: true,
       });
     } catch (error) {
+      const errorObj = error instanceof Error ? error : new Error(String(error));
+      console.error('[webrtc] getDisplayMedia error:', {
+        name: errorObj.name,
+        message: errorObj.message,
+        constructor: errorObj.constructor?.name,
+        error: errorObj,
+        stack: errorObj.stack,
+      });
       console.warn('[webrtc] getDisplayMedia with audio failed, retrying without audio:', error);
       this.localStream = await navigator.mediaDevices.getDisplayMedia({
         video: {

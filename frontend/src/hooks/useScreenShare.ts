@@ -8,6 +8,16 @@ export function useScreenShare() {
   const startSharing = useCallback(async () => {
     setError(null);
 
+    console.log("=== CASTALL SCREEN CAPTURE DIAGNOSTIC ===");
+    console.log("secureContext:", window.isSecureContext);
+    console.log("protocol:", window.location.protocol);
+    console.log("origin:", window.location.origin);
+    console.log("mediaDevices:", typeof navigator.mediaDevices);
+    console.log("getDisplayMedia:", typeof navigator.mediaDevices?.getDisplayMedia);
+    console.log("visibility:", document.visibilityState);
+    console.log("focused:", document.hasFocus());
+    console.log("userAgent:", navigator.userAgent);
+
     if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
       const message = 'Screen sharing is not available in this browser context. Ensure you are using Google Chrome on Android (not a WebView or restricted browser), the site is served over HTTPS, and screen capture permissions are allowed.';
       setError(message);
@@ -35,6 +45,13 @@ export function useScreenShare() {
       roomService.startSharing();
       return stream;
     } catch (err) {
+      console.error('[useScreenShare] getDisplayMedia error:', {
+        name: err instanceof Error ? err.name : undefined,
+        message: err instanceof Error ? err.message : String(err),
+        constructor: err instanceof Error ? err.constructor?.name : undefined,
+        error: err,
+        stack: err instanceof Error ? err.stack : undefined,
+      });
       const message = err instanceof Error ? err.message : 'Failed to start screen sharing';
       setError(message);
       toast.error(message);
