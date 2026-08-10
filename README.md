@@ -104,7 +104,7 @@ CastAll replaces all of this with a simple, browser-based solution using QR code
 - **Copy Room Code** - one-click copy to clipboard
 - **Exit Button** - clean session termination
 - **Toast Notifications** - real-time feedback for user actions
-- **Before-Unload Warning** - prevent accidental page closes during active sessions
+- **Before-Unload Warning** - prevent accidental page closes during active sessionsdocs/landingpage.png
 
 ---
 
@@ -112,10 +112,10 @@ CastAll replaces all of this with a simple, browser-based solution using QR code
 
 | Page | Screenshot |
 |------|-----------|
-| Landing Page | ![Landing Page](docs/screenshots/landing-page.png) |
-| Host Page | ![Host Page](docs/screenshots/host-page.png) |
-| Share Page | ![Share Page](docs/screenshots/share-page.png) |
-| Presentation Page | ![Presentation Page](docs/screenshots/presentation-page.png) |
+| Landing Page | ![Landing Page](docs/landingpage.png) |
+| Host Page | ![Host Page](docs/hostpage.png) |
+| Share Page | ![Share Page](docs/sharepage.png) |
+| Presentation Page | ![Presentation Page](docs/presentationpage.png) |
 | Light Mode | ![Light Mode](docs/screenshots/light-mode.png) |
 | Dark Mode | ![Dark Mode](docs/screenshots/dark-mode.png) |
 | QR Scanner | ![QR Scanner](docs/screenshots/qr-scanner.png) |
