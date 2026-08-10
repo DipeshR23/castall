@@ -117,9 +117,8 @@ CastAll replaces all of this with a simple, browser-based solution using QR code
 | Share Page | ![Share Page](docs/sharepage.png) |
 | Presentation Page | ![Presentation Page](docs/presentationpage.png) |
 | Light Mode | ![Light Mode](docs/screenshots/light-mode.png) |
-| Dark Mode | ![Dark Mode](docs/screenshots/dark-mode.png) |
-| QR Scanner | ![QR Scanner](docs/screenshots/qr-scanner.png) |
-| Screen Sharing | ![Screen Sharing](docs/screenshots/screen-sharing.png) |
+| Dark Mode | ![Dark Mode](docs/darklanding.png) |
+| Screen Sharing | ![Screen Sharing](docs/screensharing.png) |
 
 ---
 
