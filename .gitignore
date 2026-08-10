@@ -9,8 +9,6 @@ frontend/dist
 backend/dist
 
 # Environment
-.env
-.env.local
 .env.*.local
 frontend/.env.local
 backend/.env.local
@@ -29,7 +27,6 @@ lerna-debug.log*
 Thumbs.db
 
 # IDE
-.vscode
 .idea
 *.swp
 *.swo
@@ -43,3 +40,4 @@ temp
 
 # Docker
 docker-compose.override.yml
+config.bat

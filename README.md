@@ -116,7 +116,6 @@ CastAll replaces all of this with a simple, browser-based solution using QR code
 | Host Page | ![Host Page](docs/hostpage.png) |
 | Share Page | ![Share Page](docs/sharepage.png) |
 | Presentation Page | ![Presentation Page](docs/presentationpage.png) |
-| Light Mode | ![Light Mode](docs/screenshots/light-mode.png) |
 | Dark Mode | ![Dark Mode](docs/darklanding.png) |
 | Screen Sharing | ![Screen Sharing](docs/screensharing.png) |
 
@@ -804,8 +803,8 @@ Contributions are welcome! Please follow these guidelines:
 ---
 
 ## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+© 2026 Dipesh Rijal. All rights reserved.
+This project is licensed under the MIT License.
 
 ---
 
