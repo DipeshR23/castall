@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Share your screen to any device instantly — no software installation required.
+  Share your screen to any device instantly - no software installation required.
 </p>
 
 <p align="center">
@@ -55,23 +55,23 @@
 
 ## Overview
 
-CastAll is a browser-based wireless presentation system that enables instant screen sharing between presenters and viewers using modern web technologies. It eliminates the need for software installation, account creation, or complex setup — users can share their screen or join a presentation in seconds.
+CastAll is a browser-based wireless presentation system. It enables instant screen sharing between a presenter and a host using modern web technologies. No software installation, no account creation, no complex setup - users share or join a presentation in seconds.
 
 ### Problem Solved
 
-Traditional screen sharing solutions often require:
+Traditional screen sharing solutions require:
 - Software installation on all devices
 - Account creation and login
 - Complex network configuration
 - Long room codes or meeting IDs
 
-CastAll solves these problems by providing a simple, browser-based solution with QR code-based room joining and peer-to-peer screen sharing.
+CastAll replaces all of this with a simple, browser-based solution using QR code room joining and peer-to-peer screen sharing.
 
 ### Target Users
 
-- **Presenters** — Lecturers, teachers, meeting hosts, and anyone who needs to share their screen
-- **Viewers** — Students, meeting participants, and audience members who need to join a presentation
-- **Organizations** — Teams looking for a simple, secure screen sharing solution
+- **Presenters** - lecturers, teachers, meeting hosts, and anyone who needs to share their screen
+- **Hosts** - viewers who receive a presentation on a laptop, TV, or large panel
+- **Organizations** - teams looking for a simple, zero-install screen sharing solution
 
 ### Current Deployment
 
@@ -83,28 +83,28 @@ CastAll solves these problems by providing a simple, browser-based solution with
 ## Key Features
 
 ### Core Features
-- **No Installation Required** — Works entirely in the browser
-- **QR Code Room Joining** — Scan a QR code to join a presentation instantly
-- **Room Code Sharing** — Enter a 6-character room code manually
-- **Real-Time Screen Sharing** — Low-latency peer-to-peer streaming via WebRTC
-- **Request Approval System** — Hosts approve or reject presentation requests
-- **Theme Switching** — Light and dark theme support with persistence
-- **Responsive Design** — Optimized for desktop, tablet, and mobile devices
-- **Connection Status Indicators** — Visual feedback for connection state
-- **Animated Backgrounds** — Physics-based decorative animations
-- **Room Expiration** — Automatic cleanup of inactive rooms
+- **No Installation Required** - works entirely in the browser
+- **QR Code Room Joining** - scan a QR code to join a presentation instantly
+- **Room Code Sharing** - enter a 6-character room code manually
+- **Real-Time Screen Sharing** - low-latency peer-to-peer streaming via WebRTC
+- **Request Approval System** - hosts approve or reject presentation requests
+- **Theme Switching** - light and dark theme support with persistence
+- **Responsive Design** - optimized for desktop, tablet, and mobile devices
+- **Connection Status Indicators** - visual feedback for connection state
+- **Animated Backgrounds** - physics-based decorative animations
+- **Room Expiration** - automatic cleanup of inactive rooms
 
 ### QR Features
-- **QR Code Generation** — Automatic QR code generation for each room
-- **Camera Scanning** — Live QR code scanning via device camera
-- **Image Upload Scanning** — Scan QR codes from uploaded images
+- **QR Code Generation** - automatic QR code generation for each room
+- **Camera Scanning** - live QR code scanning via device camera
+- **Image Upload Scanning** - scan QR codes from uploaded images
 
 ### User Experience
-- **One-Click Theme Toggle** — Switch between light and dark modes
-- **Copy Room Code** — One-click copy to clipboard
-- **Exit Button** — Clean session termination
-- **Toast Notifications** — Real-time feedback for user actions
-- **Before-Unload Warning** — Prevent accidental page closes during active sessions
+- **One-Click Theme Toggle** - switch between light and dark modes
+- **Copy Room Code** - one-click copy to clipboard
+- **Exit Button** - clean session termination
+- **Toast Notifications** - real-time feedback for user actions
+- **Before-Unload Warning** - prevent accidental page closes during active sessions
 
 ---
 
@@ -300,9 +300,10 @@ castall/
 
 3. **Configure environment variables**
    ```bash
-   cp .env.example .env
+   cp backend/.env.example backend/.env
+   cp frontend/.env.example frontend/.env
    ```
-   Edit `.env` with your configuration. See [Environment Variables](#environment-variables) for details.
+   Edit `.env` files with your configuration. See [Environment Variables](#environment-variables) for details.
 
 4. **Run development servers**
    ```bash
@@ -319,7 +320,7 @@ castall/
 
 ## Environment Variables
 
-### Backend (.env)
+### Backend (backend/.env)
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -327,19 +328,19 @@ castall/
 | `PORT` | Backend server port | `3000` |
 | `FRONTEND_URL` | Frontend application URL | `http://localhost:5173` |
 | `STUN_SERVER` | STUN server URL for WebRTC | `stun:stun.l.google.com:19302` |
-| `TURN_SERVER` | TURN server URL (optional) | — |
-| `TURN_USERNAME` | TURN server username (optional) | — |
-| `TURN_PASSWORD` | TURN server password (optional) | — |
+| `TURN_SERVER` | TURN server URL (optional) | - |
+| `TURN_USERNAME` | TURN server username (optional) | - |
+| `TURN_PASSWORD` | TURN server password (optional) | - |
 
-### Frontend (Vite environment variables)
+### Frontend (frontend/.env)
 
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `VITE_SOCKET_URL` | Backend Socket.IO server URL | `http://localhost:3000` |
 | `VITE_STUN_SERVER` | Frontend STUN server URL | `stun:stun.l.google.com:19302` |
-| `VITE_TURN_SERVER` | Frontend TURN server URL (optional) | — |
-| `VITE_TURN_USERNAME` | Frontend TURN username (optional) | — |
-| `VITE_TURN_PASSWORD` | Frontend TURN password (optional) | — |
+| `VITE_TURN_SERVER` | Frontend TURN server URL (optional) | - |
+| `VITE_TURN_USERNAME` | Frontend TURN username (optional) | - |
+| `VITE_TURN_PASSWORD` | Frontend TURN password (optional) | - |
 
 > **Note:** Never commit `.env` files to version control. Use `.env.example` as a template.
 
@@ -347,31 +348,31 @@ castall/
 
 ## Usage Guide
 
-### Creating a Room (Host/Receiver)
+### Hosting a Presentation (Receiving a Screen)
 
-1. Navigate to the application and click **Host Presentation**
-2. Enter your device name (optional)
-3. A room is created automatically with a 6-character room code and QR code
-4. Share the room code or QR code with the presenter
-5. Wait for the presenter to join
-6. You will see an incoming presentation request with the presenter's device name
-7. Click **Accept** to approve the request
-8. The presentation page opens automatically and displays the shared screen
+1. On the landing page, click **Host Presentation**
+2. A room is created automatically with a 6-character room code and QR code
+3. Share the room code or QR code with the presenter
+4. Wait for the presenter to join
+5. When someone joins, you will see an incoming presentation request with their device name
+6. Click **Accept** to approve, or **Decline** to reject
+7. Once accepted, you will be taken to the **Presentation Page** where the shared screen appears
+8. Click **Exit** to leave the session at any time
 
-### Joining a Room (Presenter/Sender)
+### Sharing Your Screen (Presenting)
 
 #### Via QR Code
-1. Navigate to the application and click **Share Screen**
+1. On the landing page, click **Share Screen**
 2. Enter your device name
 3. Click **Scan QR** and choose **Camera Scan** or **Image Upload**
 4. Point your camera at the QR code or select a QR code image
-5. The room code is automatically decoded and you join the room
+5. The room code is filled in automatically and you join the room
 6. Wait for the host to approve your request
 7. Once approved, click **Start Sharing**
 8. Select the screen or window to share
 
 #### Via Room Code
-1. Navigate to the application and click **Share Screen**
+1. On the landing page, click **Share Screen**
 2. Enter your device name and the 6-character room code
 3. Click **Connect**
 4. Wait for the host to approve your request
@@ -450,11 +451,11 @@ Share Screen → Scan QR / Enter Code → Join Room → Wait for Approval
 
 ### Key Components
 
-- **Frontend (React)** — Single-page application with client-side routing
-- **Backend (Node.js/Express)** — Lightweight signaling server
-- **Socket.IO** — Real-time bidirectional communication for room management and WebRTC signaling
-- **WebRTC** — Peer-to-peer media streaming for screen sharing
-- **QR System** — QR code generation and scanning for room joining
+- **Frontend (React)** - single-page application with client-side routing
+- **Backend (Node.js/Express)** - lightweight signaling server
+- **Socket.IO** - real-time bidirectional communication for room management and WebRTC signaling
+- **WebRTC** - peer-to-peer media streaming for screen sharing
+- **QR System** - QR code generation and scanning for room joining
 
 ### Data Flow
 
@@ -468,15 +469,15 @@ Share Screen → Scan QR / Enter Code → Join Room → Wait for Approval
 
 ## Responsive Design
 
-CastAll is designed to work seamlessly across a wide range of devices:
+CastAll is designed to work across a wide range of devices:
 
 | Device | Supported | Notes |
 |--------|-----------|-------|
-| Mobile | ✅ | Touch-optimized UI, camera QR scanning |
-| Tablet | ✅ | Responsive layout, touch-friendly controls |
-| Laptop | ✅ | Full feature set, keyboard navigation |
-| Desktop | ✅ | Optimal experience, large screen support |
-| TV / Large Panel | ✅ | Scalable UI, presentation-friendly |
+| Mobile | Yes | Touch-optimized UI, camera QR scanning |
+| Tablet | Yes | Responsive layout, touch-friendly controls |
+| Laptop | Yes | Full feature set, keyboard navigation |
+| Desktop | Yes | Optimal experience, large screen support |
+| TV / Large Panel | Yes | Scalable UI, presentation-friendly |
 
 ### Breakpoints
 - **sm**: 640px
@@ -497,15 +498,15 @@ CastAll is designed to work seamlessly across a wide range of devices:
 
 ### Implemented Optimizations
 
-- **Peer-to-Peer Streaming** — Media flows directly between browsers, reducing server load
-- **60fps Animations** — `requestAnimationFrame` for smooth background animations
-- **Container-Aware Boundaries** — `ResizeObserver` for responsive animation limits
-- **GPU Acceleration** — `will-change-transform` and `translate3d` for animated elements
-- **Efficient Collision Detection** — Squared distance checks to avoid unnecessary square roots
-- **Automatic Cleanup** — Expired rooms and streams are automatically cleaned up
-- **Lazy Event Cleanup** — Event listeners removed on component unmount
-- **Tailwind CSS** — Minimal CSS bundle size with utility-first approach
-- **ICE Candidate Buffering** — Prevents connection failures from early candidate arrival
+- **Peer-to-Peer Streaming** - media flows directly between browsers, reducing server load
+- **60fps Animations** - `requestAnimationFrame` for smooth background animations
+- **Container-Aware Boundaries** - `ResizeObserver` for responsive animation limits
+- **GPU Acceleration** - `will-change-transform` and `translate3d` for animated elements
+- **Efficient Collision Detection** - squared distance checks to avoid unnecessary square roots
+- **Automatic Cleanup** - expired rooms and streams are automatically cleaned up
+- **Lazy Event Cleanup** - event listeners removed on component unmount
+- **Tailwind CSS** - minimal CSS bundle size with utility-first approach
+- **ICE Candidate Buffering** - prevents connection failures from early candidate arrival
 
 ---
 
@@ -513,15 +514,15 @@ CastAll is designed to work seamlessly across a wide range of devices:
 
 ### Implemented Measures
 
-- **Input Validation** — All Socket.IO events validate input using zod schemas
-- **Session Tokens** — Required for WebRTC signaling authorization
-- **Security Headers** — Helmet.js sets security headers on all responses
-- **CORS Protection** — Configured to allow only the frontend origin
-- **Rate Limiting** — Prevents abuse of room creation (10 rooms/hour per socket)
-- **Input Sanitization** — Device names sanitized before storage
-- **Encrypted Media** — WebRTC uses encrypted SRTP for media transport
-- **No Sensitive Logging** — Session tokens are truncated in logs
-- **Environment Isolation** — Environment variables never committed to git
+- **Input Validation** - all Socket.IO events validate input using zod schemas
+- **Session Tokens** - required for WebRTC signaling authorization
+- **Security Headers** - Helmet.js sets security headers on all responses
+- **CORS Protection** - configured to allow only the frontend origin
+- **Rate Limiting** - prevents abuse of room creation (10 rooms/hour per socket)
+- **Input Sanitization** - device names sanitized before storage
+- **Encrypted Media** - WebRTC uses encrypted SRTP for media transport
+- **No Sensitive Logging** - session tokens are truncated in logs
+- **Environment Isolation** - environment variables never committed to git
 
 ### Limitations
 
@@ -537,12 +538,12 @@ CastAll is designed to work seamlessly across a wide range of devices:
 
 CastAll implements the following accessibility features:
 
-- **Semantic HTML** — Proper heading hierarchy and landmark elements
-- **ARIA Labels** — Interactive elements include accessible names
-- **Keyboard Navigation** — Focus management for interactive components
-- **Color Contrast** — Sufficient contrast ratios for text readability
-- **Screen Reader Support** — Descriptive labels for dynamic content
-- **Reduced Motion** — Respects user preferences for reduced animations
+- **Semantic HTML** - proper heading hierarchy and landmark elements
+- **ARIA Labels** - interactive elements include accessible names
+- **Keyboard Navigation** - focus management for interactive components
+- **Color Contrast** - sufficient contrast ratios for text readability
+- **Screen Reader Support** - descriptive labels for dynamic content
+- **Reduced Motion** - respects user preferences for reduced animations
 
 ---
 
@@ -550,13 +551,13 @@ CastAll implements the following accessibility features:
 
 | Browser | Screen Share | Notes |
 |---------|-------------|-------|
-| Chrome Desktop | ✅ Full | Audio + video, recommended |
-| Edge Desktop | ✅ Full | Chromium-based, same as Chrome |
-| Firefox Desktop | ⚠️ Partial | `getDisplayMedia` works; limited camera QR scanning |
-| Safari Desktop | ⚠️ Partial | May require user gesture retry |
-| Chrome Android | ⚠️ Conditional | `getDisplayMedia` availability varies by device/browser; audio capture not supported |
-| Firefox Android | ⚠️ Partial | Similar API availability issues as Chrome Android |
-| Safari iOS | ❌ Not supported | Apple does not expose `getDisplayMedia` in Safari |
+| Chrome Desktop | Yes - Full | Audio + video, recommended |
+| Edge Desktop | Yes - Full | Chromium-based, same as Chrome |
+| Firefox Desktop | Partial | `getDisplayMedia` works; limited camera QR scanning |
+| Safari Desktop | Partial | May require user gesture retry |
+| Chrome Android | Conditional | `getDisplayMedia` availability varies by device/browser; audio capture not supported |
+| Firefox Android | Partial | Similar API availability issues as Chrome Android |
+| Safari iOS | Not Supported | Apple does not expose `getDisplayMedia` in Safari |
 
 ### Requirements
 - Modern browser with WebRTC support
@@ -570,7 +571,7 @@ CastAll implements the following accessibility features:
 
 ### Android Chrome Screen Capture
 
-`getDisplayMedia` may be unavailable on some Android Chrome instances. This is a **platform/browser limitation**, not a CastAll bug. The API requires:
+`getDisplayMedia` may be unavailable on some Android Chrome instances. This is a platform/browser limitation, not a CastAll bug. The API requires:
 
 - Actual Google Chrome (not a WebView or in-app browser)
 - Chrome version 91 or higher
@@ -582,7 +583,7 @@ When `getDisplayMedia` is unavailable, the app shows a clear error message with 
 
 ### Audio Capture on Android
 
-Even when screen capture works on Android Chrome, **audio capture is not supported** by the platform's `getDisplayMedia` implementation. The app gracefully falls back to screen-only capture on Android while preserving audio on desktop Chrome.
+Even when screen capture works on Android Chrome, audio capture is not supported by the platform's `getDisplayMedia` implementation. The app gracefully falls back to screen-only capture on Android while preserving audio on desktop Chrome.
 
 ### Same-LAN Client Isolation
 
@@ -590,7 +591,7 @@ Some routers (especially guest Wi-Fi networks) block device-to-device communicat
 
 ### Cross-Network Sharing
 
-Sharing across different networks (e.g., phone on cellular → laptop on home Wi-Fi) requires a TURN server for relay. The current deployment uses STUN only, which is sufficient for same-LAN operation but not for internet-wide sharing.
+Sharing across different networks (for example, phone on cellular to laptop on home Wi-Fi) requires a TURN server for relay. The current deployment uses STUN only, which is sufficient for same-LAN operation but not for internet-wide sharing.
 
 ---
 
@@ -630,8 +631,8 @@ Sharing across different networks (e.g., phone on cellular → laptop on home Wi
 
 ### Current Production Deployment
 
-- **Frontend**: Render Static Site — https://castall.onrender.com
-- **Backend**: Render Web Service — https://castall-backend.onrender.com
+- **Frontend**: Render Static Site - https://castall.onrender.com
+- **Backend**: Render Web Service - https://castall-backend.onrender.com
 - **SPA Routing**: HashRouter for reliable routing on static hosting
 
 ### Environment Variables (Production)
@@ -649,12 +650,12 @@ Sharing across different networks (e.g., phone on cellular → laptop on home Wi
 
 ### Production Considerations
 
-- **HTTPS** — Required for WebRTC and camera access
-- **STUN Server** — Google free STUN configured; sufficient for same-LAN
-- **TURN Server** — Not configured; required for cross-network sharing
-- **Process Manager** — Render handles process management
-- **CORS** — Backend allows configured frontend origin + localhost for development
-- **Cold Starts** — Render free tier may have 10-30s cold start on first request
+- **HTTPS** - required for WebRTC and camera access
+- **STUN Server** - Google free STUN configured; sufficient for same-LAN
+- **TURN Server** - not configured; required for cross-network sharing
+- **Process Manager** - Render handles process management
+- **CORS** - backend allows configured frontend origin + localhost for development
+- **Cold Starts** - Render free tier may have 10-30s cold start on first request
 
 ---
 
@@ -662,9 +663,9 @@ Sharing across different networks (e.g., phone on cellular → laptop on home Wi
 
 CastAll currently uses manual testing for verification:
 
-- **TypeScript Compilation** — Type-level testing via `tsc`
-- **ESLint** — Code quality and style enforcement
-- **Manual Testing** — WebRTC flows, QR scanning, UI interactions
+- **TypeScript Compilation** - type-level testing via `tsc`
+- **ESLint** - code quality and style enforcement
+- **Manual Testing** - WebRTC flows, QR scanning, UI interactions
 
 ### Recommended Testing Additions
 
@@ -713,7 +714,7 @@ CastAll currently uses manual testing for verification:
 **Solutions:**
 - Ensure you are using actual Google Chrome (not a WebView or in-app browser)
 - Check that `getDisplayMedia` is supported on your device (Chrome 91+)
-- Some Android devices/browsers do not support screen capture APIs — this is a platform limitation
+- Some Android devices/browsers do not support screen capture APIs - this is a platform limitation
 - Audio capture is not supported on Android; the app falls back to screen-only capture
 - If the API is unavailable, try using a laptop as the presenter instead
 
@@ -827,21 +828,21 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 CastAll is built with the following open-source technologies:
 
-- [React](https://react.dev/) — UI library
-- [TypeScript](https://www.typescriptlang.org/) — Type safety
-- [Vite](https://vitejs.dev/) — Build tool
-- [Tailwind CSS](https://tailwindcss.com/) — CSS framework
-- [Socket.IO](https://socket.io/) — Real-time communication
-- [WebRTC](https://webrtc.org/) — Peer-to-peer media streaming
-- [html5-qrcode](https://github.com/mebjas/html5-qrcode) — QR code scanning
-- [qrcode](https://github.com/soldair/node-qrcode) — QR code generation
-- [lucide-react](https://lucide.dev/) — Icon library
-- [sonner](https://sonner.emilkowal.ski/) — Toast notifications
-- [zod](https://zod.dev/) — Schema validation
-- [Express](https://expressjs.com/) — Web framework
-- [Pino](https://getpino.io/) — Logger
-- [Helmet](https://helmetjs.github.io/) — Security headers
-- [nanoid](https://github.com/ai/nanoid) — ID generation
+- [React](https://react.dev/) - UI library
+- [TypeScript](https://www.typescriptlang.com/) - Type safety
+- [Vite](https://vitejs.dev/) - Build tool
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Socket.IO](https://socket.io/) - Real-time communication
+- [WebRTC](https://webrtc.org/) - Peer-to-peer media streaming
+- [html5-qrcode](https://github.com/mebjas/html5-qrcode) - QR code scanning
+- [qrcode](https://github.com/soldair/node-qrcode) - QR code generation
+- [lucide-react](https://lucide.dev/) - Icon library
+- [sonner](https://sonner.emilkowal.ski/) - Toast notifications
+- [zod](https://zod.dev/) - Schema validation
+- [Express](https://expressjs.com/) - Web framework
+- [Pino](https://getpino.io/) - Logger
+- [Helmet](https://helmetjs.github.io/) - Security headers
+- [nanoid](https://github.com/ai/nanoid) - ID generation
 
 ---
 
