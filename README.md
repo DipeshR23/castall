@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  Share your screen to any device instantly- no software installation required.
+  Share your screen to any device instantly — no software installation required.
 </p>
 
 <p align="center">
@@ -40,6 +40,7 @@
 - [Security](#security)
 - [Accessibility](#accessibility)
 - [Browser Support](#browser-support)
+- [Platform Limitations](#platform-limitations)
 - [Scripts](#scripts)
 - [Deployment](#deployment)
 - [Testing](#testing)
@@ -71,6 +72,11 @@ CastAll solves these problems by providing a simple, browser-based solution with
 - **Presenters** — Lecturers, teachers, meeting hosts, and anyone who needs to share their screen
 - **Viewers** — Students, meeting participants, and audience members who need to join a presentation
 - **Organizations** — Teams looking for a simple, secure screen sharing solution
+
+### Current Deployment
+
+- **Frontend**: https://castall.onrender.com
+- **Backend**: https://castall-backend.onrender.com
 
 ---
 
@@ -121,9 +127,7 @@ CastAll solves these problems by providing a simple, browser-based solution with
 
 ## Demo
 
-**Live Demo (Coming Soon)**
-
-> Deploy the application and add your live URL here.
+**Live Demo**: https://castall.onrender.com
 
 ---
 
@@ -185,8 +189,6 @@ castall/
 │   │   │   └── env.ts              # Environment configuration with zod validation
 │   │   ├── constants/
 │   │   │   └── index.ts            # Application constants
-│   │   ├── errors/
-│   │   │   └── appError.ts         # Custom error class
 │   │   ├── logger/
 │   │   │   └── pino.ts             # Pino logger configuration
 │   │   ├── managers/
@@ -216,14 +218,11 @@ castall/
 │   │   └── castall-logo.svg        # Application logo
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── feedback/
-│   │   │   │   └── Loading.tsx     # Loading spinner component
 │   │   │   ├── presentation/
 │   │   │   │   ├── BackgroundEffects.tsx    # Physics-based background animation
 │   │   │   │   ├── PresentationScreen.tsx   # Full-screen video display
 │   │   │   │   ├── ScreenRecommendation.tsx # Screen sharing recommendation
-│   │   │   │   ├── StartSharing.tsx         # Start sharing button/flow
-│   │   │   │   └── StopShareButton.tsx      # Stop sharing button
+│   │   │   │   └── StartSharing.tsx         # Start sharing button/flow
 │   │   │   ├── qr/
 │   │   │   │   ├── QRCodeCard.tsx           # QR code display component
 │   │   │   │   └── QRCodeScanner.tsx        # QR scanner modal (camera + image)
@@ -232,10 +231,7 @@ castall/
 │   │   │   │   ├── JoinCard.tsx             # Join room form UI
 │   │   │   │   └── WaitingForApproval.tsx   # Waiting for approval UI
 │   │   │   └── ui/
-│   │   │       ├── Button.tsx              # Reusable button component
-│   │   │       ├── Card.tsx                # Card container component
 │   │   │       ├── ConnectionStatusButton.tsx # Connection status indicator
-│   │   │       ├── Input.tsx               # Input field component
 │   │   │       └── Spinner.tsx             # Spinner component
 │   │   ├── contexts/
 │   │   │   ├── RoomContext.tsx       # Room state management
@@ -244,12 +240,9 @@ castall/
 │   │   │   ├── useClipboard.ts       # Clipboard copy functionality
 │   │   │   ├── useScreenShare.ts     # Screen sharing hook
 │   │   │   ├── useSocket.ts          # Socket.IO connection hook
-│   │   │   ├── useWebRTC.ts          # WebRTC peer connection hook
-│   │   │   └── useWebRTCStats.ts     # WebRTC statistics hook
+│   │   │   └── useWebRTC.ts          # WebRTC peer connection hook
 │   │   ├── layouts/
 │   │   │   └── AppLayout.tsx         # Main layout with navbar and theme provider
-│   │   ├── lib/
-│   │   │   └── utils.ts              # Utility functions (cn, etc.)
 │   │   ├── pages/
 │   │   │   ├── ErrorPage.tsx         # Error page
 │   │   │   ├── HostPage.tsx          # Host/room creation page
@@ -272,17 +265,12 @@ castall/
 │   │   ├── main.tsx                  # Application entry point
 │   │   ├── index.css                 # Global styles and animations
 │   │   └── vite-env.d.ts             # Vite type declarations
-│   ├── .eslintrc.cjs                 # ESLint configuration
 │   ├── index.html                    # HTML entry point
 │   ├── package.json                  # Frontend dependencies and scripts
-│   ├── postcss.config.js             # PostCSS configuration
 │   ├── tailwind.config.ts            # Tailwind CSS configuration
 │   ├── tsconfig.json                 # TypeScript configuration
 │   └── vite.config.ts                # Vite configuration
-├── .env                               # Root environment variables (not committed)
-├── .env.example                       # Environment template
 ├── .gitignore                         # Git ignore rules
-├── docker-compose.yml                 # Docker deployment configuration
 ├── package.json                       # Root workspace configuration
 ├── package-lock.json                  # Locked dependency versions
 └── README.md                          # Project documentation
@@ -347,6 +335,7 @@ castall/
 
 | Variable | Description | Default |
 |----------|-------------|---------|
+| `VITE_SOCKET_URL` | Backend Socket.IO server URL | `http://localhost:3000` |
 | `VITE_STUN_SERVER` | Frontend STUN server URL | `stun:stun.l.google.com:19302` |
 | `VITE_TURN_SERVER` | Frontend TURN server URL (optional) | — |
 | `VITE_TURN_USERNAME` | Frontend TURN username (optional) | — |
@@ -358,34 +347,36 @@ castall/
 
 ## Usage Guide
 
-### Creating a Room (Presenter)
+### Creating a Room (Host/Receiver)
 
 1. Navigate to the application and click **Host Presentation**
-2. Enter your device name
-3. Click **Create Room**
-4. Share the displayed room code or QR code with your audience
+2. Enter your device name (optional)
+3. A room is created automatically with a 6-character room code and QR code
+4. Share the room code or QR code with the presenter
+5. Wait for the presenter to join
+6. You will see an incoming presentation request with the presenter's device name
+7. Click **Accept** to approve the request
+8. The presentation page opens automatically and displays the shared screen
 
-### Joining a Room (Viewer)
+### Joining a Room (Presenter/Sender)
 
 #### Via QR Code
 1. Navigate to the application and click **Share Screen**
-2. Click **Scan QR**
-3. Choose **Camera Scan** or **Image Upload**
+2. Enter your device name
+3. Click **Scan QR** and choose **Camera Scan** or **Image Upload**
 4. Point your camera at the QR code or select a QR code image
 5. The room code is automatically decoded and you join the room
+6. Wait for the host to approve your request
+7. Once approved, click **Start Sharing**
+8. Select the screen or window to share
 
 #### Via Room Code
 1. Navigate to the application and click **Share Screen**
-2. Enter your device name and the room code
-3. Click **Join Room**
-
-### Screen Sharing
-
-1. As a presenter, create a room and wait for a viewer to join
-2. When a viewer joins, you will see an incoming presentation request
-3. Click **Accept** to approve the request
-4. Click **Start Sharing** and select the screen or window to share
-5. The viewer will see your screen in real-time
+2. Enter your device name and the 6-character room code
+3. Click **Connect**
+4. Wait for the host to approve your request
+5. Once approved, click **Start Sharing**
+6. Select the screen or window to share
 
 ### Theme Switching
 
@@ -399,28 +390,28 @@ Click the **Exit** button in the top-right corner to leave the current session a
 
 ## Application Workflow
 
+### Host Flow
+
+```
+Host Presentation → Room Created → Share Code/QR → Wait for Presenter
+    → Incoming Request → Accept/Decline → View Presentation → Exit
+```
+
 ### Presenter Flow
 
 ```
-Host Presentation → Create Room → Share Code/QR → Wait for Viewer
-    → Accept Request → Start Sharing → Present → Stop Sharing → Exit
-```
-
-### Viewer Flow
-
-```
 Share Screen → Scan QR / Enter Code → Join Room → Wait for Approval
-    → View Presentation → Exit
+    → Start Sharing → Select Screen → Present → Stop Sharing → Exit
 ```
 
 ### Connection Lifecycle
 
 ```
-1. Presenter creates room
+1. Host creates room
    ↓
-2. Server generates room code and returns to presenter
+2. Server generates room code and returns to host
    ↓
-3. Viewer joins room (QR scan or code entry)
+3. Presenter joins room (QR scan or code entry)
    ↓
 4. Server emits 'presentation-request' to host
    ↓
@@ -445,16 +436,16 @@ Share Screen → Scan QR / Enter Code → Join Room → Wait for Approval
 
 ```
 ┌─────────────────┐                           ┌─────────────────┐
-│   Presenter     │                           │    Viewer       │
+│   Presenter     │                           │    Host         │
 │   (Browser)     │                           │   (Browser)     │
 └─────────┬───────┘                           └─────────┬───────┘
-          │                                              │
-          │          WebRTC (Peer-to-Peer)               │
-          │ ─────────────────────────────────────────── │
-          │                                              │
-          │     Socket.IO Signaling                      │
-          +───────────────>  [ Server ]  <──────────────+
-                           (Node.js/Express)
+           │                                              │
+           │          WebRTC (Peer-to-Peer)               │
+           │ ─────────────────────────────────────────── │
+           │                                              │
+           │     Socket.IO Signaling                      │
+           +───────────────>  [ Server ]  <──────────────+
+                            (Node.js/Express)
 ```
 
 ### Key Components
@@ -467,9 +458,9 @@ Share Screen → Scan QR / Enter Code → Join Room → Wait for Approval
 
 ### Data Flow
 
-1. **Room Creation**: Presenter → Server → Room code + QR returned
-2. **Room Joining**: Viewer → Server → Validation → Host notified
-3. **Approval**: Host → Server → Session token generated → Viewer notified
+1. **Room Creation**: Host → Server → Room code + QR returned
+2. **Room Joining**: Presenter → Server → Validation → Host notified
+3. **Approval**: Host → Server → Session token generated → Presenter notified
 4. **WebRTC Negotiation**: SDP offer/answer + ICE candidates exchanged via Socket.IO
 5. **Screen Sharing**: Media flows directly between browsers via WebRTC
 
@@ -498,6 +489,7 @@ CastAll is designed to work seamlessly across a wide range of devices:
 - Touch-friendly button sizes (minimum 44px)
 - Mobile-optimized QR scanner
 - Adaptive spacing and padding
+- Responsive background ball physics (scales on smaller screens)
 
 ---
 
@@ -513,6 +505,7 @@ CastAll is designed to work seamlessly across a wide range of devices:
 - **Automatic Cleanup** — Expired rooms and streams are automatically cleaned up
 - **Lazy Event Cleanup** — Event listeners removed on component unmount
 - **Tailwind CSS** — Minimal CSS bundle size with utility-first approach
+- **ICE Candidate Buffering** — Prevents connection failures from early candidate arrival
 
 ---
 
@@ -524,7 +517,7 @@ CastAll is designed to work seamlessly across a wide range of devices:
 - **Session Tokens** — Required for WebRTC signaling authorization
 - **Security Headers** — Helmet.js sets security headers on all responses
 - **CORS Protection** — Configured to allow only the frontend origin
-- **Rate Limiting** — Prevents abuse of room creation
+- **Rate Limiting** — Prevents abuse of room creation (10 rooms/hour per socket)
 - **Input Sanitization** — Device names sanitized before storage
 - **Encrypted Media** — WebRTC uses encrypted SRTP for media transport
 - **No Sensitive Logging** — Session tokens are truncated in logs
@@ -536,6 +529,7 @@ CastAll is designed to work seamlessly across a wide range of devices:
 - Room state stored in-memory (lost on server restart)
 - QR camera scanning requires HTTPS or localhost
 - Currently supports one presenter and one viewer per room
+- Rate limiter is per-socket; multiple tabs can bypass the limit
 
 ---
 
@@ -554,19 +548,49 @@ CastAll implements the following accessibility features:
 
 ## Browser Support
 
-| Browser | Supported | Notes |
-|---------|-----------|-------|
-| Chrome | ✅ | Full support, recommended |
-| Edge | ✅ | Full support |
-| Firefox | ✅ | Full support; limited camera QR scanning |
-| Safari | ⚠️ | Partial support |
-| Mobile Chrome | ✅ | Full support with camera QR scanning |
-| Mobile Safari | ⚠️ | Partial support |
+| Browser | Screen Share | Notes |
+|---------|-------------|-------|
+| Chrome Desktop | ✅ Full | Audio + video, recommended |
+| Edge Desktop | ✅ Full | Chromium-based, same as Chrome |
+| Firefox Desktop | ⚠️ Partial | `getDisplayMedia` works; limited camera QR scanning |
+| Safari Desktop | ⚠️ Partial | May require user gesture retry |
+| Chrome Android | ⚠️ Conditional | `getDisplayMedia` availability varies by device/browser; audio capture not supported |
+| Firefox Android | ⚠️ Partial | Similar API availability issues as Chrome Android |
+| Safari iOS | ❌ Not supported | Apple does not expose `getDisplayMedia` in Safari |
 
 ### Requirements
 - Modern browser with WebRTC support
-- HTTPS required for camera access (except localhost)
+- HTTPS required for camera and screen capture (except localhost)
 - JavaScript enabled
+- For screen sharing: browser must support `navigator.mediaDevices.getDisplayMedia`
+
+---
+
+## Platform Limitations
+
+### Android Chrome Screen Capture
+
+`getDisplayMedia` may be unavailable on some Android Chrome instances. This is a **platform/browser limitation**, not a CastAll bug. The API requires:
+
+- Actual Google Chrome (not a WebView or in-app browser)
+- Chrome version 91 or higher
+- Device manufacturer has not restricted the API
+- HTTPS secure context
+- Screen capture permission granted by the user
+
+When `getDisplayMedia` is unavailable, the app shows a clear error message with diagnostic information.
+
+### Audio Capture on Android
+
+Even when screen capture works on Android Chrome, **audio capture is not supported** by the platform's `getDisplayMedia` implementation. The app gracefully falls back to screen-only capture on Android while preserving audio on desktop Chrome.
+
+### Same-LAN Client Isolation
+
+Some routers (especially guest Wi-Fi networks) block device-to-device communication. If WebRTC connection fails on the same network, this is likely a router configuration issue, not a CastAll bug.
+
+### Cross-Network Sharing
+
+Sharing across different networks (e.g., phone on cellular → laptop on home Wi-Fi) requires a TURN server for relay. The current deployment uses STUN only, which is sufficient for same-LAN operation but not for internet-wide sharing.
 
 ---
 
@@ -604,42 +628,33 @@ CastAll implements the following accessibility features:
 
 ## Deployment
 
-### Production Build
+### Current Production Deployment
 
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
+- **Frontend**: Render Static Site — https://castall.onrender.com
+- **Backend**: Render Web Service — https://castall-backend.onrender.com
+- **SPA Routing**: HashRouter for reliable routing on static hosting
 
-2. **Start the backend**
-   ```bash
-   npm start --workspace=backend
-   ```
+### Environment Variables (Production)
 
-3. **Serve the frontend**
-   Serve the `frontend/dist/` directory using a static file server or reverse proxy.
+**Frontend (Render Static Site):**
+| Variable | Value |
+|----------|-------|
+| `VITE_SOCKET_URL` | `https://castall-backend.onrender.com` |
 
-### Docker Deployment
-
-The project includes Docker configuration for containerized deployment:
-
-```bash
-docker-compose up --build
-```
-
-This starts:
-- Frontend on port 5173
-- Backend on port 3000
-- Nginx reverse proxy on ports 80/443
+**Backend (Render Web Service):**
+| Variable | Value |
+|----------|-------|
+| `NODE_ENV` | `production` |
+| `FRONTEND_URL` | `https://castall.onrender.com` |
 
 ### Production Considerations
 
 - **HTTPS** — Required for WebRTC and camera access
-- **TURN Server** — Configure for production WebRTC reliability
-- **Process Manager** — Use PM2 or similar for backend process management
-- **Reverse Proxy** — Nginx or similar for static assets and SSL termination
-- **Environment Variables** — Configure all required variables in production `.env`
-- **CORS** — Update `FRONTEND_URL` to match production domain
+- **STUN Server** — Google free STUN configured; sufficient for same-LAN
+- **TURN Server** — Not configured; required for cross-network sharing
+- **Process Manager** — Render handles process management
+- **CORS** — Backend allows configured frontend origin + localhost for development
+- **Cold Starts** — Render free tier may have 10-30s cold start on first request
 
 ---
 
@@ -667,8 +682,8 @@ CastAll currently uses manual testing for verification:
 
 **Solutions:**
 - Check your internet connection
-- Ensure the backend server is running on port 3000
-- Verify `FRONTEND_URL` is correctly configured in `.env`
+- Ensure the backend server is running
+- Verify `FRONTEND_URL` is correctly configured
 - Check browser console for error messages
 
 ### Cannot Join Room
@@ -677,19 +692,30 @@ CastAll currently uses manual testing for verification:
 
 **Solutions:**
 - Verify the room code is correct
-- Check that the room has not expired (15-minute timeout)
-- Ensure the presenter has approved your request
+- Check that the room has not expired (15-minute timeout for waiting rooms, 5-minute timeout for requested rooms)
+- Ensure the host has approved your request
 - Verify Socket.IO connection is established
 
-### Screen Share Not Working
+### Screen Share Not Working on Desktop
 
 **Problem:** Screen sharing fails or shows no video
 
 **Solutions:**
 - Grant screen sharing permission when prompted by the browser
-- Ensure you are using a supported browser (Chrome, Edge, Firefox)
+- Ensure you are using Chrome or Edge (recommended)
 - Check WebRTC connection status in the browser console
-- Verify STUN/TURN server configuration
+- Verify both devices are on the same network
+
+### Screen Share Not Working on Android
+
+**Problem:** Screen sharing fails on Android Chrome
+
+**Solutions:**
+- Ensure you are using actual Google Chrome (not a WebView or in-app browser)
+- Check that `getDisplayMedia` is supported on your device (Chrome 91+)
+- Some Android devices/browsers do not support screen capture APIs — this is a platform limitation
+- Audio capture is not supported on Android; the app falls back to screen-only capture
+- If the API is unavailable, try using a laptop as the presenter instead
 
 ### QR Code Not Scanning
 
@@ -707,10 +733,10 @@ CastAll currently uses manual testing for verification:
 **Problem:** Screen sharing is laggy or delayed
 
 **Solutions:**
-- Check network conditions on both presenter and viewer sides
-- Configure a TURN server for better connectivity
-- Reduce screen resolution or frame rate in browser settings
-- Close unnecessary applications consuming bandwidth
+- Ensure both devices are on the same local network (LAN)
+- Check Wi-Fi signal strength
+- Reduce screen resolution or close unnecessary applications
+- Avoid congested Wi-Fi channels
 
 ---
 
@@ -730,6 +756,10 @@ CastAll currently uses manual testing for verification:
 - ✅ Input validation
 - ✅ Security headers
 - ✅ Structured logging
+- ✅ ICE candidate buffering for reliable connections
+- ✅ Socket reconnection UI feedback
+- ✅ Android screen capture audio fallback
+- ✅ HashRouter for reliable SPA routing
 
 ### Future Enhancements
 - 🔄 Multiple viewer support in a single room
@@ -742,6 +772,7 @@ CastAll currently uses manual testing for verification:
 - 🔄 Analytics and usage metrics
 - 🔄 Chat and communication features
 - 🔄 Room scheduling and calendar integration
+- 🔄 TURN server for cross-network sharing
 
 ---
 
