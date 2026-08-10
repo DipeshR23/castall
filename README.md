@@ -121,8 +121,6 @@ CastAll replaces all of this with a simple, browser-based solution using QR code
 | QR Scanner | ![QR Scanner](docs/screenshots/qr-scanner.png) |
 | Screen Sharing | ![Screen Sharing](docs/screenshots/screen-sharing.png) |
 
-> Screenshots are placeholders. Replace with actual application screenshots.
-
 ---
 
 ## Demo
@@ -809,8 +807,6 @@ Contributions are welcome! Please follow these guidelines:
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-> If no LICENSE file exists, add one or update this section with the correct license information.
 
 ---
 
